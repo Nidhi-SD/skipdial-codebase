@@ -4,6 +4,7 @@ import {
   Mail,
   MapPin,
   CalendarCheck,
+  Check,
   Clock,
   Workflow,
   ShieldCheck,
@@ -25,11 +26,17 @@ const expectations = [
   "Clear next steps. No pressure, no obligation",
 ];
 
-/* Decorative scheduler panel — swap the inner block for the real booking embed
-   (Calendly / GHL iframe) once the client confirms the provider + link. */
+const bookingSteps = [
+  "Choose any open slot in your own time zone",
+  "Get an instant calendar invite with the call link",
+  "Reschedule or cancel any time, no back-and-forth",
+];
+
+/** Live booking calendar — real availability lives here, not on this page. */
+const BOOKING_URL =
+  "https://cal.com/aryanbisht/30-min-discovery-call?overlayCalendar=true";
+
 function SchedulePanel() {
-  const days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
-  const slots = ["9:00 AM", "10:30 AM", "1:00 PM", "3:30 PM"];
   return (
     <div className="relative overflow-hidden rounded-2xl border border-line bg-surface p-6 shadow-frame sm:p-8">
       <div
@@ -44,51 +51,38 @@ function SchedulePanel() {
         <h3 className="mt-3 text-display-sm font-bold">
           Pick a slot that works for you
         </h3>
+        <p className="mt-3 text-[14.5px] leading-relaxed text-ink-light">
+          Live availability opens in our booking calendar. Pick a time that
+          suits you and the confirmation lands in your inbox straight away.
+        </p>
 
-        <div className="mt-6 grid grid-cols-5 gap-2" aria-hidden>
-          {days.map((d, i) => (
-            <div
-              key={d}
-              className={
-                i === 2
-                  ? "rounded-xl border border-accent bg-accent text-center text-ink-inverse shadow-card"
-                  : "rounded-xl border border-line bg-surface-alt/60 text-center text-ink-light"
-              }
+        <Stagger as="ul" stagger={0.05} className="mt-6 space-y-2.5">
+          {bookingSteps.map((step) => (
+            <Item
+              as="li"
+              key={step}
+              variant="fadeUp"
+              className="flex items-start gap-2.5 text-[13.5px] text-ink-light"
             >
-              <p className="pt-2.5 font-mono text-[10.5px] uppercase tracking-wide opacity-70">
-                {d}
-              </p>
-              <p className="pb-2.5 text-[15px] font-bold">{20 + i}</p>
-            </div>
+              <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent-tint text-accent">
+                <Check aria-hidden className="h-3 w-3" strokeWidth={3} />
+              </span>
+              {step}
+            </Item>
           ))}
-        </div>
+        </Stagger>
 
-        <div className="mt-3 grid grid-cols-2 gap-2" aria-hidden>
-          {slots.map((s, i) => (
-            <div
-              key={s}
-              className={
-                i === 1
-                  ? "rounded-xl border border-accent/40 bg-accent-tint/60 py-2.5 text-center text-[13px] font-semibold text-accent"
-                  : "rounded-xl border border-line py-2.5 text-center text-[13px] font-medium text-ink-light"
-              }
-            >
-              {s}
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-6 space-y-3">
-          <Button href="tel:+14808681102" size="lg" className="w-full" arrow>
-            Book by Phone · (480) 868-1102
+        <div className="mt-7 space-y-3">
+          <Button href={BOOKING_URL} external size="lg" className="w-full" arrow>
+            Book Your 30-Minute Demo
           </Button>
           <Button
-            href="mailto:info@skipdial.ai?subject=SkipDial%20Demo%20Request"
+            href="tel:+14808681102"
             variant="outline"
             size="lg"
             className="w-full"
           >
-            Request Times by Email
+            Prefer to talk now? (480) 868-1102
           </Button>
         </div>
         <p className="mt-4 text-center text-[12px] text-ink-light">
