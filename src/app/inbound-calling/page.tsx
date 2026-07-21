@@ -22,6 +22,8 @@ import {
   CTABand,
   SplitSection,
 } from "@/components/blocks";
+import { InboundRecordCard } from "@/components/blocks/InboundRecordCard";
+import { FullPageScrollBgCanvas } from "@/components/FullPageScrollBgCanvas";
 
 export const metadata: Metadata = {
   title: "AI Inbound Call Handling & Automation | SkipDial",
@@ -98,6 +100,9 @@ const implementationSteps = [
 export default function InboundCallingPage() {
   return (
     <>
+      {/* Scroll-driven frame background behind the whole page */}
+      <FullPageScrollBgCanvas />
+
       <PageHero
         eyebrow="Inbound Calling"
         title="AI Inbound Call Handling That"
@@ -146,6 +151,18 @@ export default function InboundCallingPage() {
         </Container>
       </Section>
 
+      {/* What the call leaves behind */}
+      <SplitSection
+        eyebrow="In your CRM"
+        index="03"
+        title="Every Call Becomes a"
+        mutedTitle="Structured Record"
+        intro="The agent doesn't just take the call, it writes it down. Every required field is captured in your own intake order, the outcome is logged, and the summary, transcript, and recording land in your CRM before your team opens the record."
+        link={{ href: "/integrations", label: "See supported integrations" }}
+      >
+        <InboundRecordCard />
+      </SplitSection>
+
       <HearItLive />
 
       {/* What's included */}
@@ -158,7 +175,7 @@ export default function InboundCallingPage() {
       {/* Built around your business */}
       <SplitSection
         eyebrow="Configuration"
-        index="03"
+        index="04"
         title="Built Around Your Business,"
         mutedTitle="Not a Generic Script"
         intro="SkipDial agents are configured using your service offerings, intake requirements, escalation rules, pricing guidelines, and FAQs. You control what the agent says, what it must ask, and when a call transfers to a human. The result is consistent, accurate intake on every call, and structured data ready for your team."
@@ -193,7 +210,7 @@ export default function InboundCallingPage() {
             <div className="lg:sticky lg:top-28">
               <SectionHead
                 eyebrow="Getting started"
-                index="04"
+                index="05"
                 title="How Implementation Works"
               >
                 Structured and controlled, with no prolonged setup and no

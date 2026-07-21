@@ -11,8 +11,6 @@ import {
 } from "framer-motion";
 import { useEffect, useRef, useState, type MouseEvent, type ReactNode } from "react";
 import { springPhysics, viewportOnce } from "@/lib/motion";
-import { DotMorphField } from "@/components/motion/DotMorphField";
-import { WaveformField } from "@/components/motion/WaveformField";
 import { cn } from "@/lib/cn";
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -174,86 +172,6 @@ export function ScrollDrift({
   }
   return (
     <motion.div aria-hidden style={{ y }} className={className}>
-      {children}
-    </motion.div>
-  );
-}
-
-/* ── HeroBackdrop — scroll-choreographed hero background ───────────────────── */
-/* A reactive voice-waveform (WaveformField) sits behind the whole hero as a
-   quiet watermark — its amplitude is capped in pixels (not container-height
-   relative) so it reads as a thin band even stretched across the full
-   section, and its opacity is low enough that headline/CTA text stays
-   legible on top. A faint dot field drifts-to-grid beneath it for depth,
-   and one soft top glow lifts up and out behind the headline. Scroll-linked
-   motion values → compositor transforms and canvas drawing only; fully
-   static under reduced motion. */
-
-const HERO_RANGE = 700;
-
-export function HeroBackdrop() {
-  const reduce = useReducedMotion();
-  const { scrollY } = useScroll();
-
-  const glowY = useTransform(scrollY, [0, HERO_RANGE], [0, -90], { clamp: true });
-  const glowOpacity = useTransform(scrollY, [0, HERO_RANGE * 0.6], [1, 0], { clamp: true });
-
-  const dots = (
-    <DotMorphField className="[mask-image:radial-gradient(90%_80%_at_50%_30%,black_55%,transparent)]" />
-  );
-  const wave = (
-    <WaveformField
-      className="opacity-[0.28]"
-      centerY={0.45}
-      maxAmplitude={170}
-    />
-  );
-  const glow = (
-    <div className="h-[320px] w-[calc(100vw-2rem)] max-w-[680px] rounded-[100%] bg-gradient-to-b from-accent-soft/[0.16] via-accent/[0.04] to-transparent blur-3xl" />
-  );
-
-  if (reduce) {
-    return (
-      <div aria-hidden className="absolute inset-0 overflow-hidden">
-        <div className="absolute inset-0">{dots}</div>
-        <div className="absolute inset-0">{wave}</div>
-        <div className="absolute left-1/2 top-[-200px] -translate-x-1/2">{glow}</div>
-      </div>
-    );
-  }
-
-  return (
-    <div aria-hidden className="absolute inset-0 overflow-hidden">
-      <div className="absolute inset-0">{dots}</div>
-      <div className="absolute inset-0">{wave}</div>
-      <div className="absolute left-1/2 top-[-200px] -translate-x-1/2">
-        <motion.div style={{ y: glowY, opacity: glowOpacity }}>{glow}</motion.div>
-      </div>
-    </div>
-  );
-}
-
-/* ── HeroRecede — hero frame settles into a deeper plane on scroll ─────────── */
-/* The simulator lags the page slightly (y) and eases back in scale as the
-   reader scrolls on, so the hero visual reads as a plane sitting behind the
-   page flow rather than pinned to it. Same scroll range as the backdrop
-   choreography. Transform-only; static under reduced motion. */
-
-export function HeroRecede({
-  children,
-  className,
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
-  const reduce = useReducedMotion();
-  const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, HERO_RANGE], [0, 44], { clamp: true });
-  const scale = useTransform(scrollY, [0, HERO_RANGE], [1, 0.97], { clamp: true });
-
-  if (reduce) return <div className={className}>{children}</div>;
-  return (
-    <motion.div style={{ y, scale }} className={className}>
       {children}
     </motion.div>
   );

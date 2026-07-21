@@ -23,7 +23,10 @@ import {
   SubCardGrid,
   HearItLive,
   CTABand,
+  SplitSection,
 } from "@/components/blocks";
+import { OutboundCampaignCard } from "@/components/blocks/OutboundCampaignCard";
+import { FullPageScrollBgCanvas } from "@/components/FullPageScrollBgCanvas";
 
 export const metadata: Metadata = {
   title: "AI Outbound Call Automation & Follow-Up | SkipDial",
@@ -96,6 +99,9 @@ const implementationSteps = [
 export default function OutboundCallingPage() {
   return (
     <>
+      {/* Scroll-driven frame background behind the whole page */}
+      <FullPageScrollBgCanvas />
+
       <PageHero
         eyebrow="Outbound Calling"
         title="AI Outbound Call Automation"
@@ -146,6 +152,18 @@ export default function OutboundCallingPage() {
         </Container>
       </Section>
 
+      {/* Campaign console */}
+      <SplitSection
+        eyebrow="Full visibility"
+        index="03"
+        title="Every Campaign, Every Outcome,"
+        mutedTitle="On One Screen"
+        intro="Outbound only works if you can see it working. Campaigns run at the pace you set, every call is logged under the outcome it actually reached, and connect rates update as the day goes, so you know which lists are worth continuing before the budget is spent."
+        link={{ href: "/integrations", label: "See supported integrations" }}
+      >
+        <OutboundCampaignCard />
+      </SplitSection>
+
       <HearItLive />
 
       {/* What's included */}
@@ -162,7 +180,7 @@ export default function OutboundCallingPage() {
             <div className="lg:sticky lg:top-28">
               <SectionHead
                 eyebrow="Controlled outreach"
-                index="03"
+                index="04"
                 title="Not a Robocall Platform"
               >
                 Outbound automation is often associated with mass dialing and
@@ -197,7 +215,7 @@ export default function OutboundCallingPage() {
         <Container>
           <SectionHead
             eyebrow="Use cases"
-            index="04"
+            index="05"
             title="Common Outbound Use Cases"
             align="center"
             className="mx-auto"
@@ -232,7 +250,7 @@ export default function OutboundCallingPage() {
             <div className="lg:sticky lg:top-28">
               <SectionHead
                 eyebrow="Getting started"
-                index="05"
+                index="06"
                 title="How Implementation Works"
               >
                 Outbound workflows evolve alongside your sales and retention

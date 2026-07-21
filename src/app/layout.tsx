@@ -76,7 +76,9 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${montserrat.variable} ${jetbrainsMono.variable} font-body bg-bg text-ink antialiased flex flex-col min-h-screen selection:bg-accent/20`}>
+      {/* No bg utility here: the page-level scroll canvas sits behind the body,
+          so the body must stay transparent for it to show through. */}
+      <body className={`${montserrat.variable} ${jetbrainsMono.variable} font-body text-ink antialiased flex flex-col min-h-screen selection:bg-accent/20`}>
         <AuthProvider>
           <SmoothScroll />
           <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:p-4 focus:bg-bg focus:z-50 focus:text-accent focus:font-medium focus:border-b focus:border-r focus:border-line">

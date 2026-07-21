@@ -15,9 +15,9 @@ import { WorkflowBeam } from "@/components/blocks/WorkflowBeam";
 import { FeatureBento } from "@/components/blocks/FeatureBento";
 import { ProductTabs } from "@/components/blocks/ProductTabs";
 import { DashboardCard } from "@/components/blocks/DashboardCard";
+import { FullPageScrollBgCanvas } from "@/components/FullPageScrollBgCanvas";
 import { AudioPlayer } from "@/components/blocks/AudioPlayer";
 import { TryDemoCall } from "@/components/blocks/TryDemoCall";
-import { FullPageScrollBgCanvas } from "@/components/FullPageScrollBgCanvas";
 
 export const metadata: Metadata = {
   title: "AI Call Agents for Inbound and Outbound Calls | SkipDial",
@@ -73,43 +73,45 @@ const solveSteps = [
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen">
-      {/* ── Smooth Canvas Background Animation across Entire Page ───── */}
+    <>
+      {/* Scroll-driven frame background behind the whole page */}
       <FullPageScrollBgCanvas />
 
       {/* ── 1 · Hero section ────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden pb-24 pt-32 md:pb-32 md:pt-40">
-
-        {/* Readability scrim — the scroll canvas runs full-bleed behind the
-            page, so the headline column gets its own soft white falloff to
-            keep copy legible without hiding the animation. */}
+      <section className="hero-mesh relative overflow-hidden pb-20 pt-32 md:pb-28 md:pt-36">
+        {/* Ruled grid fading in at the lower edge — depth, not decoration */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 [background:radial-gradient(72%_68%_at_50%_46%,rgba(255,255,255,0.94)_0%,rgba(255,255,255,0.86)_42%,rgba(255,255,255,0.6)_68%,transparent_88%)]"
+          className="hero-grid pointer-events-none absolute inset-x-0 bottom-0 h-[48%] [mask-image:linear-gradient(to_top,black,transparent)]"
         />
 
         <Container className="relative text-center">
           <Reveal variant="fadeUp">
-            <Eyebrow>Autonomous Voice Intelligence</Eyebrow>
+            <span className="inline-flex items-center gap-2 rounded-full border border-line bg-surface/80 py-1 pl-1 pr-3.5 text-[13px] font-medium text-ink-light backdrop-blur-sm">
+              <span className="rounded-full bg-accent px-2.5 py-0.5 text-[11px] font-semibold text-ink-inverse">
+                24/7
+              </span>
+              Autonomous voice agents, always on
+            </span>
           </Reveal>
 
           <BlurTitle
             as="h1"
             text="Never Miss a Customer Call Again."
             mutedText="Powered by Autonomous AI Agents."
-            className="mx-auto mt-6 max-w-4xl text-display-lg text-ink"
+            className="hero-title-brand mx-auto mt-6 max-w-4xl text-display-lg text-ink"
           />
 
-          <Reveal variant="fadeUp" delay={0.3} className="mx-auto mt-6 max-w-2xl">
-            <p className="text-balance text-[17px] leading-relaxed text-ink-light">
+          <Reveal variant="fadeUp" delay={0.3}>
+            <p className="mx-auto mt-6 max-w-2xl text-[17px] leading-relaxed text-ink-light">
               SkipDial deploys AI phone agents that answer inbound calls 24/7,
               qualify incoming leads, schedule appointments, and sync structured
               call data straight into your CRM.
             </p>
           </Reveal>
 
-          <Reveal variant="fadeUp" delay={0.4} className="mt-8 flex items-center justify-center gap-4">
-            <div className="flex flex-wrap items-center justify-center gap-3">
+          <Reveal variant="fadeUp" delay={0.4}>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Magnetic>
                 <Button href="/request-a-free-demo" size="lg" arrow>
                   Get a Free Demo
@@ -123,15 +125,19 @@ export default function Home() {
 
           {/* Trust line — grounds the promise before the reader scrolls on */}
           <Reveal variant="fadeUp" delay={0.5}>
-            <p className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[13px] font-medium text-ink-light">
+            <p className="mt-10 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[13px] font-medium text-ink-light">
               <span className="flex items-center gap-1.5">
                 <span className="pulse-dot relative inline-block h-1.5 w-1.5 rounded-full bg-signal" />
                 Answering calls 24/7/365
               </span>
-              <span className="hidden h-3 w-px bg-line sm:block" />
-              <span>Live in under 2 weeks</span>
-              <span className="hidden h-3 w-px bg-line sm:block" />
-              <span>Works with your existing phone system</span>
+              <span className="flex items-center gap-1.5">
+                <span aria-hidden className="h-1 w-1 rounded-full bg-line-strong" />
+                Live in under 2 weeks
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span aria-hidden className="h-1 w-1 rounded-full bg-line-strong" />
+                Works with your phone system
+              </span>
             </p>
           </Reveal>
         </Container>
@@ -336,6 +342,6 @@ export default function Home() {
         body="Consistent coverage, reliable intake, and disciplined follow-up, without adding headcount."
         smallPrint="Free 30-minute demo · configured around your call workflows"
       />
-    </div>
+    </>
   );
 }

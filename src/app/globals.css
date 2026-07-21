@@ -91,7 +91,9 @@
   }
 
   body {
-    @apply font-body text-ink antialiased bg-transparent;
+    /* Transparent so the fixed scroll-frame canvas (FullPageScrollBgCanvas)
+       shows through from behind the page. */
+    @apply bg-transparent font-body text-ink antialiased;
     font-size: 1rem;
     line-height: 1.6;
   }
@@ -149,7 +151,37 @@
     background:
       radial-gradient(52% 38% at 50% -6%, rgb(var(--accent-soft-rgb) / 0.12), transparent 72%),
       radial-gradient(40% 30% at 82% 2%, rgb(var(--accent-soft-rgb) / 0.08), transparent 70%),
-      linear-gradient(180deg, #ffffff 0%, var(--wash) 60%, #ffffff 100%);
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.74) 0%,
+        rgba(247, 245, 255, 0.62) 60%,
+        rgba(255, 255, 255, 0.74) 100%
+      );
+  }
+
+  /* Hero mesh — soft pastel gradient field (lavender → orchid → white) that
+     carries the hero's two-column layout. Purely static paint: no canvas, no
+     scroll binding, so it costs nothing after first render. */
+  .hero-mesh {
+    background:
+      radial-gradient(42% 56% at 10% 90%, rgb(var(--accent-soft-rgb) / 0.34), transparent 62%),
+      radial-gradient(40% 48% at 90% 10%, rgba(232, 160, 226, 0.26), transparent 60%),
+      radial-gradient(52% 58% at 82% 88%, rgb(var(--accent-rgb) / 0.2), transparent 64%),
+      radial-gradient(56% 46% at 46% 2%, rgba(255, 255, 255, 0.82), transparent 58%),
+      linear-gradient(
+        158deg,
+        rgba(255, 255, 255, 0.72) 0%,
+        rgba(247, 245, 255, 0.6) 46%,
+        rgba(242, 236, 255, 0.68) 100%
+      );
+  }
+
+  /* Faint ruled grid used at the hero's lower edge for depth (reference
+     treatment); masked so it fades before it reaches the copy. */
+  .hero-grid {
+    background-image: linear-gradient(rgb(var(--accent-rgb) / 0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--accent-rgb) / 0.07) 1px, transparent 1px);
+    background-size: 46px 46px;
   }
 
   /* Closing CTA / footer band — light lavender surface with soft brand
@@ -203,15 +235,15 @@
       radial-gradient(42% 36% at 50% -6%, rgb(var(--accent-soft-rgb) / 0.2), transparent 72%),
       radial-gradient(45% 38% at 12% 0%, rgb(var(--accent-soft-rgb) / 0.14), transparent 70%),
       radial-gradient(50% 42% at 88% 100%, rgb(var(--accent-soft-rgb) / 0.16), transparent 70%),
-      linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, rgba(247, 245, 255, 0.65) 55%, rgba(255, 255, 255, 0.75) 100%);
-    backdrop-filter: blur(4px);
+      linear-gradient(180deg, #ffffff 0%, var(--wash) 55%, #ffffff 100%);
   }
 
+  /* Light-lavender band — a quiet tinted panel between white sections, kept
+     shallow so it reads as rhythm, not decoration. */
   .band-lavender {
     background:
       radial-gradient(55% 42% at 50% -8%, rgb(var(--accent-soft-rgb) / 0.16), transparent 72%),
-      linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, rgba(247, 245, 255, 0.65) 55%, rgba(255, 255, 255, 0.75) 100%);
-    backdrop-filter: blur(4px);
+      linear-gradient(180deg, #ffffff 0%, var(--wash) 55%, #ffffff 100%);
   }
 
   /* Cursor spotlight overlay — reads --x/--y set from onMouseMove.
