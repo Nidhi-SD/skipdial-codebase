@@ -40,28 +40,27 @@ const socials = [
 
 export function Footer() {
   return (
-    <footer id="contact" className="band-wash-dark relative overflow-hidden text-ink-inverse">
+    <footer id="contact" className="band-wash-dark relative overflow-hidden text-ink">
       {/* Top CTA row */}
       <Container className="pb-14 pt-20">
-        <div className="flex flex-col gap-10 border-b border-band-dark-line pb-14 lg:flex-row lg:items-end lg:justify-between">
+        <div className="flex flex-col gap-10 border-b border-line pb-14 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-xl">
             <Link href="/" aria-label="SkipDial home" className="inline-block">
-              <Logo variant="white" />
+              <Logo />
             </Link>
-            <p className="mt-5 text-[15px] leading-relaxed text-ink-inverse/65">
+            <p className="mt-5 text-[15px] leading-relaxed text-ink-light">
               AI voice agents that answer your phone, qualify your leads, and
               book your calendar, 24/7.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
-            <Button href="/request-a-free-demo" variant="inverse" size="lg" arrow>
+            <Button href="/request-a-free-demo" size="lg" arrow>
               Get a Free Demo
             </Button>
             <Button
               href="mailto:info@skipdial.ai"
-              variant="ghost"
+              variant="outline"
               size="lg"
-              className="text-ink-inverse/70 hover:text-ink-inverse"
             >
               Contact us
             </Button>
@@ -71,7 +70,7 @@ export function Footer() {
         {/* Link columns */}
         <div className="grid grid-cols-2 gap-10 pt-14 md:grid-cols-4">
           <div>
-            <p className="text-[12px] font-semibold text-ink-inverse/45">
+            <p className="text-[12px] font-semibold text-ink-faint">
               Product
             </p>
             <ul className="mt-4 space-y-2.5">
@@ -79,7 +78,7 @@ export function Footer() {
                 <li key={l.href}>
                   <Link
                     href={l.href}
-                    className="text-[14px] text-ink-inverse/70 transition-colors hover:text-ink-inverse"
+                    className="text-[14px] text-ink-light transition-colors hover:text-ink"
                   >
                     {l.label}
                   </Link>
@@ -89,7 +88,7 @@ export function Footer() {
           </div>
 
           <div>
-            <p className="text-[12px] font-semibold text-ink-inverse/45">
+            <p className="text-[12px] font-semibold text-ink-faint">
               Industries
             </p>
             <ul className="mt-4 space-y-2.5">
@@ -97,7 +96,7 @@ export function Footer() {
                 <li key={l.href}>
                   <Link
                     href={l.href}
-                    className="text-[14px] text-ink-inverse/70 transition-colors hover:text-ink-inverse"
+                    className="text-[14px] text-ink-light transition-colors hover:text-ink"
                   >
                     {l.label}
                   </Link>
@@ -107,30 +106,30 @@ export function Footer() {
           </div>
 
           <div className="col-span-2">
-            <p className="text-[12px] font-semibold text-ink-inverse/45">
+            <p className="text-[12px] font-semibold text-ink-faint">
               Contact Us
             </p>
-            <ul className="mt-4 space-y-3 text-[14px] text-ink-inverse/70">
+            <ul className="mt-4 space-y-3 text-[14px] text-ink-light">
               <li>
                 <a
                   href="tel:+14808681102"
-                  className="flex items-center gap-2.5 transition-colors hover:text-ink-inverse"
+                  className="flex items-center gap-2.5 transition-colors hover:text-ink"
                 >
-                  <Phone aria-hidden className="h-4 w-4 text-accent-soft" />
+                  <Phone aria-hidden className="h-4 w-4 text-accent" />
                   (480) 868-1102
                 </a>
               </li>
               <li>
                 <a
                   href="mailto:info@skipdial.ai"
-                  className="flex items-center gap-2.5 transition-colors hover:text-ink-inverse"
+                  className="flex items-center gap-2.5 transition-colors hover:text-ink"
                 >
-                  <Mail aria-hidden className="h-4 w-4 text-accent-soft" />
+                  <Mail aria-hidden className="h-4 w-4 text-accent" />
                   info@skipdial.ai
                 </a>
               </li>
               <li className="flex items-start gap-2.5">
-                <MapPin aria-hidden className="mt-1 h-4 w-4 shrink-0 text-accent-soft" />
+                <MapPin aria-hidden className="mt-1 h-4 w-4 shrink-0 text-accent" />
                 1801 E. Camelback Rd, Suite 201, Phoenix, AZ 85016
               </li>
             </ul>
@@ -143,7 +142,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={s.label}
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-band-dark-line text-ink-inverse/60 transition-colors hover:border-accent-soft/50 hover:text-ink-inverse"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-line bg-surface text-ink-light transition-colors hover:border-accent/40 hover:text-accent"
                 >
                   <svg
                     aria-hidden
@@ -161,13 +160,13 @@ export function Footer() {
       </Container>
 
       {/* Legal strip */}
-      <div className="border-t border-band-dark-line">
-        <Container className="flex flex-col items-start gap-2 py-6 text-[13px] text-ink-inverse/45 md:flex-row md:items-center md:justify-between">
+      <div className="border-t border-line">
+        <Container className="flex flex-col items-start gap-2 py-6 text-[13px] text-ink-faint md:flex-row md:items-center md:justify-between">
           <p>© 2026 All Rights Reserved · SkipDial.ai</p>
           <div className="flex items-center gap-5">
             <Link
               href="/privacy-policy"
-              className="transition-colors hover:text-ink-inverse"
+              className="transition-colors hover:text-ink"
             >
               Privacy Policy
             </Link>

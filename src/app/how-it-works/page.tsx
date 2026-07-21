@@ -207,7 +207,7 @@ export default function HowItWorksPage() {
                   ) : null}
 
                   {step.closing ? (
-                    <div className="mt-6 rounded-xl border border-white/5 bg-zinc-900/50 p-5 backdrop-blur-sm">
+                    <div className="mt-6 rounded-xl border border-line bg-surface-alt p-5">
                       <p className="text-[14px] font-medium leading-relaxed text-ink-light">
                         {step.closing}
                       </p>

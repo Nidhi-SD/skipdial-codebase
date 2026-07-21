@@ -352,7 +352,7 @@ export function HearItLive({
   );
 }
 
-/* ── CTABand — dark closing band ───────────────────────────────────────────── */
+/* ── CTABand — light closing band with brand wash ──────────────────────────── */
 
 export function CTABand({
   title,
@@ -369,16 +369,19 @@ export function CTABand({
   ctaLabel?: string;
   ctaHref?: string;
   smallPrint?: string;
+  /** "dark" is retained for backwards compat but now renders the same light
+   *  lavender band as everything else. "bold" keeps the purple full-bleed. */
   variant?: "dark" | "bold";
 }) {
+  const isBold = variant === "bold";
   return (
     <section
       className={cn(
-        "relative overflow-hidden py-24 text-ink-inverse md:py-32",
-        variant === "bold" ? "band-gradient-bold" : "band-wash-dark"
+        "relative overflow-hidden py-24 md:py-32",
+        isBold ? "band-gradient-bold text-ink-inverse" : "band-wash-dark text-ink"
       )}
     >
-      {variant === "bold" ? (
+      {isBold ? (
         <div
           aria-hidden
           className="grid-overlay-light absolute inset-0 opacity-70 [mask-image:radial-gradient(70%_75%_at_50%_35%,black,transparent)]"
@@ -396,23 +399,43 @@ export function CTABand({
           as="h2"
           text={title}
           mutedText={mutedTitle}
-          className="mx-auto max-w-3xl text-display-lg text-ink-inverse"
+          className={cn(
+            "mx-auto max-w-3xl text-display-lg",
+            isBold && "text-ink-inverse"
+          )}
         />
         {body ? (
           <Reveal variant="fadeUp" delay={0.15}>
-            <p className="mx-auto mt-5 max-w-copy text-[16px] leading-relaxed text-ink-inverse/70">
+            <p
+              className={cn(
+                "mx-auto mt-5 max-w-copy text-[16px] leading-relaxed",
+                isBold ? "text-ink-inverse/70" : "text-ink-light"
+              )}
+            >
               {body}
             </p>
           </Reveal>
         ) : null}
         <Reveal variant="fadeUp" delay={0.25}>
           <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-            <Button href={ctaHref} variant="inverse" size="lg" arrow>
+            <Button
+              href={ctaHref}
+              variant={isBold ? "inverse" : "primary"}
+              size="lg"
+              arrow
+            >
               {ctaLabel}
             </Button>
           </div>
           {smallPrint ? (
-            <p className="mt-5 text-[13px] text-ink-inverse/45">{smallPrint}</p>
+            <p
+              className={cn(
+                "mt-5 text-[13px]",
+                isBold ? "text-ink-inverse/45" : "text-ink-faint"
+              )}
+            >
+              {smallPrint}
+            </p>
           ) : null}
         </Reveal>
       </Container>

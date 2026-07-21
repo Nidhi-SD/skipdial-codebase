@@ -107,7 +107,7 @@ function GlowRing({ active, reduce }: { active: boolean; reduce: boolean }) {
             }}
           />
         ))}
-      <span className="relative flex h-11 w-11 items-center justify-center rounded-full bg-accent text-[14px] font-bold text-white shadow-[0_0_24px_rgba(105,70,235,0.65)]">
+      <span className="relative flex h-11 w-11 items-center justify-center rounded-full bg-accent text-[14px] font-bold text-white shadow-[0_0_24px_rgba(105,70,235,0.45)]">
         G
       </span>
     </span>
@@ -164,28 +164,28 @@ export function VoiceAgentSimulator({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "ai-glow-border relative grid gap-3 overflow-hidden rounded-2xl border border-white/10 bg-zinc-950/90 p-3 shadow-[0_1px_0_rgba(255,255,255,0.06)_inset,0_40px_120px_-32px_rgba(105,70,235,0.4)] backdrop-blur-md md:grid-cols-[236px_1fr_248px]",
+        "ai-glow-border relative grid gap-3 overflow-hidden rounded-2xl border border-line bg-surface p-3 shadow-[0_1px_0_rgba(255,255,255,0.6)_inset,0_40px_120px_-32px_rgba(105,70,235,0.28)] backdrop-blur-md md:grid-cols-[236px_1fr_248px]",
         className
       )}
     >
       {/* Ambient texture */}
       <div
         aria-hidden
-        className="dot-grid-inverse pointer-events-none absolute inset-0 opacity-50 [mask-image:radial-gradient(70%_60%_at_50%_0%,black,transparent)]"
+        className="dot-grid-inverse pointer-events-none absolute inset-0 opacity-60 [mask-image:radial-gradient(70%_60%_at_50%_0%,black,transparent)]"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-24 left-1/2 h-48 w-[420px] -translate-x-1/2 rounded-full bg-accent/25 blur-3xl"
+        className="pointer-events-none absolute -top-24 left-1/2 h-48 w-[420px] -translate-x-1/2 rounded-full bg-accent/15 blur-3xl"
       />
 
       {/* Caller panel */}
-      <div className="relative flex flex-col rounded-xl border border-white/10 bg-zinc-900/80 p-4 backdrop-blur-md">
+      <div className="relative flex flex-col rounded-xl border border-line bg-surface p-4 backdrop-blur-md">
         <div className="flex items-center justify-between">
           <span className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-signal">
             <span className="pulse-dot relative inline-block h-2 w-2 rounded-full bg-signal" />
             Live
           </span>
-          <span className="font-mono text-[12px] tabular-nums text-zinc-500">
+          <span className="font-mono text-[12px] tabular-nums text-ink-faint">
             {mm}:{ss}
           </span>
         </div>
@@ -193,10 +193,10 @@ export function VoiceAgentSimulator({ className }: { className?: string }) {
         <div className="mt-4 flex items-center gap-3">
           <GlowRing active={agentSpeaking} reduce={reduce} />
           <div className="min-w-0">
-            <p className="truncate text-[13px] font-semibold text-white">
+            <p className="truncate text-[13px] font-semibold text-ink">
               Grace · After-hours intake
             </p>
-            <p className="flex items-center gap-1 text-[11.5px] text-zinc-500">
+            <p className="flex items-center gap-1 text-[11.5px] text-ink-faint">
               <PhoneIncoming aria-hidden className="h-3 w-3" />
               Inbound · HVAC dispatch
             </p>
@@ -206,20 +206,20 @@ export function VoiceAgentSimulator({ className }: { className?: string }) {
         {/* Voice pulse */}
         <div className="mt-5 flex items-center gap-3">
           <Waveform active={agentSpeaking} reduce={reduce} />
-          <span className="font-mono text-[10.5px] uppercase tracking-[0.14em] text-zinc-500">
+          <span className="font-mono text-[10.5px] uppercase tracking-[0.14em] text-ink-faint">
             {agentSpeaking ? "Agent speaking" : "Listening…"}
           </span>
         </div>
 
-        <p className="mt-5 hidden text-[12px] italic leading-relaxed text-zinc-400 md:block">
+        <p className="mt-5 hidden text-[12px] italic leading-relaxed text-ink-light md:block">
           &ldquo;…it&apos;s the furnace, won&apos;t kick on at all. We&apos;ve got a baby in the
           house...&rdquo;
         </p>
       </div>
 
       {/* Transcript */}
-      <div className="relative flex min-h-[300px] flex-col rounded-xl border border-white/10 bg-zinc-900/80 p-4 backdrop-blur-md">
-        <p className="font-mono text-[10.5px] font-medium uppercase tracking-[0.18em] text-zinc-500">
+      <div className="relative flex min-h-[300px] flex-col rounded-xl border border-line bg-surface p-4 backdrop-blur-md">
+        <p className="font-mono text-[10.5px] font-medium uppercase tracking-[0.18em] text-ink-faint">
           Live transcript
         </p>
         <div className="mt-3 flex flex-1 flex-col gap-3" aria-live="off">
@@ -236,12 +236,12 @@ export function VoiceAgentSimulator({ className }: { className?: string }) {
                 <span
                   className={cn(
                     "font-mono text-[11px] font-medium",
-                    line.who === "grace" ? "text-accent-soft" : "text-zinc-500"
+                    line.who === "grace" ? "text-accent" : "text-ink-faint"
                   )}
                 >
                   {line.who === "grace" ? "Grace" : "Caller"}
                 </span>
-                <span className="text-zinc-300">
+                <span className="text-ink">
                   {line.text.split(" ").map((word, w) => (
                     <motion.span
                       key={w}
@@ -259,7 +259,7 @@ export function VoiceAgentSimulator({ className }: { className?: string }) {
           {!reduce && visibleLines < transcript.length && (
             <div className="grid grid-cols-[52px_1fr] gap-2">
               <span />
-              <span aria-hidden className="text-[12px] font-medium text-zinc-600">
+              <span aria-hidden className="text-[12px] font-medium text-ink-faint">
                 {visibleLines % 2 === 0 ? "Grace is speaking…" : "listening…"}
               </span>
             </div>
@@ -268,8 +268,8 @@ export function VoiceAgentSimulator({ className }: { className?: string }) {
       </div>
 
       {/* Actions queued */}
-      <div className="relative rounded-xl border border-white/10 bg-zinc-900/80 p-4 backdrop-blur-md">
-        <p className="font-mono text-[10.5px] font-medium uppercase tracking-[0.18em] text-zinc-500">
+      <div className="relative rounded-xl border border-line bg-surface p-4 backdrop-blur-md">
+        <p className="font-mono text-[10.5px] font-medium uppercase tracking-[0.18em] text-ink-faint">
           Actions queued
         </p>
         <div className="mt-3 flex flex-col gap-2">
@@ -286,20 +286,20 @@ export function VoiceAgentSimulator({ className }: { className?: string }) {
                     ...springPhysics,
                     delay: reduce ? 0 : ("extraDelay" in a ? (a.extraDelay as number) : 0) / 1000,
                   }}
-                  className="flex items-start gap-2.5 rounded-lg border border-white/10 bg-zinc-950/70 px-3 py-2.5"
+                  className="flex items-start gap-2.5 rounded-lg border border-line bg-surface-alt px-3 py-2.5"
                 >
                   <a.icon
                     aria-hidden
                     className={cn(
                       "mt-0.5 h-4 w-4 shrink-0",
-                      a.tone === "signal" ? "text-signal" : "text-accent-soft"
+                      a.tone === "signal" ? "text-signal" : "text-accent"
                     )}
                   />
                   <div className="min-w-0">
-                    <p className="text-[12.5px] font-semibold leading-tight text-white">
+                    <p className="text-[12.5px] font-semibold leading-tight text-ink">
                       {a.title}
                     </p>
-                    <p className="truncate text-[11.5px] text-zinc-500">{a.meta}</p>
+                    <p className="truncate text-[11.5px] text-ink-faint">{a.meta}</p>
                   </div>
                 </motion.div>
               ))}

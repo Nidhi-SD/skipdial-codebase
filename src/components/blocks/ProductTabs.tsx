@@ -38,11 +38,11 @@ function EventRows({
           initial={reduce ? false : { opacity: 0, x: 14 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ ...springPhysics, delay: 0.1 + i * 0.08 }}
-          className="flex items-center gap-3 rounded-lg border border-white/10 bg-zinc-950/70 px-3.5 py-2.5"
+          className="flex items-center gap-3 rounded-lg border border-line bg-surface-alt px-3.5 py-2.5"
         >
-          <r.icon aria-hidden className="h-4 w-4 shrink-0 text-accent-soft" />
-          <p className="flex-1 text-[13px] font-semibold text-white">{r.title}</p>
-          <p className="font-mono text-[11px] tabular-nums text-zinc-500">{r.meta}</p>
+          <r.icon aria-hidden className="h-4 w-4 shrink-0 text-accent" />
+          <p className="flex-1 text-[13px] font-semibold text-ink">{r.title}</p>
+          <p className="font-mono text-[11px] tabular-nums text-ink-faint">{r.meta}</p>
         </motion.div>
       ))}
     </div>
@@ -63,17 +63,17 @@ function CampaignRows({ reduce }: { reduce: boolean }) {
           initial={reduce ? false : { opacity: 0, x: 14 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ ...springPhysics, delay: 0.1 + i * 0.08 }}
-          className="rounded-lg border border-white/10 bg-zinc-950/70 px-3.5 py-3"
+          className="rounded-lg border border-line bg-surface-alt px-3.5 py-3"
         >
           <div className="flex items-center justify-between">
-            <p className="text-[13px] font-semibold text-white">{r.name}</p>
-            <p className="font-mono text-[11px] tabular-nums text-zinc-500">
+            <p className="text-[13px] font-semibold text-ink">{r.name}</p>
+            <p className="font-mono text-[11px] tabular-nums text-ink-faint">
               {r.pct}% connected
             </p>
           </div>
-          <div className="mt-2 h-1 overflow-hidden rounded-full bg-white/10">
+          <div className="mt-2 h-1 overflow-hidden rounded-full bg-accent-tint">
             <motion.div
-              className="h-full origin-left rounded-full bg-accent-soft"
+              className="h-full origin-left rounded-full bg-accent"
               style={{ width: `${r.pct}%` }}
               initial={reduce ? false : { scaleX: 0 }}
               animate={{ scaleX: 1 }}
@@ -89,7 +89,7 @@ function CampaignRows({ reduce }: { reduce: boolean }) {
 function AnalyticsPanel({ reduce }: { reduce: boolean }) {
   const bars = [42, 66, 50, 84, 58, 96, 72];
   return (
-    <div className="rounded-lg border border-white/10 bg-zinc-950/70 p-4">
+    <div className="rounded-lg border border-line bg-surface-alt p-4">
       <div className="flex gap-2">
         {[
           { v: "142", l: "calls today" },
@@ -101,12 +101,12 @@ function AnalyticsPanel({ reduce }: { reduce: boolean }) {
             initial={reduce ? false : { opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ ...springPhysics, delay: 0.1 + i * 0.06 }}
-            className="flex-1 rounded-md border border-white/10 bg-white/5 px-2.5 py-2"
+            className="flex-1 rounded-md border border-line bg-surface px-2.5 py-2"
           >
-            <p className="font-display text-[17px] font-bold leading-none text-white">
+            <p className="font-display text-[17px] font-bold leading-none text-ink">
               {s.v}
             </p>
-            <p className="mt-1 text-[10.5px] text-zinc-500">{s.l}</p>
+            <p className="mt-1 text-[10.5px] text-ink-faint">{s.l}</p>
           </motion.div>
         ))}
       </div>
@@ -120,7 +120,7 @@ function AnalyticsPanel({ reduce }: { reduce: boolean }) {
             style={{ height: `${h}%`, transformOrigin: "bottom" }}
             className={cn(
               "w-full rounded-sm",
-              i === 5 ? "bg-accent-soft" : "bg-white/15"
+              i === 5 ? "bg-accent" : "bg-accent-tint"
             )}
           />
         ))}
@@ -211,7 +211,7 @@ export function ProductTabs({ className }: { className?: string }) {
             role="tablist"
             aria-label="Explore SkipDial by call motion"
             onKeyDown={onKeyDown}
-            className="flex w-max items-center gap-1 rounded-full border border-white/10 bg-zinc-900/80 p-1 backdrop-blur-md"
+            className="flex w-max items-center gap-1 rounded-full border border-line bg-surface p-1 shadow-[0_1px_2px_rgba(19,19,22,0.04)] backdrop-blur-md"
           >
             {TABS.map((t, i) => {
               const selected = t.id === active;
@@ -229,7 +229,7 @@ export function ProductTabs({ className }: { className?: string }) {
                   onClick={() => setActive(t.id)}
                   className={cn(
                     "relative whitespace-nowrap rounded-full px-4 py-2 text-[13.5px] font-semibold transition-colors duration-200 md:px-5",
-                    selected ? "text-white" : "text-zinc-400 hover:text-zinc-200"
+                    selected ? "text-accent" : "text-ink-light hover:text-ink"
                   )}
                 >
                   {selected && (
@@ -237,7 +237,7 @@ export function ProductTabs({ className }: { className?: string }) {
                       layoutId="active-skipdial-tab"
                       transition={springPhysics}
                       style={{ borderRadius: 9999 }}
-                      className="absolute inset-0 border border-white/10 bg-white/10 shadow-[0_0_20px_-4px_rgba(105,70,235,0.5)]"
+                      className="absolute inset-0 border border-accent/25 bg-accent-tint shadow-[0_0_20px_-4px_rgba(105,70,235,0.28)]"
                     />
                   )}
                   <span className="relative z-10">{t.label}</span>
@@ -259,19 +259,19 @@ export function ProductTabs({ className }: { className?: string }) {
             initial={reduce ? false : { opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0, transition: springPhysics }}
             exit={{ opacity: 0, transition: { duration: 0.15 } }}
-            className="grid items-center gap-8 rounded-2xl border border-white/10 bg-zinc-900/80 p-6 backdrop-blur-md md:grid-cols-[1.15fr_1fr] md:p-9"
+            className="grid items-center gap-8 rounded-2xl border border-line bg-surface p-6 shadow-[0_1px_2px_rgba(19,19,22,0.04)] backdrop-blur-md md:grid-cols-[1.15fr_1fr] md:p-9"
           >
             <div>
-              <h3 className="max-w-md text-[21px] font-semibold leading-snug text-white md:text-[25px]">
+              <h3 className="max-w-md text-[21px] font-semibold leading-snug text-ink md:text-[25px]">
                 {tab.headline}
               </h3>
-              <p className="mt-3 max-w-md text-[14.5px] leading-relaxed text-zinc-400">
+              <p className="mt-3 max-w-md text-[14.5px] leading-relaxed text-ink-light">
                 {tab.body}
               </p>
               <ul className="mt-5 flex flex-col gap-2.5">
                 {tab.bullets.map((b) => (
-                  <li key={b} className="flex items-start gap-2.5 text-[13.5px] text-zinc-300">
-                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/20 text-accent-soft">
+                  <li key={b} className="flex items-start gap-2.5 text-[13.5px] text-ink">
+                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent-tint text-accent">
                       <Check aria-hidden className="h-3 w-3" strokeWidth={3} />
                     </span>
                     {b}
@@ -280,7 +280,7 @@ export function ProductTabs({ className }: { className?: string }) {
               </ul>
               <Link
                 href={tab.link.href}
-                className="group mt-6 inline-flex items-center gap-1.5 text-[14px] font-semibold text-accent-soft transition-colors hover:text-white"
+                className="group mt-6 inline-flex items-center gap-1.5 text-[14px] font-semibold text-accent transition-colors hover:text-accent-deep"
               >
                 {tab.link.label}
                 <ArrowRight

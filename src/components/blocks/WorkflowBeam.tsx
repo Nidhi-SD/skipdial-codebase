@@ -71,12 +71,12 @@ function Connector({ reduce, delay }: { reduce: boolean; delay?: number }) {
     <div aria-hidden className="flex shrink-0 items-center justify-center md:w-24">
       {/* Horizontal (md+) */}
       <svg viewBox="0 0 96 24" fill="none" className="hidden h-6 w-full md:block">
-        <path d="M0 12 H96" stroke="rgba(255,255,255,0.12)" strokeWidth="1.5" />
+        <path d="M0 12 H96" stroke="rgba(105,70,235,0.18)" strokeWidth="1.5" />
         {!reduce && <BeamPath d="M0 12 H96" gradient="url(#wf-beam-grad-h)" delay={delay} />}
       </svg>
       {/* Vertical (mobile) */}
       <svg viewBox="0 0 24 48" fill="none" className="block h-12 w-6 md:hidden">
-        <path d="M12 0 V48" stroke="rgba(255,255,255,0.12)" strokeWidth="1.5" />
+        <path d="M12 0 V48" stroke="rgba(105,70,235,0.18)" strokeWidth="1.5" />
         {!reduce && <BeamPath d="M12 0 V48" gradient="url(#wf-beam-grad-v)" delay={delay} />}
       </svg>
     </div>
@@ -100,20 +100,20 @@ function WorkflowNode({
     <motion.div
       variants={nodeRise}
       className={cn(
-        "relative flex items-start gap-3.5 rounded-2xl border p-4 backdrop-blur-md md:flex-1 md:p-5",
+        "relative flex items-start gap-3.5 rounded-2xl border bg-surface p-4 backdrop-blur-md md:flex-1 md:p-5",
         center
-          ? "border-accent/40 bg-zinc-900/80 shadow-[0_0_48px_-8px_rgba(105,70,235,0.45)]"
-          : "border-white/10 bg-zinc-900/80"
+          ? "border-accent/40 shadow-[0_0_48px_-8px_rgba(105,70,235,0.35)]"
+          : "border-line"
       )}
     >
       {/* Floating status choreography — Running… holds, Completed lands */}
       {center && (
         <span aria-hidden className="absolute -top-2.5 right-4">
-          <span className="wf-status-running absolute right-0 top-0 flex items-center gap-1.5 whitespace-nowrap rounded-full border border-white/10 bg-zinc-900 px-2.5 py-0.5 text-[10.5px] font-semibold text-accent-soft shadow-[0_4px_16px_rgba(0,0,0,0.5)]">
-            <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent-soft" />
+          <span className="wf-status-running absolute right-0 top-0 flex items-center gap-1.5 whitespace-nowrap rounded-full border border-line bg-surface px-2.5 py-0.5 text-[10.5px] font-semibold text-accent shadow-[0_4px_16px_rgba(105,70,235,0.18)]">
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
             Running…
           </span>
-          <span className="wf-status-completed flex items-center gap-1.5 whitespace-nowrap rounded-full border border-white/10 bg-zinc-900 px-2.5 py-0.5 text-[10.5px] font-semibold text-signal shadow-[0_4px_16px_rgba(0,0,0,0.5)]">
+          <span className="wf-status-completed flex items-center gap-1.5 whitespace-nowrap rounded-full border border-line bg-surface px-2.5 py-0.5 text-[10.5px] font-semibold text-signal shadow-[0_4px_16px_rgba(22,163,74,0.18)]">
             <Check aria-hidden className="h-2.5 w-2.5" strokeWidth={3} />
             Completed
           </span>
@@ -123,15 +123,15 @@ function WorkflowNode({
         className={cn(
           "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border",
           center
-            ? "border-accent/40 bg-accent text-white shadow-[0_0_20px_rgba(105,70,235,0.6)]"
-            : "border-white/10 bg-white/5 text-accent-soft"
+            ? "border-accent/40 bg-accent text-white shadow-[0_0_20px_rgba(105,70,235,0.5)]"
+            : "border-line bg-accent-tint text-accent"
         )}
       >
         <Icon aria-hidden className="h-[18px] w-[18px]" />
       </span>
       <div className="min-w-0">
-        <p className="text-[14.5px] font-bold leading-snug text-white">{title}</p>
-        <p className="mt-0.5 text-[12px] leading-relaxed text-zinc-500">{meta}</p>
+        <p className="text-[14.5px] font-bold leading-snug text-ink">{title}</p>
+        <p className="mt-0.5 text-[12px] leading-relaxed text-ink-light">{meta}</p>
         {children}
       </div>
     </motion.div>
@@ -148,7 +148,7 @@ export function WorkflowBeam({ className }: { className?: string }) {
       whileInView={reduce ? undefined : "animate"}
       viewport={{ once: true, margin: "-80px 0px" }}
       className={cn(
-        "band-zinc relative overflow-hidden rounded-3xl border border-white/10 p-5 md:p-8",
+        "band-zinc relative overflow-hidden rounded-3xl border border-line p-5 md:p-8",
         className
       )}
     >
@@ -178,11 +178,11 @@ export function WorkflowBeam({ className }: { className?: string }) {
 
       {/* Panel header */}
       <div className="relative flex items-center justify-between">
-        <p className="flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-zinc-400">
+        <p className="flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-ink-light">
           <span className="pulse-dot relative inline-block h-2 w-2 rounded-full bg-signal" />
           Live call routing
         </p>
-        <p className="hidden font-mono text-[11px] tabular-nums text-zinc-500 sm:block">
+        <p className="hidden font-mono text-[11px] tabular-nums text-ink-faint sm:block">
           handoff &lt; 400 ms
         </p>
       </div>
@@ -205,7 +205,7 @@ export function WorkflowBeam({ className }: { className?: string }) {
             {[0, 1, 2, 3, 4].map((i) => (
               <span
                 key={i}
-                className="waveform-bar w-[3px] rounded-full bg-accent-soft/80"
+                className="waveform-bar w-[3px] rounded-full bg-accent/80"
                 style={{ height: `${45 + ((i * 29) % 50)}%`, animationDelay: `${i * 0.14}s` }}
               />
             ))}

@@ -167,7 +167,7 @@ export function GlobalNetworkField({ className }: { className?: string }) {
         const path = geoPath(projection, ctx);
         ctx.beginPath();
         path(coastline);
-        ctx.strokeStyle = "rgba(255,255,255,0.22)";
+        ctx.strokeStyle = "rgba(105,70,235,0.22)";
         ctx.lineWidth = 0.75;
         ctx.stroke();
       }
@@ -176,7 +176,7 @@ export function GlobalNetworkField({ className }: { className?: string }) {
       if (!nodes.length) return;
 
       // Mesh lines between nodes
-      ctx.strokeStyle = "rgba(255,255,255,0.1)";
+      ctx.strokeStyle = "rgba(105,70,235,0.12)";
       ctx.lineWidth = 1;
       for (const e of edgesRef.current) {
         const a = nodes[e.a];
@@ -213,7 +213,7 @@ export function GlobalNetworkField({ className }: { className?: string }) {
       // Nodes, gently twinkling
       for (const n of nodes) {
         const twinkle = reduce ? 1 : 0.55 + 0.45 * Math.sin(t * 0.8 + n.phase);
-        ctx.fillStyle = `rgba(255, 255, 255, ${(0.6 * twinkle).toFixed(3)})`;
+        ctx.fillStyle = `rgba(105, 70, 235, ${(0.55 * twinkle).toFixed(3)})`;
         ctx.beginPath();
         ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
         ctx.fill();

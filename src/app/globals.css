@@ -39,10 +39,13 @@
     --line: #e8e8ec; /* Hairline borders */
     --line-strong: #d6d6de;
 
-    /* Dark band — final CTA + footer only */
-    --band-dark: #0b0a12;
-    --band-dark-elevated: #16141f;
-    --band-dark-line: #262336;
+    /* Formerly-dark band — now a soft lavender surface so nothing on the
+       site renders as near-black. Tokens are kept under the old names so
+       existing utility classes (border-band-dark-line, bg-band-dark-elevated)
+       resolve to light values without a codebase-wide rename. */
+    --band-dark: #f4f0ff;
+    --band-dark-elevated: #ffffff;
+    --band-dark-line: #e6e0f7;
 
     /* RGB mirrors for Tailwind slash-opacity (bg-line/60 etc.) */
     --bg-rgb: 255 255 255;
@@ -62,9 +65,9 @@
     --danger-rgb: 220 38 38;
     --line-rgb: 232 232 236;
     --line-strong-rgb: 214 214 222;
-    --band-dark-rgb: 11 10 18;
-    --band-dark-elevated-rgb: 22 20 31;
-    --band-dark-line-rgb: 38 35 54;
+    --band-dark-rgb: 244 240 255;
+    --band-dark-elevated-rgb: 255 255 255;
+    --band-dark-line-rgb: 230 224 247;
   }
 
   *:focus-visible {
@@ -145,14 +148,16 @@
       linear-gradient(180deg, #ffffff 0%, var(--wash) 60%, #ffffff 100%);
   }
 
-  /* Dark CTA/footer band — Direction C's layered panel depth plus a top
-     shimmer glow, under the existing corner accent glows. */
+  /* Closing CTA / footer band — light lavender surface with soft brand
+     glows. Kept under the historical `.band-wash-dark` name so existing
+     component markup (Footer, CTABand) picks up the light treatment
+     without churn. */
   .band-wash-dark {
     background:
-      radial-gradient(40% 46% at 50% -12%, rgb(var(--accent-soft-rgb) / 0.2), transparent 72%),
-      radial-gradient(60% 60% at 80% 0%, rgb(var(--accent-rgb) / 0.3), transparent 65%),
-      radial-gradient(45% 45% at 10% 100%, rgb(var(--accent-deep-rgb) / 0.38), transparent 70%),
-      linear-gradient(180deg, var(--band-dark-elevated) 0%, var(--band-dark) 45%);
+      radial-gradient(50% 46% at 50% -6%, rgb(var(--accent-soft-rgb) / 0.22), transparent 72%),
+      radial-gradient(55% 55% at 85% 0%, rgb(var(--accent-soft-rgb) / 0.14), transparent 68%),
+      radial-gradient(45% 45% at 10% 100%, rgb(var(--accent-soft-rgb) / 0.18), transparent 70%),
+      linear-gradient(180deg, #ffffff 0%, var(--wash) 55%, #ffffff 100%);
   }
 
   /* Bold full-bleed purple gradient band (Direction B) — used sparingly as a
@@ -177,23 +182,24 @@
     color: transparent;
   }
 
-  /* ── Deep-dark product surfaces (Attio/Linear-style zinc bands) ──────────── */
+  /* ── Product-surface bands (formerly deep-dark; now light with brand wash) ─ */
 
-  /* Inverse dot grid for dark panels */
+  /* Dot grid overlay retained under the historical `dot-grid-inverse` name.
+     Now paints ink-tinted dots so it reads correctly on the light surface. */
   .dot-grid-inverse {
-    background-image: radial-gradient(rgb(255 255 255 / 0.07) 1px, transparent 1px);
+    background-image: radial-gradient(rgb(var(--ink-rgb) / 0.06) 1px, transparent 1px);
     background-size: 22px 22px;
   }
 
-  /* Violet-black base (same --band-dark token as the CTA band) with brand-
-     purple ambient glows — replaces the old neutral zinc-950 so this section
-     reads as SkipDial's dark, not generic dark-mode black. */
+  /* Product panel band — kept under the historical `.band-zinc` name so
+     existing components inherit the light treatment. A quiet white/lavender
+     base with brand-purple ambient glows for depth without near-black. */
   .band-zinc {
     background:
-      radial-gradient(42% 36% at 50% -6%, rgb(var(--accent-soft-rgb) / 0.14), transparent 72%),
-      radial-gradient(45% 38% at 12% 0%, rgb(var(--accent-rgb) / 0.18), transparent 70%),
-      radial-gradient(50% 42% at 88% 100%, rgb(var(--accent-deep-rgb) / 0.26), transparent 70%),
-      linear-gradient(180deg, var(--band-dark-elevated) 0%, var(--band-dark) 55%);
+      radial-gradient(42% 36% at 50% -6%, rgb(var(--accent-soft-rgb) / 0.2), transparent 72%),
+      radial-gradient(45% 38% at 12% 0%, rgb(var(--accent-soft-rgb) / 0.14), transparent 70%),
+      radial-gradient(50% 42% at 88% 100%, rgb(var(--accent-soft-rgb) / 0.16), transparent 70%),
+      linear-gradient(180deg, #ffffff 0%, var(--wash) 55%, #ffffff 100%);
   }
 
   /* Light-lavender band — a quiet tinted panel between white sections, kept
@@ -204,11 +210,12 @@
       linear-gradient(180deg, #ffffff 0%, var(--wash) 55%, #ffffff 100%);
   }
 
-  /* Cursor spotlight overlay (dark cards) — reads --x/--y set from onMouseMove */
+  /* Cursor spotlight overlay — reads --x/--y set from onMouseMove.
+     Now ink-tinted so it works on the site's light surfaces. */
   .spotlight-overlay {
     background: radial-gradient(
       400px circle at var(--x, 50%) var(--y, 50%),
-      rgba(255, 255, 255, 0.06),
+      rgb(var(--accent-rgb) / 0.05),
       transparent 40%
     );
   }
