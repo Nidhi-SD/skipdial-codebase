@@ -9,7 +9,7 @@ import {
   useTransform,
   type Variants,
 } from "framer-motion";
-import { useEffect, useState, type MouseEvent, type ReactNode } from "react";
+import { useEffect, useRef, useState, type MouseEvent, type ReactNode } from "react";
 import { springPhysics, viewportOnce } from "@/lib/motion";
 import { DotMorphField } from "@/components/motion/DotMorphField";
 import { WaveformField } from "@/components/motion/WaveformField";
@@ -230,6 +230,63 @@ export function HeroBackdrop() {
         <motion.div style={{ y: glowY, opacity: glowOpacity }}>{glow}</motion.div>
       </div>
     </div>
+  );
+}
+
+/* ── HeroRecede — hero frame settles into a deeper plane on scroll ─────────── */
+/* The simulator lags the page slightly (y) and eases back in scale as the
+   reader scrolls on, so the hero visual reads as a plane sitting behind the
+   page flow rather than pinned to it. Same scroll range as the backdrop
+   choreography. Transform-only; static under reduced motion. */
+
+export function HeroRecede({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  const reduce = useReducedMotion();
+  const { scrollY } = useScroll();
+  const y = useTransform(scrollY, [0, HERO_RANGE], [0, 44], { clamp: true });
+  const scale = useTransform(scrollY, [0, HERO_RANGE], [1, 0.97], { clamp: true });
+
+  if (reduce) return <div className={className}>{children}</div>;
+  return (
+    <motion.div style={{ y, scale }} className={className}>
+      {children}
+    </motion.div>
+  );
+}
+
+/* ── ParallaxY — frame drifts against the scroll while in view ─────────────── */
+/* Target-based: progress spans the element's full viewport transit and maps
+   to a ±distance drift, so product frames feel seated a plane deeper than
+   the copy around them. Transform-only, no re-renders; static under
+   reduced motion. */
+
+export function ParallaxY({
+  children,
+  className,
+  distance = 26,
+}: {
+  children: ReactNode;
+  className?: string;
+  distance?: number;
+}) {
+  const reduce = useReducedMotion();
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  const y = useTransform(scrollYProgress, [0, 1], [distance, -distance]);
+
+  if (reduce) return <div className={className}>{children}</div>;
+  return (
+    <motion.div ref={ref} style={{ y }} className={className}>
+      {children}
+    </motion.div>
   );
 }
 

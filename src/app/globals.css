@@ -77,6 +77,10 @@
   }
 
   html {
+    /* Positioned so scroll-linked animation targets measure against a
+       non-static container (silences framer-motion's dev warning and keeps
+       target offsets exact). */
+    position: relative;
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
   }
@@ -87,7 +91,7 @@
   }
 
   body {
-    @apply bg-bg font-body text-ink antialiased;
+    @apply font-body text-ink antialiased bg-transparent;
     font-size: 1rem;
     line-height: 1.6;
   }
@@ -199,15 +203,15 @@
       radial-gradient(42% 36% at 50% -6%, rgb(var(--accent-soft-rgb) / 0.2), transparent 72%),
       radial-gradient(45% 38% at 12% 0%, rgb(var(--accent-soft-rgb) / 0.14), transparent 70%),
       radial-gradient(50% 42% at 88% 100%, rgb(var(--accent-soft-rgb) / 0.16), transparent 70%),
-      linear-gradient(180deg, #ffffff 0%, var(--wash) 55%, #ffffff 100%);
+      linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, rgba(247, 245, 255, 0.65) 55%, rgba(255, 255, 255, 0.75) 100%);
+    backdrop-filter: blur(4px);
   }
 
-  /* Light-lavender band — a quiet tinted panel between white sections, kept
-     shallow so it reads as rhythm, not decoration. */
   .band-lavender {
     background:
       radial-gradient(55% 42% at 50% -8%, rgb(var(--accent-soft-rgb) / 0.16), transparent 72%),
-      linear-gradient(180deg, #ffffff 0%, var(--wash) 55%, #ffffff 100%);
+      linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, rgba(247, 245, 255, 0.65) 55%, rgba(255, 255, 255, 0.75) 100%);
+    backdrop-filter: blur(4px);
   }
 
   /* Cursor spotlight overlay — reads --x/--y set from onMouseMove.
@@ -255,6 +259,29 @@
     animation: glow-spin 5s linear infinite;
     pointer-events: none;
   }
+}
+
+/* ── Lenis — smooth-scroll base (SmoothScroll.tsx adds classes to <html>) ───── */
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+/* Lenis drives the glide itself; native smooth-behavior would re-animate
+   every per-frame scrollTop write into mush. (v1.3 applies only the base
+   `lenis` class, so target that — not the removed `lenis-smooth`.) */
+html.lenis {
+  scroll-behavior: auto !important;
+}
+/* Nested scrollables opt out of hijacked wheel input via data-lenis-prevent. */
+html.lenis [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+html.lenis iframe {
+  pointer-events: none;
 }
 
 /* ── Ambient component animations (CSS-driven; JS-free) ─────────────────────── */

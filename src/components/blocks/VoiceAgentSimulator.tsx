@@ -218,7 +218,9 @@ export function VoiceAgentSimulator({ className }: { className?: string }) {
       </div>
 
       {/* Transcript */}
-      <div className="relative flex min-h-[300px] flex-col rounded-xl border border-line bg-surface p-4 backdrop-blur-md">
+      {/* min-height fits the full transcript so the hero doesn't resize (and
+          jitter the scrollbar) as the loop fills and resets */}
+      <div className="relative flex min-h-[320px] flex-col rounded-xl border border-line bg-surface p-4 backdrop-blur-md">
         <p className="font-mono text-[10.5px] font-medium uppercase tracking-[0.18em] text-ink-faint">
           Live transcript
         </p>

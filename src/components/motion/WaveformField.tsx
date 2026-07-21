@@ -79,7 +79,8 @@ export function WaveformField({
   const rawProgress = useTransform(scrollY, [0, SCROLL_RANGE], [0, 1], {
     clamp: true,
   });
-  const progress = useSpring(rawProgress, { stiffness: 55, damping: 18, mass: 0.5 });
+  /* Light damper — Lenis interpolates the scroll itself; see DotMorphField. */
+  const progress = useSpring(rawProgress, { stiffness: 150, damping: 28, mass: 0.5 });
 
   const rebuild = useCallback(() => {
     const canvas = canvasRef.current;

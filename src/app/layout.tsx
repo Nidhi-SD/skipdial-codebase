@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { AuthProvider } from "@/components/AuthProvider";
+import { SmoothScroll } from "@/components/motion/SmoothScroll";
 
 // Brand Guideline v1.0: Montserrat is the single brand typeface — used for both
 // body copy and headings, so --font-body and --font-display share one variable.
@@ -77,6 +78,7 @@ export default function RootLayout({
       </head>
       <body className={`${montserrat.variable} ${jetbrainsMono.variable} font-body bg-bg text-ink antialiased flex flex-col min-h-screen selection:bg-accent/20`}>
         <AuthProvider>
+          <SmoothScroll />
           <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:p-4 focus:bg-bg focus:z-50 focus:text-accent focus:font-medium focus:border-b focus:border-r focus:border-line">
             Skip to content
           </a>

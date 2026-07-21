@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { PhoneMissed, Users, Clock, FileText, Sparkles } from "lucide-react";
 import { Container, SectionHead, Button, Eyebrow } from "@/components/ui/primitives";
 import { BlurTitle, Reveal, Stagger, Item } from "@/components/motion";
-import { CallArrivalFrame, HeroBackdrop, Magnetic, ParallaxDrift } from "@/components/motion/entrances";
+import { CallArrivalFrame, Magnetic, ParallaxDrift } from "@/components/motion/entrances";
 import {
   Section,
   IconCardGrid,
@@ -17,6 +17,7 @@ import { ProductTabs } from "@/components/blocks/ProductTabs";
 import { DashboardCard } from "@/components/blocks/DashboardCard";
 import { AudioPlayer } from "@/components/blocks/AudioPlayer";
 import { TryDemoCall } from "@/components/blocks/TryDemoCall";
+import { FullPageScrollBgCanvas } from "@/components/FullPageScrollBgCanvas";
 
 export const metadata: Metadata = {
   title: "AI Call Agents for Inbound and Outbound Calls | SkipDial",
@@ -49,58 +50,66 @@ const painCards = [
 
 const solveSteps = [
   {
-    title: "Connect Your System",
-    body: "SkipDial connects to your phone system, CRM, and scheduling tools, so it can be integrated cleanly without disrupting your existing workflow.",
+    step: "01",
+    title: "Instant Answer",
+    body: "SkipDial picks up within rings, 24/7/365, eliminating hold times and missed opportunity.",
   },
   {
-    title: "Let AI Handle Calls",
-    body: "AI voice agents answer calls 24/7, engage callers naturally, and guide conversations based on your configured workflows.",
+    step: "02",
+    title: "Structured Information Gathering",
+    body: "Agents follow your configured intake scripts to collect exact caller info, symptoms, project specs, or inquiry details.",
   },
   {
-    title: "Automatically Route + Qualify Leads",
-    body: "Every call is analyzed in real time. Qualified leads are routed with context so your team knows exactly who is calling and why.",
+    step: "03",
+    title: "Intelligent Qualification & Booking",
+    body: "Qualified leads are booked directly on your calendar, while urgent calls escalate according to your protocol.",
   },
   {
-    title: "Integrate With Your CRM",
-    body: "Call summaries, intake data, outcomes, and timestamps sync automatically to your CRM for tracking and follow-up.",
+    step: "04",
+    title: "Automated CRM & Team Sync",
+    body: "Call summaries, transcripts, and structured fields flow straight into your CRM and notification channels.",
   },
 ];
 
 export default function Home() {
   return (
-    <>
-      {/* ── 1 · Hero ─────────────────────────────────────────────────────── */}
-      <section className="hero-wash relative overflow-hidden pb-16 pt-24 md:pb-20 md:pt-32">
-        {/* Backdrop planes separate on scroll: grid dissolves, orb sinks, glow lifts */}
-        <HeroBackdrop />
+    <div className="relative min-h-screen">
+      {/* ── Smooth Canvas Background Animation across Entire Page ───── */}
+      <FullPageScrollBgCanvas />
+
+      {/* ── 1 · Hero section ────────────────────────────────────────────── */}
+      <section className="relative overflow-hidden pb-24 pt-32 md:pb-32 md:pt-40">
+
+        {/* Readability scrim — the scroll canvas runs full-bleed behind the
+            page, so the headline column gets its own soft white falloff to
+            keep copy legible without hiding the animation. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 [background:radial-gradient(72%_68%_at_50%_46%,rgba(255,255,255,0.94)_0%,rgba(255,255,255,0.86)_42%,rgba(255,255,255,0.6)_68%,transparent_88%)]"
+        />
+
         <Container className="relative text-center">
           <Reveal variant="fadeUp">
-            <span className="inline-flex items-center gap-2 rounded-full border border-line bg-surface/80 py-1 pl-1 pr-3.5 text-[13px] font-medium text-ink-light backdrop-blur-sm">
-              <span className="rounded-full bg-accent px-2.5 py-0.5 text-[11px] font-semibold text-ink-inverse">
-                24/7
-              </span>
-              AI Call Handling
-            </span>
+            <Eyebrow>Autonomous Voice Intelligence</Eyebrow>
           </Reveal>
 
           <BlurTitle
             as="h1"
-            text="Automate Your Calls With AI Agents"
-            mutedText="That Never Miss an Opportunity."
-            delay={0.1}
-            className="hero-title-brand mx-auto mt-7 max-w-4xl text-balance text-[clamp(2.6rem,5.6vw,4.1rem)] font-extrabold leading-[1] tracking-[-0.04em]"
+            text="Never Miss a Customer Call Again."
+            mutedText="Powered by Autonomous AI Agents."
+            className="mx-auto mt-6 max-w-4xl text-display-lg text-ink"
           />
 
-          <Reveal variant="fadeUp" delay={0.3}>
-            <p className="mx-auto mt-6 max-w-[34rem] text-balance text-[16px] leading-relaxed text-ink-light">
-              AI agents that answer every call, qualify every caller, and sync
-              every conversation to your CRM. Natural speech, no menus, no hold
-              queues.
+          <Reveal variant="fadeUp" delay={0.3} className="mx-auto mt-6 max-w-2xl">
+            <p className="text-balance text-[17px] leading-relaxed text-ink-light">
+              SkipDial deploys AI phone agents that answer inbound calls 24/7,
+              qualify incoming leads, schedule appointments, and sync structured
+              call data straight into your CRM.
             </p>
           </Reveal>
 
-          <Reveal variant="fadeUp" delay={0.4}>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <Reveal variant="fadeUp" delay={0.4} className="mt-8 flex items-center justify-center gap-4">
+            <div className="flex flex-wrap items-center justify-center gap-3">
               <Magnetic>
                 <Button href="/request-a-free-demo" size="lg" arrow>
                   Get a Free Demo
@@ -111,20 +120,50 @@ export default function Home() {
               </Button>
             </div>
           </Reveal>
+
+          {/* Trust line — grounds the promise before the reader scrolls on */}
+          <Reveal variant="fadeUp" delay={0.5}>
+            <p className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[13px] font-medium text-ink-light">
+              <span className="flex items-center gap-1.5">
+                <span className="pulse-dot relative inline-block h-1.5 w-1.5 rounded-full bg-signal" />
+                Answering calls 24/7/365
+              </span>
+              <span className="hidden h-3 w-px bg-line sm:block" />
+              <span>Live in under 2 weeks</span>
+              <span className="hidden h-3 w-px bg-line sm:block" />
+              <span>Works with your existing phone system</span>
+            </p>
+          </Reveal>
+        </Container>
+      </section>
+
+      {/* ── 2 · Live call simulator — its own showcase, fully in frame ───── */}
+      <Section id="live-call">
+        <Container>
+          <SectionHead
+            eyebrow="See it live"
+            title="Watch a Real Call,"
+            mutedTitle="Handled End to End"
+            align="center"
+            className="mx-auto"
+          >
+            This is an after-hours HVAC emergency. Grace answers on the first
+            ring, captures the issue, verifies the address, and dispatches a
+            technician — while the caller is still on the line.
+          </SectionHead>
         </Container>
 
-        {/* Live AI voice-agent simulator — breaks past the text column for a
-            dominant hero visual, pointer parallax adds ambient depth */}
-        <Reveal variant="scaleIn" delay={0.5} className="mt-14 text-left md:mt-16">
+        {/* Breaks past the text column for a dominant product visual */}
+        <Reveal variant="scaleIn" className="mt-12 text-left md:mt-14">
           <div className="mx-auto w-full max-w-[80rem] px-5 md:px-8">
             <ParallaxDrift>
               <VoiceAgentSimulator />
             </ParallaxDrift>
           </div>
         </Reveal>
-      </section>
+      </Section>
 
-      {/* ── 2 · Pain points ──────────────────────────────────────────────── */}
+      {/* ── 3 · Pain points ──────────────────────────────────────────────── */}
       <Section>
         <Container>
           <SectionHead
@@ -140,7 +179,7 @@ export default function Home() {
         </Container>
       </Section>
 
-      {/* ── 3 · How we solve that ────────────────────────────────────────── */}
+      {/* ── 4 · How we solve that ────────────────────────────────────────── */}
       <Section tone="alt">
         <Container>
           <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-20">
@@ -297,6 +336,6 @@ export default function Home() {
         body="Consistent coverage, reliable intake, and disciplined follow-up, without adding headcount."
         smallPrint="Free 30-minute demo · configured around your call workflows"
       />
-    </>
+    </div>
   );
 }

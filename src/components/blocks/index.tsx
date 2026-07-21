@@ -8,7 +8,7 @@ import {
   ArrowLink,
 } from "@/components/ui/primitives";
 import { BlurTitle, Reveal, Stagger, Item } from "@/components/motion";
-import { RingPulse, PopChip, DrawLineV } from "@/components/motion/entrances";
+import { ParallaxY, PopChip, DrawLineV, RingPulse } from "@/components/motion/entrances";
 import { GlobalNetworkField } from "@/components/motion/GlobalNetworkField";
 import { AudioPlayer } from "@/components/blocks/AudioPlayer";
 import { cn } from "@/lib/cn";
@@ -389,9 +389,12 @@ export function CTABand({
       ) : (
         <div
           aria-hidden
-          className="absolute inset-0 [mask-image:radial-gradient(85%_80%_at_50%_35%,black,transparent)]"
+          className="absolute inset-0 overflow-hidden [mask-image:radial-gradient(85%_80%_at_50%_35%,black,transparent)]"
         >
-          <GlobalNetworkField />
+          {/* Map drifts a plane behind the copy; bleed covers the travel. */}
+          <ParallaxY distance={44} className="absolute inset-x-0 -inset-y-14">
+            <GlobalNetworkField />
+          </ParallaxY>
         </div>
       )}
       <Container className="relative text-center">

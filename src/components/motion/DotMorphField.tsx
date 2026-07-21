@@ -50,9 +50,10 @@ export function DotMorphField({ className }: { className?: string }) {
   const rawProgress = useTransform(scrollY, [0, SCROLL_RANGE], [0, 1], {
     clamp: true,
   });
-  /* Spring-smoothed: wheel scrolling arrives in ~100px steps; the spring turns
-     each step into a gentle glide instead of a snap. */
-  const progress = useSpring(rawProgress, { stiffness: 55, damping: 18, mass: 0.5 });
+  /* Light damper only — Lenis already interpolates the scroll itself, so this
+     spring just softens the residual steps on paths Lenis skips (touch,
+     reduced-Lenis environments) without adding visible trail. */
+  const progress = useSpring(rawProgress, { stiffness: 150, damping: 28, mass: 0.5 });
 
   /* Build the field: grid targets with an inset margin, chaos positions as a
      loose scatter. Rebuilt whenever the canvas resizes. */

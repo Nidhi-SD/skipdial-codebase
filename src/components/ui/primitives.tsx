@@ -218,11 +218,11 @@ export function Logo({
       />
       <span
         className={cn(
-          "font-display text-[19px] font-bold lowercase tracking-tight",
+          "font-display text-[19px] font-bold tracking-tight",
           variant === "color" ? "text-ink" : "text-ink-inverse"
         )}
       >
-        skipdial
+        SkipDial
       </span>
     </span>
   );
