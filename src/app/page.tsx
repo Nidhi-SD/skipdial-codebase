@@ -78,11 +78,13 @@ export default function Home() {
       <FullPageScrollBgCanvas />
 
       {/* ── 1 · Hero section ────────────────────────────────────────────── */}
-      <section className="hero-mesh relative overflow-hidden pb-20 pt-32 md:pb-28 md:pt-36">
-        {/* Ruled grid fading in at the lower edge — depth, not decoration */}
+      <section className="relative overflow-hidden pb-24 pt-32 md:pb-32 md:pt-40">
+        {/* Readability scrim — the scroll canvas runs full-bleed behind the
+            page, so the headline column gets its own soft white falloff to
+            keep copy legible without hiding the animation. */}
         <div
           aria-hidden
-          className="hero-grid pointer-events-none absolute inset-x-0 bottom-0 h-[48%] [mask-image:linear-gradient(to_top,black,transparent)]"
+          className="pointer-events-none absolute inset-0 [background:radial-gradient(72%_68%_at_50%_46%,rgba(255,255,255,0.94)_0%,rgba(255,255,255,0.86)_42%,rgba(255,255,255,0.6)_68%,transparent_88%)]"
         />
 
         <Container className="relative text-center">
