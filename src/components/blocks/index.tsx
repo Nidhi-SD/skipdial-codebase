@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Check, type LucideIcon } from "lucide-react";
+import { Check } from "lucide-react";
 import {
   Container,
   Eyebrow,
@@ -12,7 +12,7 @@ import { ParallaxY, PopChip, DrawLineV, RingPulse } from "@/components/motion/en
 import { GlobalNetworkField } from "@/components/motion/GlobalNetworkField";
 import { AudioPlayer } from "@/components/blocks/AudioPlayer";
 import { cn } from "@/lib/cn";
-import type { ReactNode } from "react";
+import type { ElementType, ReactNode } from "react";
 
 /* ─────────────────────────────────────────────────────────────────────────────
    Shared page blocks — every marketing page composes from these.
@@ -137,7 +137,7 @@ export function Section({
 /* ── IconCardGrid — “what happens on a call” cards ─────────────────────────── */
 
 export type IconCard = {
-  icon: LucideIcon;
+  icon: ElementType;
   title: string;
   body: string;
 };
