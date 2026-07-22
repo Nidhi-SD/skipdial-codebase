@@ -233,8 +233,8 @@ export default function Home() {
       {/* ── 4 · How we solve that ────────────────────────────────────────── */}
       <Section tone="alt">
         <Container>
-          <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-20">
-            <div className="lg:sticky lg:top-28">
+          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+            <div>
               <SectionHead
                 eyebrow="Automate your workflows"
                 title="How We Solve That"

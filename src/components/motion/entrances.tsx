@@ -90,6 +90,38 @@ export function DrawLineV({ className }: { className?: string }) {
   );
 }
 
+/* ── DrawArrow — hand-drawn curved arrow, draws in once on scroll, pointing
+   from the intro copy toward the connected content beside it ─────────────── */
+
+export function DrawArrow({ className }: { className?: string }) {
+  const reduce = useReducedMotion();
+  return (
+    <svg aria-hidden viewBox="0 0 70 140" fill="none" className={className}>
+      <motion.path
+        d="M12 130 C 8 75, 42 60, 58 12"
+        stroke="currentColor"
+        strokeWidth={2.5}
+        strokeLinecap="round"
+        initial={reduce ? false : { pathLength: 0, opacity: 0 }}
+        whileInView={{ pathLength: 1, opacity: 1 }}
+        viewport={viewportOnce}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      />
+      <motion.path
+        d="M45 8 L58 12 L55 25"
+        stroke="currentColor"
+        strokeWidth={2.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        initial={reduce ? false : { opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={viewportOnce}
+        transition={{ duration: 0.25, delay: reduce ? 0 : 0.6 }}
+      />
+    </svg>
+  );
+}
+
 /* ── Magnetic — a few pixels of spring attraction toward the cursor ────────── */
 /* Reserved for the primary CTA. Pointer-fine devices only; inert under
    reduced motion. Pull is capped so it reads as responsiveness, not a toy. */
