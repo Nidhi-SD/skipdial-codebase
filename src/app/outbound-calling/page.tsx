@@ -1,23 +1,9 @@
 import type { Metadata } from "next";
-import {
-  Zap,
-  MessageSquare,
-  Gauge,
-  PhoneForwarded,
-  ClipboardCheck,
-  PhoneMissed,
-  CalendarCheck,
-  RefreshCw,
-  HeartHandshake,
-  Banknote,
-  UserPlus,
-} from "lucide-react";
 import { Container, SectionHead, Button, ArrowLink } from "@/components/ui/primitives";
-import { Reveal, Stagger, Item } from "@/components/motion";
+import { Reveal } from "@/components/motion";
 import {
   PageHero,
   Section,
-  IconCardGrid,
   ChecklistBand,
   NumberedSteps,
   SubCardGrid,
@@ -35,33 +21,7 @@ export const metadata: Metadata = {
     "SkipDial uses AI to automate outbound calls for lead follow-up, appointment confirmations, re-engagement, and retention, with structured workflows and real-time CRM integration.",
 };
 
-const outboundCards = [
-  {
-    icon: Zap,
-    title: "Initiates Calls Based on Defined Triggers",
-    body: "New form submissions, missed calls, CRM stage changes, scheduled reminders, or defined outreach lists.",
-  },
-  {
-    icon: MessageSquare,
-    title: "Engages in Structured Conversation",
-    body: "The AI follows messaging built around your scripts, qualification criteria, and escalation rules.",
-  },
-  {
-    icon: Gauge,
-    title: "Qualifies Interest in Real Time",
-    body: "Prospects are categorized based on urgency, readiness, and intent, with outcomes tagged automatically.",
-  },
-  {
-    icon: PhoneForwarded,
-    title: "Books Appointments or Transfers Live",
-    body: "Interested prospects can schedule immediately or be routed directly to the appropriate team member.",
-  },
-  {
-    icon: ClipboardCheck,
-    title: "Logs Every Outcome Automatically",
-    body: "From no answer or voicemail to qualified lead or appointment booked, every call attempt and result is recorded in your system.",
-  },
-];
+
 
 const included = [
   "Trigger-based Outbound Calls",
@@ -80,14 +40,7 @@ const controlCards = [
   { title: "Escalation Policies", body: "Transfer and handoff rules" },
 ];
 
-const useCases = [
-  { icon: UserPlus, label: "Immediate follow-up on new inbound leads" },
-  { icon: PhoneMissed, label: "Missed-call callbacks" },
-  { icon: CalendarCheck, label: "Appointment confirmations and reminders" },
-  { icon: RefreshCw, label: "Re-engaging older prospects" },
-  { icon: HeartHandshake, label: "Customer retention outreach" },
-  { icon: Banknote, label: "Payment or collections reminders" },
-];
+
 
 const implementationSteps = [
   { title: "Define outbound triggers and target lists" },

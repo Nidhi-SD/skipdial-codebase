@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { cn } from "@/lib/cn";
 import { CalendarClock, History, MessageSquareText, ShieldAlert, ArrowRight } from "lucide-react";
 import { Stagger, Item } from "@/components/motion";
@@ -44,7 +43,7 @@ export function ObjectionFlipCards({ className }: { className?: string }) {
   return (
     <Stagger className={cn("grid gap-5 sm:grid-cols-2", className)}>
       {flipCards.map((card, i) => (
-        <Item key={i} className="group relative h-[220px] w-full" style={{ perspective: "1000px" }}>
+        <Item key={i} className="group relative h-[220px] w-full [perspective:1000px]">
           {/* Inner wrapper for 3D flip */}
           <div className="relative h-full w-full transition-all duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
             

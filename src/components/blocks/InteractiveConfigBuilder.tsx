@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/cn";
-import { Check, Thermometer, Home, Stethoscope, ArrowRight } from "lucide-react";
+import { Thermometer, Home, Stethoscope } from "lucide-react";
 
 const industries = [
   {
@@ -100,18 +100,18 @@ export function InteractiveConfigBuilder({ className }: { className?: string }) 
               <p><span className="text-[#FF7B72]">const</span> <span className="text-[#79C0FF]">agentConfig</span> <span className="text-[#FF7B72]">=</span> {"{"}</p>
               
               <div className="ml-4 mt-2">
-                <p className="text-[#79C0FF]">industry<span className="text-[#FF7B72]">:</span> <span className="text-[#A5D6FF]">"{activeData.label}"</span>,</p>
-                <p className="mt-2 text-[#79C0FF]">tone<span className="text-[#FF7B72]">:</span> <span className="text-[#A5D6FF]">"{activeData.config.tone}"</span>,</p>
+                <p className="text-[#79C0FF]">industry<span className="text-[#FF7B72]">:</span> <span className="text-[#A5D6FF]">&quot;{activeData.label}&quot;</span>,</p>
+                <p className="mt-2 text-[#79C0FF]">tone<span className="text-[#FF7B72]">:</span> <span className="text-[#A5D6FF]">&quot;{activeData.config.tone}&quot;</span>,</p>
                 
                 <p className="mt-2 text-[#79C0FF]">requiredIntake<span className="text-[#FF7B72]">:</span> {"["}</p>
                 <ul className="ml-4 border-l border-[#30363D] pl-3">
                   {activeData.config.questions.map((q, i) => (
-                    <li key={i} className="text-[#A5D6FF]">"{q}"{i < activeData.config.questions.length - 1 ? "," : ""}</li>
+                    <li key={i} className="text-[#A5D6FF]">&quot;{q}&quot;{i < activeData.config.questions.length - 1 ? "," : ""}</li>
                   ))}
                 </ul>
                 <p>{"]"},</p>
 
-                <p className="mt-2 text-[#79C0FF]">routingRule<span className="text-[#FF7B72]">:</span> <span className="text-[#A5D6FF]">"{activeData.config.escalation}"</span></p>
+                <p className="mt-2 text-[#79C0FF]">routingRule<span className="text-[#FF7B72]">:</span> <span className="text-[#A5D6FF]">&quot;{activeData.config.escalation}&quot;</span></p>
               </div>
               
               <p className="mt-2">{"};"}</p>

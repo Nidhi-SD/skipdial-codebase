@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/cn";
 import { PhoneOutgoing, User, Check, X, Voicemail } from "lucide-react";
 
@@ -121,7 +121,7 @@ export function ParallelDialerVisualizer({ className }: { className?: string }) 
                   hasOutcome ? `border-transparent ${hasOutcome.outcome?.bg} text-white scale-110 shadow-sm` : "border-line bg-surface text-ink-light"
                 )}
               >
-                {hasOutcome ? (
+                {hasOutcome && hasOutcome.outcome ? (
                   <hasOutcome.outcome.icon className="h-4 w-4" />
                 ) : (
                   <User className="h-4 w-4" />

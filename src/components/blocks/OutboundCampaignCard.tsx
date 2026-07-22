@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { PhoneOutgoing, CalendarCheck, Voicemail, PhoneForwarded, XCircle } from "lucide-react";
 import { CountUp } from "@/components/motion";
-import { EASE, viewportOnce } from "@/lib/motion";
+import { EASE } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 
 const views = [

@@ -1,19 +1,5 @@
 import type { Metadata } from "next";
-import {
-  PhoneIncoming,
-  MessageSquare,
-  ListChecks,
-  Filter,
-  CalendarCheck,
-  BarChart3,
-  Target,
-  Tags,
-  Database,
-} from "lucide-react";
 import { Container, SectionHead, Button } from "@/components/ui/primitives";
-import { Reveal, Stagger, Item } from "@/components/motion";
-import { RingPulse } from "@/components/motion/entrances";
-import { SpotlightCard } from "@/components/motion/SpotlightCard";
 import {
   PageHero,
   Section,
@@ -32,34 +18,6 @@ export const metadata: Metadata = {
     "SkipDial uses AI agents to answer inbound calls 24/7, qualify leads, capture structured intake data, and sync call insights directly to your CRM and scheduling systems.",
 };
 
-const callCards = [
-  {
-    icon: PhoneIncoming,
-    title: "Answers Immediately",
-    body: "Picked up without hold queues or voicemail deferrals, every time.",
-  },
-  {
-    icon: MessageSquare,
-    title: "Engages in Natural Conversation",
-    body: "Callers speak normally. The AI understands intent without forcing button prompts or menu trees.",
-  },
-  {
-    icon: ListChecks,
-    title: "Follows Your Configured Workflow",
-    body: "Required questions are asked every time. No steps skipped, no fields missed.",
-  },
-  {
-    icon: Filter,
-    title: "Qualifies and Categorizes the Caller",
-    body: "Emergency vs. standard. New lead vs. existing customer. Identified in real time.",
-  },
-  {
-    icon: CalendarCheck,
-    title: "Routes, Books, and Logs Automatically",
-    body: "Calls are transferred, appointments are booked, and outcomes are logged based on your rules.",
-  },
-];
-
 const included = [
   "24/7 Call Answering",
   "Real-Time Lead Qualification",
@@ -69,25 +27,6 @@ const included = [
   "Call Summaries & Logging",
   "After-Hours Coverage",
   "Escalation Rules",
-];
-
-const configCards = [
-  {
-    title: "Call Volume Tracking",
-    body: "See exactly how many calls come in, when, and at what frequency.",
-  },
-  {
-    title: "Lead Qualification Metrics",
-    body: "Understand which callers are qualified and how your lead mix shifts.",
-  },
-  {
-    title: "Outcome Categorization",
-    body: "Every call is labeled as booked, info only, escalated, or after-hours.",
-  },
-  {
-    title: "CRM-Ready Data",
-    body: "Summaries, intake fields, and timestamps sync automatically.",
-  },
 ];
 
 const implementationSteps = [
