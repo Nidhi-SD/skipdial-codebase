@@ -101,11 +101,11 @@ export default function Home() {
             as="h1"
             text="Skip the Dial."
             mutedText="Not the Call."
-            className="hero-title-brand mx-auto mt-6 max-w-4xl text-display-lg text-ink"
+            className="hero-title-brand mx-auto mt-6 max-w-4xl text-display-xl text-ink"
           />
 
           <Reveal variant="fadeUp" delay={0.3}>
-            <p className="mx-auto mt-6 max-w-2xl text-[17px] leading-relaxed text-ink-light">
+            <p className="mx-auto mt-6 max-w-2xl text-pretty text-[19px] leading-relaxed text-ink-light">
               SkipDial deploys AI voice agents that answer inbound calls and
               handle outbound follow-ups 24/7, qualifying leads, booking
               appointments, and syncing every conversation straight into your
@@ -128,7 +128,7 @@ export default function Home() {
 
           {/* Trust line — grounds the promise before the reader scrolls on */}
           <Reveal variant="fadeUp" delay={0.5}>
-            <p className="mt-10 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[13px] font-medium text-ink-light">
+            <p className="mt-10 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[14.5px] font-medium text-ink-light">
               <span className="flex items-center gap-1.5">
                 <span className="pulse-dot relative inline-block h-1.5 w-1.5 rounded-full bg-signal" />
                 Answering calls 24/7/365
