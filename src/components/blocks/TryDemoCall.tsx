@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { EASE } from "@/lib/motion";
 import { cn } from "@/lib/cn";
+import Image from "next/image";
 
 type Status = "idle" | "loading" | "success" | "error";
 
@@ -198,8 +199,8 @@ export function TryDemoCall({
                 />
               </>
             )}
-            <span className="relative flex h-16 w-16 items-center justify-center rounded-full bg-accent text-[22px] font-bold text-ink-inverse shadow-lift">
-              J
+            <span className="relative flex h-16 w-16 items-center justify-center rounded-full bg-accent text-[22px] font-bold text-ink-inverse shadow-lift overflow-hidden">
+              <Image src="/avatars/james.jpeg" alt="James" width={64} height={64} className="object-cover" />
             </span>
             <span
               aria-hidden

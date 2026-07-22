@@ -45,7 +45,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <script
@@ -78,7 +78,7 @@ export default function RootLayout({
       </head>
       {/* Base bg color lives on `body` in globals.css (opaque, not transparent),
           so no bg utility is needed here. */}
-      <body className={`${montserrat.variable} ${jetbrainsMono.variable} font-body text-ink antialiased flex flex-col min-h-screen selection:bg-accent/20`}>
+      <body suppressHydrationWarning className={`${montserrat.variable} ${jetbrainsMono.variable} font-body text-ink antialiased flex flex-col min-h-screen selection:bg-accent/20`}>
         <AuthProvider>
           <SmoothScroll />
           <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:p-4 focus:bg-bg focus:z-50 focus:text-accent focus:font-medium focus:border-b focus:border-r focus:border-line">
