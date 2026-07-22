@@ -76,8 +76,8 @@ export default function RootLayout({
           }}
         />
       </head>
-      {/* No bg utility here: the page-level scroll canvas sits behind the body,
-          so the body must stay transparent for it to show through. */}
+      {/* Base bg color lives on `body` in globals.css (opaque, not transparent),
+          so no bg utility is needed here. */}
       <body className={`${montserrat.variable} ${jetbrainsMono.variable} font-body text-ink antialiased flex flex-col min-h-screen selection:bg-accent/20`}>
         <AuthProvider>
           <SmoothScroll />

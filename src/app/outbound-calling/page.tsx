@@ -26,7 +26,6 @@ import {
   SplitSection,
 } from "@/components/blocks";
 import { OutboundCampaignCard } from "@/components/blocks/OutboundCampaignCard";
-import { FullPageScrollBgCanvas } from "@/components/FullPageScrollBgCanvas";
 
 export const metadata: Metadata = {
   title: "AI Outbound Call Automation & Follow-Up | SkipDial",
@@ -99,9 +98,6 @@ const implementationSteps = [
 export default function OutboundCallingPage() {
   return (
     <>
-      {/* Scroll-driven frame background behind the whole page */}
-      <FullPageScrollBgCanvas />
-
       <PageHero
         eyebrow="Outbound Calling"
         title="AI Outbound Call Automation"

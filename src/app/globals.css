@@ -91,9 +91,12 @@
   }
 
   body {
-    /* Transparent so the fixed scroll-frame canvas (FullPageScrollBgCanvas)
-       shows through from behind the page. */
-    @apply bg-transparent font-body text-ink antialiased;
+    /* Explicit opaque white: this design has no dark theme, so the base
+       layer must not fall through to the browser's dark-mode canvas default
+       on visitors with a dark OS/browser preference. Fixed elements (e.g.
+       the homepage's scroll canvas) still paint above this in normal stacking
+       order, so this doesn't hide anything. */
+    @apply bg-bg font-body text-ink antialiased;
     font-size: 1rem;
     line-height: 1.6;
   }

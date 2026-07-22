@@ -11,11 +11,12 @@ import {
   Database,
 } from "lucide-react";
 import { Container, SectionHead, Button } from "@/components/ui/primitives";
-import { Reveal } from "@/components/motion";
+import { Reveal, Stagger, Item } from "@/components/motion";
+import { RingPulse } from "@/components/motion/entrances";
+import { SpotlightCard } from "@/components/motion/SpotlightCard";
 import {
   PageHero,
   Section,
-  IconCardGrid,
   ChecklistBand,
   NumberedSteps,
   HearItLive,
@@ -23,7 +24,6 @@ import {
   SplitSection,
 } from "@/components/blocks";
 import { InboundRecordCard } from "@/components/blocks/InboundRecordCard";
-import { FullPageScrollBgCanvas } from "@/components/FullPageScrollBgCanvas";
 
 export const metadata: Metadata = {
   title: "AI Inbound Call Handling & Automation | SkipDial",
@@ -100,9 +100,6 @@ const implementationSteps = [
 export default function InboundCallingPage() {
   return (
     <>
-      {/* Scroll-driven frame background behind the whole page */}
-      <FullPageScrollBgCanvas />
-
       <PageHero
         eyebrow="Inbound Calling"
         title="AI Inbound Call Handling That"
@@ -147,7 +144,22 @@ export default function InboundCallingPage() {
             title="What SkipDial Does"
             mutedTitle="When a Call Comes In"
           />
-          <IconCardGrid cards={callCards} columns={3} className="mt-12" />
+          <Stagger className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" as="ul">
+            {callCards.map((card) => (
+              <Item as="li" key={card.title} className="h-full">
+                <SpotlightCard className="flex h-full flex-col rounded-2xl border border-line bg-surface p-6 shadow-soft transition-colors duration-500 hover:border-accent/30 hover:shadow-lift">
+                  <span className="relative flex h-9 w-9 items-center justify-center rounded-lg border border-line bg-accent-tint/50 text-accent transition-colors duration-300 group-hover:border-accent/30 group-hover:bg-accent group-hover:text-ink-inverse">
+                    <RingPulse />
+                    <card.icon aria-hidden className="h-[17px] w-[17px]" />
+                  </span>
+                  <h3 className="mt-4 text-[15.5px] font-semibold leading-snug">{card.title}</h3>
+                  <p className="mt-2 text-[14px] leading-relaxed text-ink-light">
+                    {card.body}
+                  </p>
+                </SpotlightCard>
+              </Item>
+            ))}
+          </Stagger>
         </Container>
       </Section>
 
