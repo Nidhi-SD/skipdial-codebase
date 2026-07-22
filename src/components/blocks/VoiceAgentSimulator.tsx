@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { springPhysics } from "@/lib/motion";
 import { cn } from "@/lib/cn";
+import Image from "next/image";
 
 /* ─────────────────────────────────────────────────────────────────────────────
    VoiceAgentSimulator — deep-dark hero frame replaying a live SkipDial call.
@@ -107,8 +108,8 @@ function GlowRing({ active, reduce }: { active: boolean; reduce: boolean }) {
             }}
           />
         ))}
-      <span className="relative flex h-11 w-11 items-center justify-center rounded-full bg-accent text-[14px] font-bold text-white shadow-[0_0_24px_rgba(105,70,235,0.45)]">
-        G
+      <span className="relative flex h-11 w-11 items-center justify-center rounded-full bg-accent text-[14px] font-bold text-white shadow-[0_0_24px_rgba(105,70,235,0.45)] overflow-hidden">
+        <Image src="/avatars/grace.png" alt="Grace" width={44} height={44} className="object-cover" />
       </span>
     </span>
   );
