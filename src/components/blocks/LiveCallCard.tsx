@@ -135,11 +135,11 @@ export function LiveCallCard({ className }: { className?: string }) {
           </span>
           <div className="min-w-0">
             <p className="truncate text-[13px] font-semibold text-ink">
-              Grace · After-hours intake
+              Grace · After-hours
             </p>
             <p className="flex items-center gap-1 text-[11.5px] text-ink-faint">
-              <PhoneIncoming aria-hidden className="h-3 w-3" />
-              Inbound · HVAC dispatch
+              <PhoneIncoming aria-hidden className="h-3 w-3 shrink-0" />
+              <span className="min-w-0 truncate">Inbound · HVAC</span>
             </p>
           </div>
         </div>
