@@ -19,10 +19,11 @@ import {
   Section,
   ChecklistBand,
   NumberedSteps,
-  HearItLive,
   CTABand,
   SplitSection,
 } from "@/components/blocks";
+import { InboundDecisionTree } from "@/components/blocks/InboundDecisionTree";
+import { InteractiveConfigBuilder } from "@/components/blocks/InteractiveConfigBuilder";
 import { InboundRecordCard } from "@/components/blocks/InboundRecordCard";
 
 export const metadata: Metadata = {
@@ -143,23 +144,12 @@ export default function InboundCallingPage() {
             index="02"
             title="What SkipDial Does"
             mutedTitle="When a Call Comes In"
+            align="center"
+            className="mx-auto"
           />
-          <Stagger className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" as="ul">
-            {callCards.map((card) => (
-              <Item as="li" key={card.title} className="h-full">
-                <SpotlightCard className="flex h-full flex-col rounded-2xl border border-line bg-surface p-6 shadow-soft transition-colors duration-500 hover:border-accent/30 hover:shadow-lift">
-                  <span className="relative flex h-9 w-9 items-center justify-center rounded-lg border border-line bg-accent-tint/50 text-accent transition-colors duration-300 group-hover:border-accent/30 group-hover:bg-accent group-hover:text-ink-inverse">
-                    <RingPulse />
-                    <card.icon aria-hidden className="h-[17px] w-[17px]" />
-                  </span>
-                  <h3 className="mt-4 text-[15.5px] font-semibold leading-snug">{card.title}</h3>
-                  <p className="mt-2 text-[14px] leading-relaxed text-ink-light">
-                    {card.body}
-                  </p>
-                </SpotlightCard>
-              </Item>
-            ))}
-          </Stagger>
+          <div className="mt-12">
+            <InboundDecisionTree />
+          </div>
         </Container>
       </Section>
 
@@ -175,7 +165,6 @@ export default function InboundCallingPage() {
         <InboundRecordCard />
       </SplitSection>
 
-      <HearItLive />
 
       {/* What's included */}
       <Section>
@@ -193,26 +182,7 @@ export default function InboundCallingPage() {
         intro="SkipDial agents are configured using your service offerings, intake requirements, escalation rules, pricing guidelines, and FAQs. You control what the agent says, what it must ask, and when a call transfers to a human. The result is consistent, accurate intake on every call, and structured data ready for your team."
         tone="alt"
       >
-        <div className="grid gap-4 sm:grid-cols-2">
-          {[
-            { icon: BarChart3, ...configCards[0] },
-            { icon: Target, ...configCards[1] },
-            { icon: Tags, ...configCards[2] },
-            { icon: Database, ...configCards[3] },
-          ].map((c, i) => (
-            <Reveal key={c.title} variant="fadeUp" delay={i * 0.08}>
-              <div className="group h-full rounded-2xl border border-line bg-surface p-6 shadow-soft transition-all duration-300 ease-out-expo hover:-translate-y-1 hover:border-accent/25 hover:shadow-lift">
-                <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-accent-tint/50 text-accent transition-colors duration-300 group-hover:bg-accent group-hover:text-ink-inverse">
-                  <c.icon aria-hidden className="h-[18px] w-[18px]" />
-                </span>
-                <h3 className="mt-4 text-[15.5px] font-bold">{c.title}</h3>
-                <p className="mt-1.5 text-[13.5px] leading-relaxed text-ink-light">
-                  {c.body}
-                </p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
+        <InteractiveConfigBuilder />
       </SplitSection>
 
       {/* Implementation */}

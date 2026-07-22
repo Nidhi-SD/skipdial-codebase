@@ -25,6 +25,8 @@ import {
   CTABand,
   SplitSection,
 } from "@/components/blocks";
+import { ParallelDialerVisualizer } from "@/components/blocks/ParallelDialerVisualizer";
+import { ObjectionFlipCards } from "@/components/blocks/ObjectionFlipCards";
 import { OutboundCampaignCard } from "@/components/blocks/OutboundCampaignCard";
 
 export const metadata: Metadata = {
@@ -144,11 +146,12 @@ export default function OutboundCallingPage() {
             Every outbound call follows a configured workflow, not
             improvisation.
           </SectionHead>
-          <IconCardGrid cards={outboundCards} columns={3} className="mt-12" />
+          <div className="mt-12">
+            <ParallelDialerVisualizer />
+          </div>
         </Container>
       </Section>
 
-      {/* Campaign console */}
       <SplitSection
         eyebrow="Full visibility"
         index="03"
@@ -157,7 +160,9 @@ export default function OutboundCallingPage() {
         intro="Outbound only works if you can see it working. Campaigns run at the pace you set, every call is logged under the outcome it actually reached, and connect rates update as the day goes, so you know which lists are worth continuing before the budget is spent."
         link={{ href: "/integrations", label: "See supported integrations" }}
       >
-        <OutboundCampaignCard />
+        <Reveal variant="fadeUp" delay={0.2}>
+          <OutboundCampaignCard />
+        </Reveal>
       </SplitSection>
 
       <HearItLive />
@@ -219,23 +224,7 @@ export default function OutboundCallingPage() {
             Outbound automation ensures response time and follow-up discipline
             don&apos;t depend on staffing bandwidth.
           </SectionHead>
-          <Stagger
-            as="ul"
-            className="mx-auto mt-12 grid max-w-4xl gap-3 sm:grid-cols-2"
-          >
-            {useCases.map((u) => (
-              <Item
-                as="li"
-                key={u.label}
-                className="flex items-center gap-3.5 rounded-2xl border border-line bg-surface p-5 shadow-soft transition-all duration-300 ease-out-expo hover:-translate-y-0.5 hover:border-accent/25 hover:shadow-card"
-              >
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent-tint/60 text-accent">
-                  <u.icon aria-hidden className="h-[18px] w-[18px]" />
-                </span>
-                <span className="text-[15px] font-semibold text-ink">{u.label}</span>
-              </Item>
-            ))}
-          </Stagger>
+          <ObjectionFlipCards className="mx-auto mt-12 max-w-4xl" />
         </Container>
       </Section>
 

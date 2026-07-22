@@ -320,6 +320,14 @@ export function BulletList({
 
 /* ── HearItLive — repeating audio-sample block ─────────────────────────────── */
 
+const sampleTranscript = [
+  { time: 0, speaker: "ai" as const, text: "Hi, this is SkipDial. I'm calling about the property." },
+  { time: 3.5, speaker: "caller" as const, text: "Yes, I was wondering if it's still available." },
+  { time: 6.0, speaker: "ai" as const, text: "It is! Would you like to schedule a viewing for this week?" },
+  { time: 9.2, speaker: "caller" as const, text: "Sure, how about Thursday afternoon?" },
+  { time: 11.5, speaker: "ai" as const, text: "Thursday at 3:00 PM works. I'll send you a calendar invite now." }
+];
+
 export function HearItLive({
   subtext = "Hear how SkipDial handles a real inbound call for your industry.",
   showCta = false,
@@ -336,7 +344,10 @@ export function HearItLive({
           </SectionHead>
           <Reveal variant="expandX">
             <div className="flex flex-col gap-6">
-              <AudioPlayer src="/audio/real-estate-call-recording.wav" />
+              <AudioPlayer 
+                src="/audio/real-estate-call-recording.wav" 
+                transcript={sampleTranscript}
+              />
               {showCta ? (
                 <div>
                   <Button href="/request-a-free-demo" arrow>

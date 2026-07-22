@@ -11,13 +11,21 @@ function fmt(t: number) {
   return `${m}:${String(s).padStart(2, "0")}`;
 }
 
+export type TranscriptLine = {
+  time: number;
+  speaker: "ai" | "caller";
+  text: string;
+};
+
 export function AudioPlayer({
   src,
   label = "Listen to a Sample:",
+  transcript,
   className,
 }: {
   src: string;
   label?: string;
+  transcript?: TranscriptLine[];
   className?: string;
 }) {
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -65,63 +73,101 @@ export function AudioPlayer({
 
   const progress = duration ? (current / duration) * 100 : 0;
 
-  return (
-    <div className={cn("w-full", className)}>
-      <p className="mb-3 text-[13px] font-semibold text-ink-light">
-        {label}
-      </p>
-      <div className="flex items-center gap-4 rounded-2xl border border-line bg-surface p-3 pr-5 shadow-card">
-        <audio ref={audioRef} src={src} preload="metadata" />
-        <button
-          type="button"
-          onClick={toggle}
-          aria-label={playing ? "Pause sample call" : "Play sample call"}
-          className="flex h-12 w-12 shrink-0 cursor-pointer items-center justify-center rounded-full bg-accent text-ink-inverse shadow-card transition-all duration-200 ease-out-expo hover:bg-accent-deep active:scale-95"
-        >
-          {playing ? (
-            <Pause aria-hidden className="h-5 w-5" />
-          ) : (
-            <Play aria-hidden className="ml-0.5 h-5 w-5" />
-          )}
-        </button>
+  // Find active transcript index based on current time
+  const activeLineIndex = transcript
+    ? transcript.findLastIndex((line) => current >= line.time)
+    : -1;
 
-        {/* Ambient bars — animate while playing */}
-        <div aria-hidden className="hidden h-8 items-center gap-[3px] sm:flex">
-          {Array.from({ length: 14 }).map((_, i) => (
-            <span
-              key={i}
-              className={cn(
-                "w-[3px] rounded-full bg-accent/60 transition-transform",
-                playing && "waveform-bar"
-              )}
+  return (
+    <div className={cn("w-full flex flex-col gap-4", className)}>
+      <div>
+        <p className="mb-3 text-[13px] font-semibold text-ink-light">
+          {label}
+        </p>
+        <div className="flex items-center gap-4 rounded-2xl border border-line bg-surface p-3 pr-5 shadow-card">
+          <audio ref={audioRef} src={src} preload="metadata" />
+          <button
+            type="button"
+            onClick={toggle}
+            aria-label={playing ? "Pause sample call" : "Play sample call"}
+            className="flex h-12 w-12 shrink-0 cursor-pointer items-center justify-center rounded-full bg-accent text-ink-inverse shadow-card transition-all duration-200 ease-out-expo hover:bg-accent-deep active:scale-95"
+          >
+            {playing ? (
+              <Pause aria-hidden className="h-5 w-5" />
+            ) : (
+              <Play aria-hidden className="ml-0.5 h-5 w-5" />
+            )}
+          </button>
+
+          {/* Ambient bars — animate while playing */}
+          <div aria-hidden className="hidden h-8 items-center gap-[3px] sm:flex">
+            {Array.from({ length: 14 }).map((_, i) => (
+              <span
+                key={i}
+                className={cn(
+                  "w-[3px] rounded-full bg-accent/60 transition-transform",
+                  playing && "waveform-bar"
+                )}
+                style={{
+                  height: `${35 + ((i * 43) % 55)}%`,
+                  animationDelay: `${(i % 7) * 0.13}s`,
+                  ...(playing ? {} : { transform: "scaleY(0.5)" }),
+                }}
+              />
+            ))}
+          </div>
+
+          <div className="flex flex-1 items-center gap-3">
+            <input
+              type="range"
+              min={0}
+              max={duration || 100}
+              step={0.1}
+              value={current}
+              onChange={seek}
+              aria-label="Seek within sample call"
+              className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-line accent-accent"
               style={{
-                height: `${35 + ((i * 43) % 55)}%`,
-                animationDelay: `${(i % 7) * 0.13}s`,
-                ...(playing ? {} : { transform: "scaleY(0.5)" }),
+                background: `linear-gradient(90deg, var(--accent) ${progress}%, var(--line) ${progress}%)`,
               }}
             />
-          ))}
-        </div>
-
-        <div className="flex flex-1 items-center gap-3">
-          <input
-            type="range"
-            min={0}
-            max={duration || 100}
-            step={0.1}
-            value={current}
-            onChange={seek}
-            aria-label="Seek within sample call"
-            className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-line accent-accent"
-            style={{
-              background: `linear-gradient(90deg, var(--accent) ${progress}%, var(--line) ${progress}%)`,
-            }}
-          />
-          <span className="shrink-0 font-mono text-[12px] tabular-nums text-ink-light">
-            {fmt(current)} / {fmt(duration)}
-          </span>
+            <span className="shrink-0 font-mono text-[12px] tabular-nums text-ink-light">
+              {fmt(current)} / {fmt(duration)}
+            </span>
+          </div>
         </div>
       </div>
+
+      {transcript && transcript.length > 0 && (
+        <div className="rounded-2xl border border-line bg-surface p-4 shadow-soft">
+          <p className="mb-3 font-mono text-[10.5px] font-medium uppercase tracking-[0.18em] text-ink-faint">
+            Live Transcript
+          </p>
+          <div className="flex max-h-[160px] flex-col gap-3 overflow-y-auto scroll-smooth pr-2">
+            {transcript.map((line, i) => (
+              <div
+                key={i}
+                className={cn(
+                  "grid grid-cols-[52px_1fr] gap-2 text-[13px] leading-snug transition-opacity duration-300",
+                  activeLineIndex === i ? "opacity-100" : "opacity-40"
+                )}
+              >
+                <span
+                  className={cn(
+                    "font-mono text-[11px] font-medium",
+                    line.speaker === "ai" ? "text-accent" : "text-ink-faint"
+                  )}
+                >
+                  {line.speaker === "ai" ? "AI" : "Caller"}
+                </span>
+                <span className={activeLineIndex === i ? "text-ink" : "text-ink-light"}>
+                  {line.text}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

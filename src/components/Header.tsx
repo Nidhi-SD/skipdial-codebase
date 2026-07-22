@@ -311,6 +311,12 @@ export function Header() {
       />
     );
 
+  /** Persistent "you are here" pill, distinct from the ephemeral hover pill. */
+  const activePillFor = (isCurrent: boolean) =>
+    isCurrent && (
+      <span aria-hidden className="absolute inset-0 rounded-full bg-accent-tint" />
+    );
+
   return (
     <header
       ref={headerRef}
@@ -346,9 +352,10 @@ export function Header() {
               }}
               className={cn(
                 "relative rounded-full px-3.5 py-2 text-[14px] font-medium transition-colors",
-                isActive(link.href) ? "text-ink" : "text-ink-light hover:text-ink"
+                isActive(link.href) ? "text-accent" : "text-ink-light hover:text-ink"
               )}
             >
+              {activePillFor(isActive(link.href))}
               {hoverPill(link.href)}
               <span className="relative z-10">{link.label}</span>
             </Link>
@@ -378,9 +385,10 @@ export function Header() {
                 }}
                 className={cn(
                   "relative flex cursor-pointer items-center gap-1 rounded-full px-3.5 py-2 text-[14px] font-medium transition-colors",
-                  active || expanded ? "text-ink" : "text-ink-light hover:text-ink"
+                  active ? "text-accent" : expanded ? "text-ink" : "text-ink-light hover:text-ink"
                 )}
               >
+                {activePillFor(active)}
                 {hoverPill(menu.id)}
                 <span className="relative z-10 flex items-center gap-1">
                   {menu.label}
@@ -406,9 +414,10 @@ export function Header() {
               }}
               className={cn(
                 "relative rounded-full px-3.5 py-2 text-[14px] font-medium transition-colors",
-                isActive(link.href) ? "text-ink" : "text-ink-light hover:text-ink"
+                isActive(link.href) ? "text-accent" : "text-ink-light hover:text-ink"
               )}
             >
+              {activePillFor(isActive(link.href))}
               {hoverPill(link.href)}
               <span className="relative z-10">{link.label}</span>
             </Link>
@@ -422,9 +431,10 @@ export function Header() {
             }}
             className={cn(
               "relative rounded-full px-3.5 py-2 text-[14px] font-medium transition-colors",
-              isActive("/blog") ? "text-ink" : "text-ink-light hover:text-ink"
+              isActive("/blog") ? "text-accent" : "text-ink-light hover:text-ink"
             )}
           >
+            {activePillFor(isActive("/blog"))}
             {hoverPill("blog")}
             <span className="relative z-10">Blog</span>
           </Link>
@@ -575,7 +585,7 @@ export function Header() {
                   href={l.href}
                   className={cn(
                     "flex items-center gap-3 rounded-xl px-3 py-2.5 text-[15px] font-medium",
-                    isActive(l.href) ? "bg-accent-tint/60 text-ink" : "text-ink"
+                    isActive(l.href) ? "bg-accent-tint text-accent" : "text-ink"
                   )}
                 >
                   <l.icon aria-hidden className="h-4 w-4 text-accent" />
@@ -601,7 +611,7 @@ export function Header() {
                 href="/blog"
                 className={cn(
                   "mt-2 rounded-xl px-3 py-3 text-[16px] font-semibold",
-                  isActive("/blog") ? "bg-accent-tint/60 text-ink" : "text-ink"
+                  isActive("/blog") ? "bg-accent-tint text-accent" : "text-ink"
                 )}
               >
                 Blog

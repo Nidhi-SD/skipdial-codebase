@@ -13,7 +13,8 @@
 @layer base {
   :root {
     /* Backgrounds */
-    --bg: #ffffff;
+    --bg: #fbfaff; /* Faint lavender-white so flat page bands don't read stark
+                      next to the homepage's tinted scroll canvas. */
     --surface: #ffffff;
     --surface-alt: #fafafa; /* Hairline-gray panel used for framed sub-grids */
     --wash: #f7f5ff; /* Barely-purple wash for hero/product frames */
@@ -48,7 +49,7 @@
     --band-dark-line: #e6e0f7;
 
     /* RGB mirrors for Tailwind slash-opacity (bg-line/60 etc.) */
-    --bg-rgb: 255 255 255;
+    --bg-rgb: 251 250 255;
     --surface-rgb: 255 255 255;
     --surface-alt-rgb: 250 250 250;
     --wash-rgb: 247 245 255;
