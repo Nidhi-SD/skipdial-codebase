@@ -93,22 +93,23 @@ export default function Home() {
               <span className="rounded-full bg-accent px-2.5 py-0.5 text-[11px] font-semibold text-ink-inverse">
                 24/7
               </span>
-              Autonomous voice agents, always on
+              Autonomous voice agents for inbound &amp; outbound
             </span>
           </Reveal>
 
           <BlurTitle
             as="h1"
-            text="Never Miss a Customer Call Again."
-            mutedText="Powered by Autonomous AI Agents."
+            text="Skip the Dial."
+            mutedText="Not the Call."
             className="hero-title-brand mx-auto mt-6 max-w-4xl text-display-lg text-ink"
           />
 
           <Reveal variant="fadeUp" delay={0.3}>
             <p className="mx-auto mt-6 max-w-2xl text-[17px] leading-relaxed text-ink-light">
-              SkipDial deploys AI phone agents that answer inbound calls 24/7,
-              qualify incoming leads, schedule appointments, and sync structured
-              call data straight into your CRM.
+              SkipDial deploys AI voice agents that answer inbound calls and
+              handle outbound follow-ups 24/7, qualifying leads, booking
+              appointments, and syncing every conversation straight into your
+              CRM and existing workflows.
             </p>
           </Reveal>
 
@@ -134,11 +135,11 @@ export default function Home() {
               </span>
               <span className="flex items-center gap-1.5">
                 <span aria-hidden className="h-1 w-1 rounded-full bg-line-strong" />
-                Live in under 2 weeks
+                Inbound + outbound in one agent
               </span>
               <span className="flex items-center gap-1.5">
                 <span aria-hidden className="h-1 w-1 rounded-full bg-line-strong" />
-                Works with your phone system
+                Syncs to your CRM automatically
               </span>
             </p>
           </Reveal>
