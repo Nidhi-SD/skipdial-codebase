@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ElementType, type SVGProps } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
-  CheckCircle2,
   Calendar,
   MessageSquare,
   PhoneIncoming,
@@ -15,6 +14,26 @@ import { cn } from "@/lib/cn";
    Direction A hero). Transcript lines stream in; queued actions land as the
    agent works. Loops forever; renders fully static under reduced motion. */
 
+function CapturedIssueIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <rect x="4" y="5" width="13" height="10" rx="2.2" />
+      <circle cx="7.5" cy="8.6" r="1" fill="currentColor" stroke="none" />
+      <circle cx="17.3" cy="15.3" r="4.1" fill="currentColor" stroke="none" />
+      <polyline points="15.5,15.4 16.7,16.5 19.1,14" stroke="white" strokeWidth={1.5} />
+    </svg>
+  );
+}
+
+function VerifiedAddressIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.7} strokeLinejoin="round" strokeLinecap="round" {...props}>
+      <path d="M12 21C12 21 18.5 14.7 18.5 9.4A6.5 6.5 0 1 0 5.5 9.4C5.5 14.7 12 21 12 21Z" />
+      <polyline points="9.1,9.6 11.1,11.6 15,7.3" />
+    </svg>
+  );
+}
+
 const transcript = [
   { who: "grace", text: "Phoenix HVAC, this is Grace. What's going on tonight?" },
   { who: "caller", text: "Hey, my furnace just died. House is dropping fast and we've got a baby." },
@@ -23,12 +42,22 @@ const transcript = [
   { who: "grace", text: "Thanks. Marco's on call tonight, he can be there by 8:45. Does that work?" },
 ] as const;
 
-const actions = [
-  { afterLine: 2, icon: CheckCircle2, title: "Captured issue", meta: "Furnace failure · urgent", tone: "signal" },
-  { afterLine: 4, icon: CheckCircle2, title: "Verified address", meta: "4218 Camelback Rd", tone: "signal" },
-  { afterLine: 5, icon: Calendar, title: "Dispatching", meta: "Marco · ETA 8:45 PM", tone: "accent" },
-  { afterLine: 5, icon: MessageSquare, title: "Text confirmation", meta: "(602) 555-0117", tone: "accent", extraDelay: 900 },
-] as const;
+type ActionItem = {
+  afterLine: number;
+  icon: ElementType;
+  title: string;
+  meta: string;
+  tone: "signal" | "accent";
+  variant: "badge" | "bare";
+  extraDelay?: number;
+};
+
+const actions: ActionItem[] = [
+  { afterLine: 2, icon: CapturedIssueIcon, title: "Captured issue", meta: "Furnace failure · urgent", tone: "signal", variant: "badge" },
+  { afterLine: 4, icon: VerifiedAddressIcon, title: "Verified address", meta: "4218 Camelback Rd", tone: "signal", variant: "badge" },
+  { afterLine: 5, icon: Calendar, title: "Dispatching", meta: "Marco · ETA 8:45 PM", tone: "accent", variant: "bare" },
+  { afterLine: 5, icon: MessageSquare, title: "Text confirmation", meta: "(602) 555-0117", tone: "accent", variant: "bare", extraDelay: 900 },
+];
 
 const LINE_INTERVAL = 1700;
 const LOOP_HOLD = 4200;
@@ -96,8 +125,13 @@ export function LiveCallCard({ className }: { className?: string }) {
         </div>
 
         <div className="mt-4 flex items-center gap-2.5">
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-accent text-[13px] font-bold text-ink-inverse">
-            G
+          <span className="relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-accent-tint">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/avatars/grace.png"
+              alt=""
+              className="h-full w-full origin-[50%_32%] scale-[1.6] object-cover"
+            />
           </span>
           <div className="min-w-0">
             <p className="truncate text-[13px] font-semibold text-ink">
@@ -193,13 +227,26 @@ export function LiveCallCard({ className }: { className?: string }) {
                   }}
                   className="flex items-start gap-2.5 rounded-lg border border-line bg-surface px-3 py-2.5 shadow-soft"
                 >
-                  <a.icon
-                    aria-hidden
-                    className={cn(
-                      "mt-0.5 h-4 w-4 shrink-0",
-                      a.tone === "signal" ? "text-signal" : "text-accent"
-                    )}
-                  />
+                  {a.variant === "badge" ? (
+                    <span
+                      className={cn(
+                        "flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-[7px] border",
+                        a.tone === "signal"
+                          ? "border-signal/25 bg-signal/10 text-signal"
+                          : "border-accent/25 bg-accent/10 text-accent"
+                      )}
+                    >
+                      <a.icon aria-hidden className="h-4 w-4" />
+                    </span>
+                  ) : (
+                    <a.icon
+                      aria-hidden
+                      className={cn(
+                        "mt-0.5 h-4 w-4 shrink-0",
+                        a.tone === "signal" ? "text-signal" : "text-accent"
+                      )}
+                    />
+                  )}
                   <div className="min-w-0">
                     <p className="text-[12.5px] font-semibold leading-tight text-ink">
                       {a.title}
