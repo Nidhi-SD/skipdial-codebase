@@ -8,10 +8,12 @@ import {
   Clock,
   Workflow,
   ShieldCheck,
+  Sparkles,
 } from "lucide-react";
 import { Container, SectionHead, Button } from "@/components/ui/primitives";
 import { Reveal, Stagger, Item } from "@/components/motion";
-import { PageHero, Section, BulletList } from "@/components/blocks";
+import { PageHero, Section, BulletList, SplitSection } from "@/components/blocks";
+import { TryDemoCall } from "@/components/blocks/TryDemoCall";
 
 export const metadata: Metadata = {
   title: "Request an AI Call Automation Demo | SkipDial",
@@ -165,6 +167,36 @@ export default function RequestDemoPage() {
           </div>
         </Container>
       </Section>
+
+      <SplitSection
+        tone="alt"
+        eyebrow="Try it now"
+        title="Try It for"
+        mutedTitle="Yourself"
+        intro={
+          <>
+            <p className="mt-4 text-[15px] leading-relaxed text-ink-light">
+              Pick your industry and language, then get a live demonstration call. Hear how structured intake, appointment booking, and call routing work in a real interaction.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              {[
+                "Structured intake",
+                "Appointment booking",
+                "Call routing"
+              ].map((feature) => (
+                <div key={feature} className="flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 text-[13px] font-semibold text-ink shadow-sm">
+                  <Sparkles className="h-3.5 w-3.5 text-accent" />
+                  {feature}
+                </div>
+              ))}
+            </div>
+          </>
+        }
+      >
+        <Reveal variant="fadeUp" delay={0.1}>
+          <TryDemoCall />
+        </Reveal>
+      </SplitSection>
     </>
   );
 }
