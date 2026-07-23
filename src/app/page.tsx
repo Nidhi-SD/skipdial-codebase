@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import type { SVGProps } from "react";
-import { Sparkles } from "lucide-react";
+import type { CSSProperties, SVGProps } from "react";
+import { ChevronDown, Sparkles } from "lucide-react";
 import { Container, SectionHead, Button, Eyebrow } from "@/components/ui/primitives";
 import { BlurTitle, Reveal, Stagger, Item } from "@/components/motion";
 import { CallArrivalFrame, Magnetic, ParallaxDrift } from "@/components/motion/entrances";
@@ -119,8 +119,9 @@ export default function Home() {
       {/* Scroll-driven frame background behind the whole page */}
       <FullPageScrollBgCanvas />
 
-      {/* ── 1 · Hero section ────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden pb-24 pt-32 md:pb-32 md:pt-40">
+      {/* ── 1 · Hero section — fills the viewport on load; the next section
+             only reveals itself once the user scrolls ───────────────────── */}
+      <section className="relative flex min-h-dvh flex-col overflow-hidden pt-24 pb-10 md:pt-28 md:pb-14">
         {/* Readability scrim — the scroll canvas runs full-bleed behind the
             page, so the headline column gets its own soft white falloff to
             keep copy legible without hiding the animation. */}
@@ -129,7 +130,7 @@ export default function Home() {
           className="pointer-events-none absolute inset-0 [background:radial-gradient(72%_68%_at_50%_46%,rgba(255,255,255,0.94)_0%,rgba(255,255,255,0.86)_42%,rgba(255,255,255,0.6)_68%,transparent_88%)]"
         />
 
-        <Container className="relative text-center">
+        <Container className="relative flex flex-1 flex-col items-center justify-center text-center">
           <Reveal variant="fadeUp">
             <span className="inline-flex items-center gap-2 rounded-full border border-line bg-surface/80 py-1 pl-1 pr-3.5 text-[13px] font-medium text-ink-light backdrop-blur-sm">
               <span className="rounded-full bg-accent px-2.5 py-0.5 text-[11px] font-semibold text-ink-inverse">
@@ -148,10 +149,8 @@ export default function Home() {
 
           <Reveal variant="fadeUp" delay={0.3}>
             <p className="mx-auto mt-6 max-w-2xl text-pretty text-[19px] leading-relaxed text-ink-light">
-              SkipDial deploys AI voice agents that answer inbound calls and
-              handle outbound follow-ups 24/7, qualifying leads, booking
-              appointments, and syncing every conversation straight into your
-              CRM and existing workflows.
+              AI voice agents that answer calls, qualify leads, book
+              appointments, and sync your CRM. Around the clock.
             </p>
           </Reveal>
 
@@ -168,24 +167,51 @@ export default function Home() {
             </div>
           </Reveal>
 
-          {/* Trust line — grounds the promise before the reader scrolls on */}
+          {/* Trust line — grounds the promise before the reader scrolls on.
+              Each dot breathes on its own offset so the row reads as a live
+              system rather than a synced, mechanical blink. */}
           <Reveal variant="fadeUp" delay={0.5}>
-            <p className="mt-10 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[14.5px] font-medium text-ink-light">
-              <span className="flex items-center gap-1.5">
-                <span className="pulse-dot relative inline-block h-1.5 w-1.5 rounded-full bg-signal" />
-                Answering calls 24/7/365
+            <p className="mt-10 flex flex-wrap items-center justify-center gap-x-5 gap-y-2.5 text-[14.5px] font-medium">
+              <span className="flex items-center gap-2">
+                <span
+                  aria-hidden
+                  className="trust-dot trust-dot--accent inline-block h-2 w-2 rounded-full bg-accent"
+                />
+                <span className="trust-shimmer">Answering calls 24/7/365</span>
               </span>
-              <span className="flex items-center gap-1.5">
-                <span aria-hidden className="h-1 w-1 rounded-full bg-line-strong" />
-                Inbound + outbound in one agent
+              <span
+                className="flex items-center gap-2"
+                style={{ "--pulse-delay": "0.8s" } as CSSProperties}
+              >
+                <span
+                  aria-hidden
+                  className="trust-dot trust-dot--accent inline-block h-2 w-2 rounded-full bg-accent"
+                />
+                <span className="trust-shimmer">Inbound + outbound in one agent</span>
               </span>
-              <span className="flex items-center gap-1.5">
-                <span aria-hidden className="h-1 w-1 rounded-full bg-line-strong" />
-                Syncs to your CRM automatically
+              <span
+                className="flex items-center gap-2"
+                style={{ "--pulse-delay": "1.6s" } as CSSProperties}
+              >
+                <span
+                  aria-hidden
+                  className="trust-dot trust-dot--accent inline-block h-2 w-2 rounded-full bg-accent"
+                />
+                <span className="trust-shimmer">Syncs to your CRM automatically</span>
               </span>
             </p>
           </Reveal>
         </Container>
+
+        {/* Scroll cue — signals there's more below and doubles as a
+            smooth-scroll shortcut into the next section. */}
+        <a
+          href="#live-call"
+          aria-label="Scroll to next section"
+          className="scroll-hint absolute bottom-5 left-1/2 z-10 -translate-x-1/2 text-ink-light transition-colors hover:text-ink md:bottom-8"
+        >
+          <ChevronDown aria-hidden className="h-5 w-5" />
+        </a>
       </section>
 
       {/* ── 2 · Live call simulator — its own showcase, fully in frame ───── */}

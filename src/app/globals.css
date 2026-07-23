@@ -21,8 +21,8 @@
 
     /* Text */
     --ink: #131316; /* Near-black headings */
-    --ink-light: #5f5f6b; /* Secondary copy */
-    --ink-faint: #9b9ba6; /* Tertiary/meta text */
+    --ink-light: #46464f; /* Secondary copy — ~9:1 contrast on white (was #5f5f6b, ~6.3:1 but read weak against tinted/scrim surfaces) */
+    --ink-faint: #74747f; /* Tertiary/meta text — ~4.6:1 contrast on white (was #9b9ba6, ~2.75:1, failed AA) */
     --ink-inverse: #ffffff;
 
     /* Brand accents */
@@ -54,8 +54,8 @@
     --surface-alt-rgb: 250 250 250;
     --wash-rgb: 247 245 255;
     --ink-rgb: 19 19 22;
-    --ink-light-rgb: 95 95 107;
-    --ink-faint-rgb: 155 155 166;
+    --ink-light-rgb: 70 70 79;
+    --ink-faint-rgb: 116 116 127;
     --ink-inverse-rgb: 255 255 255;
     --accent-rgb: 105 70 235;
     --accent-deep-rgb: 92 73 151;
@@ -453,6 +453,45 @@ html.lenis iframe {
   animation: softPulse 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
+/* Hero trust-line indicators — glowing orb + the same seamless breathing
+   pulse as .pulse-dot, kept as its own class so it never touches the
+   live-status dot used elsewhere in call-simulation UI. Each instance can
+   set --pulse-delay so the row breathes asynchronously, like an active
+   system, rather than blinking in lockstep. */
+.trust-dot {
+  position: relative;
+}
+.trust-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: inherit;
+  animation: softPulse 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  animation-delay: var(--pulse-delay, 0s);
+}
+.trust-dot--accent {
+  box-shadow:
+    0 0 0 3px rgb(var(--accent-rgb) / 0.15),
+    0 0 8px -1px rgb(var(--accent-rgb) / 0.5);
+}
+
+/* Hero scroll cue — gentle downward nudge hinting at more content below */
+@keyframes scrollHint {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+}
+.scroll-hint {
+  animation: scrollHint 2s ease-in-out infinite;
+}
+
 /* "AI thinking" shimmer sweep across placeholder text */
 @keyframes shimmer {
   0% {
@@ -474,6 +513,26 @@ html.lenis iframe {
   background-clip: text;
   color: transparent;
   animation: shimmer 2.2s linear infinite;
+}
+
+/* Hero trust-line text — a slow, quiet light sweep through otherwise-static
+   copy. Shares the shimmer keyframe above but reads from the (now darkened)
+   ink-light stop so legibility never dips below the resting color, and each
+   phrase can inherit --pulse-delay from its row to breathe in time with its
+   dot. */
+.trust-shimmer {
+  background-image: linear-gradient(
+    100deg,
+    var(--ink-light) 42%,
+    var(--accent) 50%,
+    var(--ink-light) 58%
+  );
+  background-size: 240% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 3.4s ease-in-out infinite;
+  animation-delay: var(--pulse-delay, 0s);
 }
 
 /* Infinite logo marquee — duplicated track translates -50% */
@@ -556,7 +615,10 @@ html.lenis iframe {
   }
   .waveform-bar,
   .pulse-dot::after,
+  .trust-dot::after,
+  .scroll-hint,
   .shimmer-text,
+  .trust-shimmer,
   .marquee-track,
   .floaty,
   .floaty-drift,
@@ -572,6 +634,9 @@ html.lenis iframe {
   }
   .shimmer-text {
     color: var(--ink-faint);
+  }
+  .trust-shimmer {
+    color: var(--ink-light);
   }
   /* Static fallbacks: show the finished state, hide transient chrome */
   .wf-status-completed {

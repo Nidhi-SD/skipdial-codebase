@@ -203,9 +203,11 @@ export function ArrowLink({
 
 export function Logo({
   variant = "color",
+  size = "md",
   className,
 }: {
   variant?: "color" | "white";
+  size?: "md" | "lg";
   className?: string;
 }) {
   return (
@@ -214,11 +216,12 @@ export function Logo({
       <img
         src={variant === "color" ? "/logos/skipdial-symbol-color.svg" : "/logos/skipdial-symbol-white.svg"}
         alt=""
-        className="h-8 w-8"
+        className={size === "lg" ? "h-9 w-9" : "h-8 w-8"}
       />
       <span
         className={cn(
-          "font-display text-[19px] font-bold tracking-tight",
+          "font-display font-bold tracking-tight",
+          size === "lg" ? "text-[21px]" : "text-[19px]",
           variant === "color" ? "text-ink" : "text-ink-inverse"
         )}
       >

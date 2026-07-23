@@ -327,9 +327,9 @@ export function Header() {
           : "border-b border-transparent bg-transparent"
       )}
     >
-      <Container className="flex h-16 items-center justify-between gap-4">
+      <Container className="flex h-20 items-center justify-between gap-4">
         <Link href="/" aria-label="SkipDial home" className="shrink-0">
-          <Logo />
+          <Logo size="lg" />
         </Link>
 
         {/* Desktop nav */}
@@ -351,7 +351,7 @@ export function Header() {
                 forceClose();
               }}
               className={cn(
-                "relative rounded-full px-3.5 py-2 text-[14px] font-medium transition-colors",
+                "relative rounded-full px-4 py-2.5 text-[15px] font-medium transition-colors",
                 isActive(link.href) ? "text-accent" : "text-ink-light hover:text-ink"
               )}
             >
@@ -384,7 +384,7 @@ export function Header() {
                   openMenu(menu.id);
                 }}
                 className={cn(
-                  "relative flex cursor-pointer items-center gap-1 rounded-full px-3.5 py-2 text-[14px] font-medium transition-colors",
+                  "relative flex cursor-pointer items-center gap-1 rounded-full px-4 py-2.5 text-[15px] font-medium transition-colors",
                   active ? "text-accent" : expanded ? "text-ink" : "text-ink-light hover:text-ink"
                 )}
               >
@@ -413,7 +413,7 @@ export function Header() {
                 forceClose();
               }}
               className={cn(
-                "relative rounded-full px-3.5 py-2 text-[14px] font-medium transition-colors",
+                "relative rounded-full px-4 py-2.5 text-[15px] font-medium transition-colors",
                 isActive(link.href) ? "text-accent" : "text-ink-light hover:text-ink"
               )}
             >
@@ -430,7 +430,7 @@ export function Header() {
               scheduleClose();
             }}
             className={cn(
-              "relative rounded-full px-3.5 py-2 text-[14px] font-medium transition-colors",
+              "relative rounded-full px-4 py-2.5 text-[15px] font-medium transition-colors",
               isActive("/blog") ? "text-accent" : "text-ink-light hover:text-ink"
             )}
           >
@@ -492,7 +492,7 @@ export function Header() {
 
         {/* Right actions */}
         <div className="hidden items-center gap-2 lg:flex">
-          <Button href="/request-a-free-demo" size="sm" arrow>
+          <Button href="/request-a-free-demo" size="md" arrow>
             Free Demo
           </Button>
 
@@ -503,7 +503,7 @@ export function Header() {
                 onClick={() => setProfileOpen((v) => !v)}
                 aria-label="Account menu"
                 aria-expanded={profileOpen}
-                className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-accent-tint text-[13px] font-bold text-accent transition-shadow hover:shadow-card"
+                className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-accent-tint text-[14px] font-bold text-accent transition-shadow hover:shadow-card"
               >
                 {(session.user.name || session.user.email || "?")
                   .charAt(0)
@@ -541,7 +541,7 @@ export function Header() {
           ) : (
             <Link
               href="/login"
-              className="rounded-full px-3.5 py-2 text-[14px] font-medium text-ink-light transition-colors hover:text-ink"
+              className="rounded-full px-4 py-2.5 text-[15px] font-medium text-ink-light transition-colors hover:text-ink"
             >
               Login
             </Link>
@@ -575,7 +575,7 @@ export function Header() {
             transition={{ duration: 0.3, ease: EASE }}
             className="overflow-hidden border-t border-line bg-bg lg:hidden"
           >
-            <Container className="flex max-h-[calc(100dvh-4rem)] flex-col gap-1 overflow-y-auto py-5">
+            <Container className="flex max-h-[calc(100dvh-5rem)] flex-col gap-1 overflow-y-auto py-5">
               <p className="px-3 text-[12px] font-semibold text-ink-faint">
                 Product
               </p>
