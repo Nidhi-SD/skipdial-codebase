@@ -99,7 +99,7 @@ export function SectionHead({
           <div
             className={cn(
               "mt-4 max-w-copy text-[16px] leading-relaxed",
-              tone === "dark" ? "text-ink-inverse/70" : "text-ink-light",
+              tone === "dark" ? "text-ink-inverse/70" : "text-ink font-medium",
               align === "center" && "mx-auto"
             )}
           >

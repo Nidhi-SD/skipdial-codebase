@@ -215,7 +215,7 @@ export function WorkflowBeam({ className }: { className?: string }) {
         <WorkflowNode
           icon={Database}
           title="CRM Sync & Lead Qualified"
-          meta="Record created · follow-up queued"
+          meta="Record created · follow up queued"
         >
           <span className="mt-2 inline-flex items-center gap-1 rounded-md bg-signal/15 px-2 py-0.5 text-[11px] font-semibold text-signal">
             <Check aria-hidden className="h-3 w-3" strokeWidth={3} />

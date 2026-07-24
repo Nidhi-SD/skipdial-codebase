@@ -81,12 +81,12 @@ const painCards = [
   {
     icon: UncapturedDemandIcon,
     title: "Limited Office Hours = Uncaptured Demand",
-    body: "Callers don't wait for business hours. After-hours voicemail is where high-intent leads go cold.",
+    body: "Callers don't wait for business hours. After hours voicemail is where high intent leads go cold.",
   },
   {
     icon: PoorVisibilityIcon,
     title: "Manual Call Notes = Poor Visibility",
-    body: "Sticky notes and memory aren't reporting. Without structured data, follow-up discipline breaks down.",
+    body: "Sticky notes and memory aren't reporting. Without structured data, follow up discipline breaks down.",
   },
 ];
 
@@ -149,8 +149,7 @@ export default function Home() {
 
           <Reveal variant="fadeUp" delay={0.3}>
             <p className="mx-auto mt-6 max-w-2xl text-pretty text-[19px] leading-relaxed text-ink-light">
-              AI voice agents that answer calls, qualify leads, book
-              appointments, and sync your CRM. Around the clock.
+              AI voice agents that answer calls, book appointments, and sync your CRM 24/7.
             </p>
           </Reveal>
 
@@ -167,39 +166,22 @@ export default function Home() {
             </div>
           </Reveal>
 
-          {/* Trust line — grounds the promise before the reader scrolls on.
-              Each dot breathes on its own offset so the row reads as a live
-              system rather than a synced, mechanical blink. */}
+          {/* Trust line — unified style, concise copy */}
           <Reveal variant="fadeUp" delay={0.5}>
-            <p className="mt-10 flex flex-wrap items-center justify-center gap-x-5 gap-y-2.5 text-[14.5px] font-medium">
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2.5 text-[14.5px] font-medium text-ink-light">
               <span className="flex items-center gap-2">
-                <span
-                  aria-hidden
-                  className="trust-dot trust-dot--accent inline-block h-2 w-2 rounded-full bg-accent"
-                />
+                <svg className="h-4 w-4 text-accent/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
                 <span className="trust-shimmer">Answering calls 24/7/365</span>
               </span>
-              <span
-                className="flex items-center gap-2"
-                style={{ "--pulse-delay": "0.8s" } as CSSProperties}
-              >
-                <span
-                  aria-hidden
-                  className="trust-dot trust-dot--accent inline-block h-2 w-2 rounded-full bg-accent"
-                />
+              <span className="flex items-center gap-2" style={{ "--pulse-delay": "0.8s" } as CSSProperties}>
+                <svg className="h-4 w-4 text-accent/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
                 <span className="trust-shimmer">Inbound + outbound in one agent</span>
               </span>
-              <span
-                className="flex items-center gap-2"
-                style={{ "--pulse-delay": "1.6s" } as CSSProperties}
-              >
-                <span
-                  aria-hidden
-                  className="trust-dot trust-dot--accent inline-block h-2 w-2 rounded-full bg-accent"
-                />
+              <span className="flex items-center gap-2" style={{ "--pulse-delay": "1.6s" } as CSSProperties}>
+                <svg className="h-4 w-4 text-accent/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
                 <span className="trust-shimmer">Syncs to your CRM automatically</span>
               </span>
-            </p>
+            </div>
           </Reveal>
         </Container>
 
@@ -224,9 +206,9 @@ export default function Home() {
             align="center"
             className="mx-auto"
           >
-            This is an after-hours HVAC emergency. Grace answers on the first
+            This is an after hours HVAC emergency. Grace answers on the first
             ring, captures the issue, verifies the address, and dispatches a
-            technician — while the caller is still on the line.
+            technician while the caller is still on the line.
           </SectionHead>
         </Container>
 
@@ -248,8 +230,8 @@ export default function Home() {
             title="Missed Calls Are Costing You"
             mutedTitle="More Than You Think"
           >
-            Revenue doesn&apos;t disappear all at once. It leaks out quietly
-            — a ring that went one too long, a voicemail returned a day late,
+            Revenue doesn't disappear all at once. It leaks out quietly.
+            A ring that went one too long, a voicemail returned a day late,
             a detail nobody wrote down.
           </SectionHead>
           <IconCardGrid cards={painCards} columns={4} className="mt-12" />
@@ -298,10 +280,10 @@ export default function Home() {
                 className="mt-8"
                 items={[
                   "24/7 Call Answering",
-                  "Real-Time Lead Qualification",
-                  "CRM Sync & Follow-Up",
-                  "Multi-Language Support",
-                  "Built for High-Volume Call Teams",
+                  "Real Time Lead Qualification",
+                  "CRM Sync & Follow Up",
+                  "Multi Language Support",
+                  "Built for High Volume Call Teams",
                 ]}
               />
             </div>
@@ -410,8 +392,8 @@ export default function Home() {
       <CTABand
         title="The next call your business misses"
         mutedTitle="will cost you a customer."
-        body="Consistent coverage, reliable intake, and disciplined follow-up, without adding headcount."
-        smallPrint="Free 30-minute demo · configured around your call workflows"
+        body="Consistent coverage, reliable intake, and disciplined follow up, without adding headcount."
+        smallPrint="Free 30 minute demo · configured around your call workflows"
       />
     </>
   );
