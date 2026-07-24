@@ -16,9 +16,14 @@ import { CallPipelineConsole } from "@/components/blocks/CallPipelineConsole";
 import { FeatureBento } from "@/components/blocks/FeatureBento";
 import { ProductTabs } from "@/components/blocks/ProductTabs";
 import { DashboardCard } from "@/components/blocks/DashboardCard";
-import { FullPageScrollBgCanvas } from "@/components/FullPageScrollBgCanvas";
 import { AudioPlayer } from "@/components/blocks/AudioPlayer";
 import { TryDemoCall } from "@/components/blocks/TryDemoCall";
+import {
+  MissedRevenueIcon,
+  FrontDeskIcon,
+  OfficeHoursIcon,
+  PoorVisibilityIcon,
+} from "@/components/blocks/PainPointIcons";
 
 export const metadata: Metadata = {
   title: "AI Call Agents for Inbound and Outbound Calls | SkipDial",
@@ -28,22 +33,22 @@ export const metadata: Metadata = {
 
 const painCards = [
   {
-    icon: PhoneOff,
+    icon: MissedRevenueIcon,
     title: "Missed Calls = Lost Revenue",
     body: "Every unanswered ring is a customer choosing the next provider on their list. Demand existed. It just went unmet.",
   },
   {
-    icon: Users,
+    icon: FrontDeskIcon,
     title: "Front Desk Bottlenecks = Inconsistent Intake",
     body: "Intake quality shouldn't depend on who picks up. Busy staff skip questions, and details slip through.",
   },
   {
-    icon: Clock,
+    icon: OfficeHoursIcon,
     title: "Limited Office Hours = Uncaptured Demand",
     body: "Callers don't wait for business hours. After hours voicemail is where high intent leads go cold.",
   },
   {
-    icon: EyeOff,
+    icon: PoorVisibilityIcon,
     title: "Manual Call Notes = Poor Visibility",
     body: "Sticky notes and memory aren't reporting. Without structured data, follow up discipline breaks down.",
   },
@@ -75,9 +80,6 @@ const solveSteps = [
 export default function Home() {
   return (
     <>
-      {/* Scroll-driven frame background behind the whole page */}
-      <FullPageScrollBgCanvas />
-
       {/* ── 1 · Hero section — fills the viewport on load; the next section
              only reveals itself once the user scrolls ───────────────────── */}
       <section className="relative flex min-h-dvh flex-col overflow-hidden pt-24 pb-10 md:pt-28 md:pb-14">
@@ -182,7 +184,7 @@ export default function Home() {
       </Section>
 
       {/* ── 3 · Pain points ──────────────────────────────────────────────── */}
-      <Section>
+      <Section id="problem">
         <Container>
           <SectionHead
             eyebrow="The problem"
@@ -193,7 +195,7 @@ export default function Home() {
             A ring that went one too long, a voicemail returned a day late,
             a detail nobody wrote down.
           </SectionHead>
-          <IconCardGrid cards={painCards} columns={4} className="mt-12" />
+          <IconCardGrid cards={painCards} columns={4} iconSize="lg" className="mt-12" />
         </Container>
       </Section>
 

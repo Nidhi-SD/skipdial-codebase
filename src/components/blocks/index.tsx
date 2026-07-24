@@ -146,10 +146,13 @@ export type IconCard = {
 export function IconCardGrid({
   cards,
   columns = 3,
+  iconSize = "md",
   className,
 }: {
   cards: IconCard[];
   columns?: 2 | 3 | 4 | 5;
+  /** "lg" gives more detailed/compound icons room to read clearly. */
+  iconSize?: "md" | "lg";
   /** Accepted for backwards compatibility; index numbers are no longer shown. */
   numbered?: boolean;
   className?: string;
@@ -160,6 +163,9 @@ export function IconCardGrid({
     4: "sm:grid-cols-2 lg:grid-cols-4",
     5: "sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5",
   }[columns];
+
+  const boxClass = iconSize === "lg" ? "h-16 w-16" : "h-11 w-11";
+  const glyphClass = iconSize === "lg" ? "h-9 w-9" : "h-[20px] w-[20px]";
 
   return (
     <Stagger className={cn("grid gap-4", colClass, className)} as="ul">
