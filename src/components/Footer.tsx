@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Phone, Mail, MapPin } from "lucide-react";
-import { Container, Logo, Button } from "@/components/ui/primitives";
+import { Container, Logo } from "@/components/ui/primitives";
 
 const productLinks = [
   { href: "/inbound-calling", label: "Inbound Calling" },
@@ -44,39 +44,23 @@ const socials = [
 export function Footer() {
   return (
     <footer id="contact" className="band-wash-dark relative overflow-hidden text-ink">
-      {/* Top CTA row */}
-      <Container className="pb-14 pt-20">
-        <div className="flex flex-col gap-10 border-b border-line pb-14 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-xl">
+      <Container className="py-12">
+        <div className="grid grid-cols-2 gap-x-8 gap-y-10 md:grid-cols-4 md:gap-x-10">
+          {/* Brand */}
+          <div className="col-span-2 md:col-span-1">
             <Link href="/" aria-label="SkipDial home" className="inline-block">
               <Logo />
             </Link>
-            <p className="mt-5 text-[15px] leading-relaxed text-ink-light">
-              AI voice agents that answer your phone, qualify your leads, and
-              book your calendar, 24/7.
+            <p className="mt-3 max-w-[26ch] text-[13px] leading-relaxed text-ink-light">
+              AI voice agents that answer, qualify, and book calls 24/7.
             </p>
           </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <Button href="/request-a-free-demo" size="lg" arrow>
-              Get a Free Demo
-            </Button>
-            <Button
-              href="mailto:info@skipdial.ai"
-              variant="outline"
-              size="lg"
-            >
-              Contact us
-            </Button>
-          </div>
-        </div>
 
-        {/* Link columns */}
-        <div className="grid grid-cols-2 gap-10 pt-14 md:grid-cols-4">
           <div>
             <p className="text-[12px] font-semibold text-ink-faint">
               Product
             </p>
-            <ul className="mt-4 space-y-2.5">
+            <ul className="mt-3 space-y-2">
               {productLinks.map((l) => (
                 <li key={l.href}>
                   <Link
@@ -94,7 +78,7 @@ export function Footer() {
             <p className="text-[12px] font-semibold text-ink-faint">
               Industries
             </p>
-            <ul className="mt-4 space-y-2.5">
+            <ul className="mt-3 space-y-2">
               {industryLinks.map((l) => (
                 <li key={l.href}>
                   <Link
@@ -108,36 +92,36 @@ export function Footer() {
             </ul>
           </div>
 
-          <div className="col-span-2">
+          <div>
             <p className="text-[12px] font-semibold text-ink-faint">
               Contact Us
             </p>
-            <ul className="mt-4 space-y-3 text-[14px] text-ink-light">
+            <ul className="mt-3 space-y-2 text-[14px] text-ink-light">
               <li>
                 <a
                   href="tel:+14808681102"
-                  className="flex items-center gap-2.5 transition-colors hover:text-ink"
+                  className="flex items-center gap-2 transition-colors hover:text-ink"
                 >
-                  <Phone aria-hidden className="h-4 w-4 text-accent" />
+                  <Phone aria-hidden className="h-3.5 w-3.5 shrink-0 text-accent" />
                   (480) 868-1102
                 </a>
               </li>
               <li>
                 <a
                   href="mailto:info@skipdial.ai"
-                  className="flex items-center gap-2.5 transition-colors hover:text-ink"
+                  className="flex items-center gap-2 transition-colors hover:text-ink"
                 >
-                  <Mail aria-hidden className="h-4 w-4 text-accent" />
+                  <Mail aria-hidden className="h-3.5 w-3.5 shrink-0 text-accent" />
                   info@skipdial.ai
                 </a>
               </li>
-              <li className="flex items-start gap-2.5">
-                <MapPin aria-hidden className="mt-1 h-4 w-4 shrink-0 text-accent" />
-                1801 E. Camelback Rd, Suite 201, Phoenix, AZ 85016
+              <li className="flex items-start gap-2">
+                <MapPin aria-hidden className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent" />
+                <span>1801 E. Camelback Rd, Suite 201, Phoenix, AZ 85016</span>
               </li>
             </ul>
 
-            <div className="mt-6 flex items-center gap-3">
+            <div className="mt-4 flex items-center gap-2.5">
               {socials.map((s) => (
                 <a
                   key={s.label}
@@ -146,13 +130,13 @@ export function Footer() {
                   rel="noopener noreferrer"
                   aria-label={s.label}
                   style={{ background: s.bg }}
-                  className="flex h-10 w-10 items-center justify-center rounded-full text-white shadow-sm transition-transform duration-200 ease-out-expo hover:scale-110 hover:shadow-md active:scale-95"
+                  className="flex h-8 w-8 items-center justify-center rounded-full text-white shadow-sm transition-transform duration-200 ease-out-expo hover:scale-110 hover:shadow-md active:scale-95"
                 >
                   <svg
                     aria-hidden
                     viewBox="0 0 24 24"
                     fill="currentColor"
-                    className="h-5 w-5"
+                    className="h-4 w-4"
                   >
                     <path d={s.path} />
                   </svg>
@@ -165,7 +149,7 @@ export function Footer() {
 
       {/* Legal strip */}
       <div className="border-t border-line">
-        <Container className="flex flex-col items-start gap-2 py-6 text-[13px] text-ink-faint md:flex-row md:items-center md:justify-between">
+        <Container className="flex flex-col items-start gap-2 py-4 text-[13px] text-ink-faint md:flex-row md:items-center md:justify-between">
           <p>© 2026 All Rights Reserved · SkipDial.ai</p>
           <div className="flex items-center gap-5">
             <Link

@@ -266,7 +266,6 @@ export function IndustryTemplate({ data }: { data: IndustryData }) {
         title={data.cta.title}
         mutedTitle={data.cta.muted}
         body={data.cta.body}
-        variant="bold"
       />
     </>
   );

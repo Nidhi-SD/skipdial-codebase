@@ -355,6 +355,9 @@ export default function Home() {
         mutedTitle="will cost you a customer."
         body="Consistent coverage, reliable intake, and disciplined follow up, without adding headcount."
         smallPrint="Free 30 minute demo · configured around your call workflows"
+        secondaryCtaLabel="Contact Us"
+        secondaryCtaHref="https://cal.com/aryanbisht/30-min-discovery-call?overlayCalendar=true"
+        secondaryCtaExternal
       />
     </>
   );
