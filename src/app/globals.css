@@ -416,6 +416,14 @@ html.lenis iframe {
   animation: wf-completed 8s cubic-bezier(0.2, 0, 0, 1) infinite;
 }
 
+/* ── Call pipeline console (CallPipelineConsole) ─────────────────────────────
+   Held while the panel is off-screen: idle motion costs nothing when unseen. */
+.wf-paused *,
+.wf-paused *::before,
+.wf-paused *::after {
+  animation-play-state: paused !important;
+}
+
 /* Live waveform bars */
 @keyframes waveform {
   0%,
