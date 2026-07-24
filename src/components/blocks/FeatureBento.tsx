@@ -201,18 +201,23 @@ function SyncPipeline() {
 function LanguageChips() {
   const langs = ["English", "Español", "Français", "Deutsch", "Português", "हिन्दी"];
   return (
-    <div className="flex flex-wrap gap-2">
-      {langs.map((l) => (
-        <span
-          key={l}
-          className="rounded-full border border-line bg-surface px-3 py-1 text-[12px] font-medium text-ink"
-        >
-          {l}
+    <div className="rounded-xl border border-line bg-surface-alt p-4">
+      <div className="flex flex-wrap gap-2">
+        {langs.map((l) => (
+          <span
+            key={l}
+            className="rounded-full border border-line bg-surface px-3 py-1 text-[12px] font-medium text-ink"
+          >
+            {l}
+          </span>
+        ))}
+        <span className="rounded-full border border-dashed border-line-strong px-3 py-1 text-[12px] font-medium text-ink-faint">
+          +12 more
         </span>
-      ))}
-      <span className="rounded-full border border-dashed border-line-strong px-3 py-1 text-[12px] font-medium text-ink-faint">
-        +12 more
-      </span>
+      </div>
+      <p className="mt-3 text-[11.5px] text-ink-light">
+        18 languages supported out of the box.
+      </p>
     </div>
   );
 }
