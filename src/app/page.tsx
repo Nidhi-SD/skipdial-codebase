@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
-import { ChevronDown, Sparkles, PhoneOff, Users, Clock, EyeOff } from "lucide-react";
+import { ChevronDown, Sparkles } from "lucide-react";
 import { Container, SectionHead, Button, Eyebrow } from "@/components/ui/primitives";
 import { BlurTitle, Reveal, Stagger, Item } from "@/components/motion";
 import { CallArrivalFrame, Magnetic, ParallaxDrift } from "@/components/motion/entrances";
@@ -355,6 +355,9 @@ export default function Home() {
         mutedTitle="will cost you a customer."
         body="Consistent coverage, reliable intake, and disciplined follow up, without adding headcount."
         smallPrint="Free 30 minute demo · configured around your call workflows"
+        secondaryCtaLabel="Contact Us"
+        secondaryCtaHref="https://cal.com/aryanbisht/30-min-discovery-call?overlayCalendar=true"
+        secondaryCtaExternal
       />
     </>
   );
