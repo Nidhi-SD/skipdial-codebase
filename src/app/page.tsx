@@ -118,7 +118,7 @@ export default function Home() {
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Magnetic>
                 <Button href="/request-a-free-demo" size="lg" arrow>
-                  Get a Free Demo
+                  Try It Yourself
                 </Button>
               </Magnetic>
               <Button href="#sample" variant="outline" size="lg">
