@@ -39,7 +39,6 @@ const industries: { value: string; label: string; icon: LucideIcon }[] = [
 
 const languages = [
   { value: "en", label: "English" },
-  { value: "hi", label: "Hindi" },
   { value: "es", label: "Spanish" },
 ];
 

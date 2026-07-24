@@ -11,7 +11,7 @@ import {
 import {
   Bot,
   Check,
-  Database,
+  Users,
   Loader2,
   PhoneIncoming,
   type LucideIcon,
@@ -174,8 +174,8 @@ function CyclingLine({
 }) {
   return (
     <span className={cn("relative block", className)}>
-      <span aria-hidden className="invisible">
-        &nbsp;
+      <span aria-hidden className="invisible block">
+        {text || "\u00A0"}
       </span>
       <AnimatePresence initial={false}>
         <motion.span
@@ -385,7 +385,7 @@ function WorkflowNode({
   badge,
   children,
 }: {
-  icon: LucideIcon;
+  icon: LucideIcon | string;
   iconClass?: string;
   title: string;
   state: NodeState;
@@ -399,9 +399,9 @@ function WorkflowNode({
   const frameStyle = live
     ? center
       ? {
-          borderColor: "rgb(var(--accent-rgb) / 0.45)",
+          borderColor: "rgb(var(--signal-rgb) / 0.45)",
           boxShadow:
-            "0 0 46px -10px rgb(var(--accent-rgb) / 0.45), inset 0 1px 0 rgb(255 255 255 / 0.9)",
+            "0 0 46px -10px rgb(var(--signal-rgb) / 0.45), inset 0 1px 0 rgb(255 255 255 / 0.9)",
         }
       : {
           borderColor: "rgb(var(--ink-rgb) / 0.16)",
@@ -422,10 +422,10 @@ function WorkflowNode({
   const iconStyle = live
     ? center
       ? {
-          borderColor: "rgb(var(--accent-rgb) / 0.4)",
-          background: "rgb(var(--accent-rgb))",
+          borderColor: "rgb(var(--signal-rgb) / 0.4)",
+          background: "rgb(var(--signal-rgb))",
           color: "#fff",
-          boxShadow: "0 0 20px rgb(var(--accent-rgb) / 0.5)",
+          boxShadow: "0 0 20px rgb(var(--signal-rgb) / 0.5)",
         }
       : {
           borderColor: "rgb(var(--ink-rgb) / 0.18)",
@@ -494,7 +494,11 @@ function WorkflowNode({
             className="flex h-10 w-10 items-center justify-center rounded-xl border transition-[transform,background,border-color,box-shadow,color] duration-500 group-hover:rotate-6"
             style={iconStyle}
           >
-            <Icon aria-hidden className={cn("h-[18px] w-[18px]", iconClass)} />
+            {typeof Icon === "string" ? (
+              <img src={Icon} alt="" className={cn("h-[28px] w-[28px] object-contain drop-shadow-md", iconClass)} />
+            ) : (
+              <Icon aria-hidden className={cn("h-[18px] w-[18px]", iconClass)} />
+            )}
           </span>
 
           {/* Motes drifting off the agent icon */}
@@ -877,7 +881,7 @@ export function WorkflowBeam({ className }: { className?: string }) {
 
         {/* 2 · SkipDial AI agent */}
         <WorkflowNode
-          icon={Bot}
+          icon="/technical-support.png"
           title="SkipDial AI Agent"
           state={agentState}
           center
@@ -961,7 +965,7 @@ export function WorkflowBeam({ className }: { className?: string }) {
 
         {/* 3 · CRM */}
         <WorkflowNode
-          icon={Database}
+          icon={Users}
           iconClass={crmState === "idle" ? undefined : "wf-tilt"}
           title="CRM Sync"
           state={crmState}
