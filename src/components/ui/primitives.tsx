@@ -220,9 +220,9 @@ export function Logo({
       />
       <span
         className={cn(
-          "font-display font-bold tracking-tight",
-          size === "lg" ? "text-[21px]" : "text-[19px]",
-          variant === "color" ? "text-ink" : "text-ink-inverse"
+          "font-display font-bold uppercase tracking-wide",
+          size === "lg" ? "text-[20px]" : "text-[18px]",
+          variant === "color" ? "text-gradient-brand" : "text-ink-inverse"
         )}
       >
         SkipDial

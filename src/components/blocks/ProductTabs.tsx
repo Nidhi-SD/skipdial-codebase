@@ -19,7 +19,7 @@ import { cn } from "@/lib/cn";
    buttons on a spring instead of fading. Panels swap with spring rises.
    ──────────────────────────────────────────────────────────────────────────── */
 
-type TabId = "inbound" | "outbound" | "analytics";
+type TabId = "inbound" | "outbound";
 
 /* ── Per-tab mini visuals ──────────────────────────────────────────────────── */
 
@@ -86,49 +86,6 @@ function CampaignRows({ reduce }: { reduce: boolean }) {
   );
 }
 
-function AnalyticsPanel({ reduce }: { reduce: boolean }) {
-  const bars = [42, 66, 50, 84, 58, 96, 72];
-  return (
-    <div className="rounded-lg border border-line bg-surface-alt p-4">
-      <div className="flex gap-2">
-        {[
-          { v: "142", l: "calls today" },
-          { v: "38", l: "qualified" },
-          { v: "97%", l: "answered" },
-        ].map((s, i) => (
-          <motion.div
-            key={s.l}
-            initial={reduce ? false : { opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ ...springPhysics, delay: 0.1 + i * 0.06 }}
-            className="flex-1 rounded-md border border-line bg-surface px-2.5 py-2"
-          >
-            <p className="font-display text-[17px] font-bold leading-none text-ink">
-              {s.v}
-            </p>
-            <p className="mt-1 text-[10.5px] text-ink-faint">{s.l}</p>
-          </motion.div>
-        ))}
-      </div>
-      <div className="mt-4 flex h-16 items-end gap-1.5">
-        {bars.map((h, i) => (
-          <motion.span
-            key={i}
-            initial={reduce ? false : { scaleY: 0 }}
-            animate={{ scaleY: 1 }}
-            transition={{ ...springPhysics, delay: 0.2 + i * 0.05 }}
-            style={{ height: `${h}%`, transformOrigin: "bottom" }}
-            className={cn(
-              "w-full rounded-sm",
-              i === 5 ? "bg-accent" : "bg-accent-tint"
-            )}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
-
 /* ── Tab content ───────────────────────────────────────────────────────────── */
 
 const TABS: {
@@ -153,7 +110,7 @@ const TABS: {
   },
   {
     id: "outbound",
-    label: "Outbound Campaigns",
+    label: "Outbound Agents",
     headline: "Follow-ups and campaigns that actually get made.",
     body: "Reactivate cold leads, confirm appointments, and run outbound call campaigns with consistent scripts and pacing.",
     bullets: [
@@ -162,18 +119,6 @@ const TABS: {
       "Campaign pacing with full outcome logging",
     ],
     link: { href: "/outbound-calling", label: "Explore outbound calling" },
-  },
-  {
-    id: "analytics",
-    label: "Live Analytics",
-    headline: "Every call becomes structured, visible data.",
-    body: "Volume, outcomes, and qualification metrics update the moment a call ends, synced to the tools your team already uses.",
-    bullets: [
-      "Call volume & outcome dashboards",
-      "Qualification metrics in real time",
-      "Summaries synced to your CRM",
-    ],
-    link: { href: "/integrations", label: "See integrations" },
   },
 ];
 
@@ -302,7 +247,6 @@ export function ProductTabs({ className }: { className?: string }) {
                 />
               )}
               {tab.id === "outbound" && <CampaignRows reduce={reduce} />}
-              {tab.id === "analytics" && <AnalyticsPanel reduce={reduce} />}
             </div>
           </motion.div>
         </AnimatePresence>

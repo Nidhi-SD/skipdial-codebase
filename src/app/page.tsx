@@ -7,7 +7,6 @@ import { CallArrivalFrame, Magnetic, ParallaxDrift } from "@/components/motion/e
 import {
   Section,
   IconCardGrid,
-  LostRevenueCalculator,
   BulletList,
   CTABand,
 } from "@/components/blocks";
@@ -195,10 +194,6 @@ export default function Home() {
             a detail nobody wrote down.
           </SectionHead>
           <IconCardGrid cards={painCards} columns={4} className="mt-12" />
-          
-          <Reveal variant="fadeUp" delay={0.2}>
-            <LostRevenueCalculator className="mx-auto mt-12 w-full max-w-5xl" />
-          </Reveal>
         </Container>
       </Section>
 

@@ -203,7 +203,7 @@ export default function CreateBlogPage() {
             <motion.p
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-red-500 text-sm font-medium bg-red-50 px-4 py-3 rounded-xl"
+              className="text-danger text-sm font-medium bg-danger/10 border border-danger/20 px-4 py-3 rounded-xl"
             >
               {error}
             </motion.p>
