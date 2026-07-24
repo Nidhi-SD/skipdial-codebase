@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
-import { ChevronDown, Sparkles } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { Container, SectionHead, Button, Eyebrow } from "@/components/ui/primitives";
-import { BlurTitle, Reveal, Stagger, Item } from "@/components/motion";
+import { BlurTitle, Reveal } from "@/components/motion";
 import { CallArrivalFrame, Magnetic, ParallaxDrift } from "@/components/motion/entrances";
 import {
   Section,
@@ -91,59 +91,65 @@ export default function Home() {
           className="pointer-events-none absolute inset-0 [background:radial-gradient(72%_68%_at_50%_46%,rgba(255,255,255,0.94)_0%,rgba(255,255,255,0.86)_42%,rgba(255,255,255,0.6)_68%,transparent_88%)]"
         />
 
-        <Container className="relative flex flex-1 flex-col items-center justify-center text-center">
-          <Reveal variant="fadeUp">
-            <span className="inline-flex items-center gap-2 rounded-full border border-line bg-surface/80 py-1 pl-1 pr-3.5 text-[13px] font-medium text-ink-light backdrop-blur-sm">
-              <span className="rounded-full bg-accent px-2.5 py-0.5 text-[11px] font-semibold text-ink-inverse">
-                24/7
+        <Container className="relative grid flex-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
+          <div>
+            <Reveal variant="fadeUp">
+              <span className="inline-flex items-center gap-2 rounded-full border border-line bg-surface/80 py-1 pl-1 pr-3.5 text-[13px] font-medium text-ink-light backdrop-blur-sm">
+                <span className="rounded-full bg-accent px-2.5 py-0.5 text-[11px] font-semibold text-ink-inverse">
+                  24/7
+                </span>
+                Autonomous voice agents for inbound &amp; outbound
               </span>
-              Autonomous voice agents for inbound &amp; outbound
-            </span>
-          </Reveal>
+            </Reveal>
 
-          <BlurTitle
-            as="h1"
-            text="Skip the Dial."
-            mutedText="Not the Call."
-            className="hero-title-brand mx-auto mt-6 max-w-4xl text-display-xl text-ink"
-          />
+            <BlurTitle
+              as="h1"
+              text="Skip the Dial."
+              mutedText="Not the Call."
+              className="hero-title-brand mt-6 text-display-xl text-ink"
+            />
 
-          <Reveal variant="fadeUp" delay={0.3}>
-            <p className="mx-auto mt-6 max-w-2xl text-pretty text-[19px] leading-relaxed text-ink-light">
-              AI voice agents that answer calls, book appointments, and sync your CRM 24/7.
-            </p>
-          </Reveal>
+            <Reveal variant="fadeUp" delay={0.3}>
+              <p className="mt-6 max-w-2xl text-pretty text-[19px] leading-relaxed text-ink-light">
+                AI voice agents that answer calls, book appointments, and sync your CRM 24/7.
+              </p>
+            </Reveal>
 
-          <Reveal variant="fadeUp" delay={0.4}>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-              <Magnetic>
-                <Button href="/request-a-free-demo" size="lg" arrow>
-                  Try It Yourself
+            <Reveal variant="fadeUp" delay={0.4}>
+              <div className="mt-8 flex flex-wrap items-center gap-3">
+                <Magnetic>
+                  <Button href="/request-a-free-demo" size="lg" arrow>
+                    Try It Yourself
+                  </Button>
+                </Magnetic>
+                <Button href="#sample" variant="outline" size="lg">
+                  Hear a Sample
                 </Button>
-              </Magnetic>
-              <Button href="#sample" variant="outline" size="lg">
-                Hear a Sample
-              </Button>
-            </div>
-          </Reveal>
+              </div>
+            </Reveal>
 
-          {/* Trust line — unified style, concise copy */}
-          <Reveal variant="fadeUp" delay={0.5}>
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2.5 text-[14.5px] font-medium text-ink-light">
-              <span className="flex items-center gap-2">
-                <svg className="h-4 w-4 text-accent/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-                <span className="trust-shimmer">Answering calls 24/7/365</span>
-              </span>
-              <span className="flex items-center gap-2" style={{ "--pulse-delay": "0.8s" } as CSSProperties}>
-                <svg className="h-4 w-4 text-accent/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-                <span className="trust-shimmer">Inbound + outbound in one agent</span>
-              </span>
-              <span className="flex items-center gap-2" style={{ "--pulse-delay": "1.6s" } as CSSProperties}>
-                <svg className="h-4 w-4 text-accent/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-                <span className="trust-shimmer">Syncs to your CRM automatically</span>
-              </span>
-            </div>
-          </Reveal>
+            {/* Trust line — unified style, concise copy */}
+            <Reveal variant="fadeUp" delay={0.5}>
+              <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2.5 text-[14.5px] font-medium text-ink-light">
+                <span className="flex items-center gap-2">
+                  <svg className="h-4 w-4 text-accent/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                  <span className="trust-shimmer">Answering calls 24/7/365</span>
+                </span>
+                <span className="flex items-center gap-2" style={{ "--pulse-delay": "0.8s" } as CSSProperties}>
+                  <svg className="h-4 w-4 text-accent/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                  <span className="trust-shimmer">Inbound + outbound in one agent</span>
+                </span>
+                <span className="flex items-center gap-2" style={{ "--pulse-delay": "1.6s" } as CSSProperties}>
+                  <svg className="h-4 w-4 text-accent/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                  <span className="trust-shimmer">Syncs to your CRM automatically</span>
+                </span>
+              </div>
+            </Reveal>
+          </div>
+
+          <CallArrivalFrame>
+            <TryDemoCall />
+          </CallArrivalFrame>
         </Container>
 
         {/* Scroll cue — signals there's more below and doubles as a
@@ -309,42 +315,6 @@ export default function Home() {
             <Reveal variant="expandX">
               <AudioPlayer src="/audio/real-estate-call-recording.wav" />
             </Reveal>
-          </div>
-        </Container>
-      </Section>
-
-      {/* ── 8 · Live demo call widget ────────────────────────────────────── */}
-      <Section tone="alt" id="live-demo">
-        <Container>
-          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
-            <div>
-              <SectionHead
-                eyebrow="Try it now"
-                title="Try It for"
-                mutedTitle="Yourself"
-              >
-                Pick your industry and language, then get a live demonstration
-                call. Hear how structured intake, appointment booking, and
-                call routing work in a real interaction.
-              </SectionHead>
-              <Stagger className="mt-8 flex flex-wrap gap-2.5">
-                {["Structured intake", "Appointment booking", "Call routing"].map(
-                  (chip) => (
-                    <Item
-                      key={chip}
-                      variant="fadeIn"
-                      className="flex items-center gap-1.5 rounded-full border border-line bg-surface px-3.5 py-1.5 text-[13px] font-medium text-ink-light"
-                    >
-                      <Sparkles aria-hidden className="h-3.5 w-3.5 text-accent" />
-                      {chip}
-                    </Item>
-                  )
-                )}
-              </Stagger>
-            </div>
-            <CallArrivalFrame>
-              <TryDemoCall />
-            </CallArrivalFrame>
           </div>
         </Container>
       </Section>
