@@ -248,3 +248,33 @@ export function CountUp({
     </span>
   );
 }
+
+/* ── ContinuousFloat — applies a gentle, continuous floating animation to its children ──── */
+
+export function ContinuousFloat({
+  children,
+  delay = 0,
+  className,
+}: {
+  children: ReactNode;
+  delay?: number;
+  className?: string;
+}) {
+  const reduce = useReducedMotion();
+  if (reduce) return <span className={className}>{children}</span>;
+
+  return (
+    <motion.span
+      animate={{ y: [0, -4, 0], scale: [1, 1.05, 1] }}
+      transition={{
+        duration: 4,
+        repeat: Infinity,
+        ease: "easeInOut",
+        delay,
+      }}
+      className={className}
+    >
+      {children}
+    </motion.span>
+  );
+}
