@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { CalendarCheck, Sparkles } from "lucide-react";
+import { Check, Sparkles } from "lucide-react";
 import { Container, SectionHead, Button } from "@/components/ui/primitives";
-import { Reveal } from "@/components/motion";
+import { Reveal, Stagger, Item } from "@/components/motion";
 import { CallArrivalFrame } from "@/components/motion/entrances";
-import { PageHero, Section, BulletList } from "@/components/blocks";
+import { PageHero, Section } from "@/components/blocks";
 import { TryDemoCall } from "@/components/blocks/TryDemoCall";
 
 export const metadata: Metadata = {
@@ -12,45 +12,25 @@ export const metadata: Metadata = {
     "Schedule a live demo of SkipDial AI call automation to see how inbound and outbound calls are handled, qualified, routed, and integrated with your CRM and scheduling tools.",
 };
 
-const demoBenefits = [
+const demoHighlights = [
   "Live walkthrough",
-  "Workflow recommendations",
-  "CRM & routing setup",
-  "Q&A with our team",
+  "Workflow & CRM setup",
+  "Direct Q&A with our team",
 ];
 
 /** Live booking calendar — real availability lives here, not on this page. */
 const BOOKING_URL =
   "https://cal.com/aryanbisht/30-min-discovery-call?overlayCalendar=true";
 
-function SchedulePanel() {
-  return (
-    <div className="relative overflow-hidden rounded-2xl border border-line bg-surface p-6 shadow-frame sm:p-8">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-accent-soft/20 blur-3xl"
-      />
-      <div className="relative flex flex-col items-center gap-5 text-center">
-        <p className="flex items-center gap-2 text-[13px] font-semibold text-accent">
-          <CalendarCheck aria-hidden className="h-3.5 w-3.5" />
-          Schedule a Time
-        </p>
-        <Button href={BOOKING_URL} external size="lg" className="w-full" arrow>
-          Book Your 30-Minute Demo
-        </Button>
-      </div>
-    </div>
-  );
-}
-
 export default function RequestDemoPage() {
   return (
     <>
+      {/* 1 — Try the AI. The hero, and the whole reason to be on this page. */}
       <PageHero
         eyebrow="Try it now"
         title="Try It for"
         mutedTitle="Yourself"
-        body="Pick your industry and language, then get a live demo call from our AI voice agent. Hear exactly how SkipDial handles structured intake, appointment booking, and call routing in a real interaction."
+        body="Pick an industry and language, then get a live call from our AI voice agent — hear it handle intake, booking, and routing in real time."
       >
         <div className="mt-10 grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <div className="flex flex-wrap gap-3">
@@ -72,23 +52,42 @@ export default function RequestDemoPage() {
         </div>
       </PageHero>
 
-      <Section tone="alt">
+      {/* 2 — Book the demo. One question, one answer, one button: one
+          focused column rather than a competing sales panel. */}
+      <Section tone="wash">
         <Container>
-          <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-20">
-            <div>
-              <SectionHead
-                eyebrow="Get in Touch"
-                title="Book a Personalized"
-                mutedTitle="Demo"
-              >
-                See SkipDial configured around your call volume, workflows,
-                and integrations, live and in real time.
-              </SectionHead>
-              <BulletList items={demoBenefits} className="mt-8" />
-            </div>
+          <div className="mx-auto max-w-xl text-center">
+            <SectionHead
+              eyebrow="Next step"
+              title="See It Configured for"
+              mutedTitle="Your Business"
+              align="center"
+              className="mx-auto"
+            >
+              A 30-minute walkthrough built around your call volume,
+              workflows, and systems.
+            </SectionHead>
 
-            <Reveal variant="scaleIn" delay={0.1}>
-              <SchedulePanel />
+            <Stagger className="mt-7 flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
+              {demoHighlights.map((item) => (
+                <Item key={item} variant="fadeIn" className="flex items-center gap-2">
+                  <Check aria-hidden className="h-3.5 w-3.5 text-accent" strokeWidth={3} />
+                  <span className="text-[13.5px] font-medium text-ink-light">
+                    {item}
+                  </span>
+                </Item>
+              ))}
+            </Stagger>
+
+            <Reveal variant="fadeUp" delay={0.15}>
+              <div className="mt-9 flex flex-col items-center gap-3">
+                <Button href={BOOKING_URL} external size="lg" arrow>
+                  Book Your 30-Minute Demo
+                </Button>
+                <p className="text-[12.5px] text-ink-faint">
+                  Pick any time. Reschedule freely.
+                </p>
+              </div>
             </Reveal>
           </div>
         </Container>
