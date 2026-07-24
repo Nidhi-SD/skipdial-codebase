@@ -8,7 +8,7 @@ import { SmoothScroll } from "@/components/motion/SmoothScroll";
 
 // Brand Guideline v1.0: Montserrat is the single brand typeface — used for both
 // body copy and headings, so --font-body and --font-display share one variable.
-const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-sans", weight: ["400", "500", "600", "700", "800"], display: "swap" });
+const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-sans", weight: ["400", "500", "600", "700"], display: "swap" });
 const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono", display: "swap" });
 
 export const metadata: Metadata = {
@@ -22,10 +22,10 @@ export const metadata: Metadata = {
     siteName: 'SkipDial',
     images: [
       {
-        url: '/og-image.jpg', // Placeholder for OG image
+        url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'SkipDial',
+        alt: 'SkipDial — Automate with AI Voice',
       },
     ],
     locale: 'en_US',
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'SkipDial',
     description: 'AI Call Agents for Inbound and Outbound Calls',
-    images: ['/og-image.jpg'], // Placeholder for OG image
+    images: ['/og-image.png'],
   },
 };
 
