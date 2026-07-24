@@ -1,7 +1,16 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { PhoneCall, ArrowUpRight } from "lucide-react";
+import {
+  Phone,
+  CalendarCheck2,
+  Gauge,
+  Star,
+  ArrowUpRight,
+  ArrowDownRight,
+  ChevronRight,
+  type LucideIcon,
+} from "lucide-react";
 import { CountUp } from "@/components/motion";
 import { EASE, viewportOnce } from "@/lib/motion";
 import { cn } from "@/lib/cn";
@@ -9,17 +18,24 @@ import { cn } from "@/lib/cn";
 /* Animated product-dashboard mockup (platform screens, mockup deck p7).
    Stats count up and volume bars grow when scrolled into view. */
 
-const stats = [
-  { label: "Calls today", value: 247, suffix: "", delta: "+18%" },
-  { label: "Booked appts", value: 38, suffix: "", delta: "+24%" },
-  { label: "Avg pickup", value: 1.4, suffix: "s", delta: "−0.3s", decimals: 1 },
-  { label: "Connect rate", value: 31.2, suffix: "%", delta: "+2.1pp", decimals: 1 },
+const stats: {
+  label: string;
+  value: number;
+  suffix: string;
+  delta: string;
+  decimals?: number;
+  icon: LucideIcon;
+}[] = [
+  { label: "Calls today", value: 247, suffix: "", delta: "+18%", icon: Phone },
+  { label: "Booked appts", value: 38, suffix: "", delta: "+24%", icon: CalendarCheck2 },
+  { label: "Avg pickup", value: 1.4, suffix: "s", delta: "−0.3s", decimals: 1, icon: Gauge },
+  { label: "Connect rate", value: 31.2, suffix: "%", delta: "+2.1pp", decimals: 1, icon: Star },
 ];
 
 const bars = [
   { day: "Wed", inbound: 55, outbound: 38 },
   { day: "Thu", inbound: 62, outbound: 44 },
-  { day: "Fri", inbound: 74, outbound: 52 },
+  { day: "Fri", inbound: 74, outbound: 52, highlight: true },
   { day: "Sat", inbound: 58, outbound: 40 },
   { day: "Sun", inbound: 42, outbound: 30 },
   { day: "Mon", inbound: 78, outbound: 56 },
@@ -27,10 +43,31 @@ const bars = [
 ];
 
 const recentCalls = [
-  { name: "Mariela Ortiz", note: "Furnace not heating · dispatched", tag: "Booked", tone: "signal" },
-  { name: "Bill Treadwell", note: "BOV pitched · interested", tag: "Transferred", tone: "accent" },
-  { name: "Linda Park", note: "Voicemail · scheduled retry", tag: "Voicemail", tone: "warn" },
+  { name: "Mariela Ortiz", initials: "MO", note: "Furnace not heating · dispatched", tag: "Booked", tone: "signal" },
+  { name: "Bill Treadwell", initials: "BT", note: "BOV pitched · interested", tag: "Transferred", tone: "accent" },
+  { name: "Linda Park", initials: "LP", note: "Voicemail · scheduled retry", tag: "Voicemail", tone: "warn" },
 ];
+
+/* Small decorative squiggle — separates each stat's headline number from its
+   delta without the visual weight of a hard rule. */
+function WaveDivider() {
+  return (
+    <svg
+      aria-hidden
+      viewBox="0 0 100 8"
+      preserveAspectRatio="none"
+      className="my-1.5 h-2 w-full text-line-strong/70"
+    >
+      <path
+        d="M0 4 Q 4 0 8 4 T 16 4 T 24 4 T 32 4 T 40 4 T 48 4 T 56 4 T 64 4 T 72 4 T 80 4 T 88 4 T 96 4 T 104 4"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
 
 export function DashboardCard({ className }: { className?: string }) {
   const reduce = useReducedMotion();
@@ -59,23 +96,33 @@ export function DashboardCard({ className }: { className?: string }) {
       <div className="p-4 sm:p-5">
         {/* Stat tiles */}
         <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-          {stats.map((s) => (
-            <div
-              key={s.label}
-              className="rounded-xl border border-line bg-surface p-3.5"
-            >
-              <p className="text-[11px] font-semibold uppercase tracking-wide text-ink-faint">
-                {s.label}
-              </p>
-              <p className="mt-1 font-mono text-[22px] font-bold tabular-nums tracking-tight text-ink">
-                <CountUp to={s.value} suffix={s.suffix} decimals={s.decimals ?? 0} />
-              </p>
-              <p className="flex items-center gap-0.5 text-[11.5px] font-semibold text-signal">
-                <ArrowUpRight aria-hidden className="h-3 w-3" />
-                {s.delta}
-              </p>
-            </div>
-          ))}
+          {stats.map((s) => {
+            const down = /^[−-]/.test(s.delta);
+            const ArrowIcon = down ? ArrowDownRight : ArrowUpRight;
+            return (
+              <div
+                key={s.label}
+                className="rounded-xl border border-line bg-surface p-3.5"
+              >
+                <div className="flex items-center gap-2">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent-tint text-accent">
+                    <s.icon aria-hidden className="h-3.5 w-3.5" />
+                  </span>
+                  <p className="truncate text-[11px] font-semibold uppercase tracking-wide text-ink-faint">
+                    {s.label}
+                  </p>
+                </div>
+                <p className="mt-2 font-mono text-[22px] font-bold tabular-nums tracking-tight text-ink">
+                  <CountUp to={s.value} suffix={s.suffix} decimals={s.decimals ?? 0} />
+                </p>
+                <WaveDivider />
+                <p className="flex items-center gap-0.5 text-[11.5px] font-semibold text-signal">
+                  <ArrowIcon aria-hidden className="h-3 w-3" />
+                  {s.delta}
+                </p>
+              </div>
+            );
+          })}
         </div>
 
         <div className="mt-3 grid gap-3 lg:grid-cols-[1.4fr_1fr]">
@@ -94,7 +141,19 @@ export function DashboardCard({ className }: { className?: string }) {
             </div>
             <div className="mt-4 flex h-32 items-end justify-between gap-2">
               {bars.map((b, i) => (
-                <div key={b.day} className="flex flex-1 flex-col items-center gap-1.5">
+                <div
+                  key={b.day}
+                  className="relative flex flex-1 flex-col items-center gap-1.5"
+                >
+                  {b.highlight && (
+                    <div className="pointer-events-none absolute -top-1 left-1/2 z-10 w-max -translate-x-1/2 -translate-y-full whitespace-nowrap rounded-lg border border-line bg-surface px-2.5 py-1.5 text-[10px] font-semibold leading-tight shadow-card">
+                      <p className="text-ink-faint">
+                        <span className="text-ink">{b.day}</span> · Inbound{" "}
+                        <span className="text-accent">{b.inbound}</span> · Outbound{" "}
+                        {b.outbound}
+                      </p>
+                    </div>
+                  )}
                   <div className="flex h-24 w-full items-end justify-center gap-1">
                     {[
                       { v: b.inbound, cls: "bg-accent" },
@@ -126,8 +185,15 @@ export function DashboardCard({ className }: { className?: string }) {
             <ul className="mt-3 space-y-2.5">
               {recentCalls.map((c) => (
                 <li key={c.name} className="flex items-center gap-2.5">
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent-tint text-accent">
-                    <PhoneCall aria-hidden className="h-3 w-3" />
+                  <span
+                    className={cn(
+                      "flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[10.5px] font-bold",
+                      c.tone === "signal" && "bg-signal/15 text-signal",
+                      c.tone === "accent" && "bg-accent-tint text-accent",
+                      c.tone === "warn" && "bg-warn/15 text-warn"
+                    )}
+                  >
+                    {c.initials}
                   </span>
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-[12.5px] font-semibold text-ink">
@@ -148,6 +214,10 @@ export function DashboardCard({ className }: { className?: string }) {
                 </li>
               ))}
             </ul>
+            <p className="mt-3.5 flex items-center gap-0.5 text-[11.5px] font-semibold text-accent">
+              View all calls
+              <ChevronRight aria-hidden className="h-3 w-3" />
+            </p>
           </div>
         </div>
       </div>
