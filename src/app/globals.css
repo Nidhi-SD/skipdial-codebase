@@ -416,8 +416,133 @@ html.lenis iframe {
   animation: wf-completed 8s cubic-bezier(0.2, 0, 0, 1) infinite;
 }
 
-/* ── Call pipeline console (CallPipelineConsole) ─────────────────────────────
-   Held while the panel is off-screen: idle motion costs nothing when unseen. */
+/* ── Call-flow panel (WorkflowBeam) ──────────────────────────────────────────
+   Ambient atmosphere + node idle motion. Everything here is transform/opacity
+   only (bar the fiber dashes) so the panel stays on the compositor, and every
+   class is listed in the reduced-motion block at the foot of this file.
+   Loops run 18–34s so the panel reads as alive, never as "an animation". */
+
+/* Slow-drifting radial glows behind the nodes */
+@keyframes wf-drift-a {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(7%, -5%, 0) scale(1.09);
+  }
+}
+@keyframes wf-drift-b {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-8%, 6%, 0) scale(1.07);
+  }
+}
+.wf-drift-a {
+  animation: wf-drift-a 26s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+.wf-drift-b {
+  animation: wf-drift-b 34s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+/* Light streaks sweeping the panel */
+@keyframes wf-streak {
+  0% {
+    opacity: 0;
+    transform: translateX(-130%) skewX(-14deg);
+  }
+  15%,
+  62% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(130%) skewX(-14deg);
+  }
+}
+.wf-streak {
+  animation: wf-streak 22s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation-delay: var(--wf-delay, 0s);
+}
+
+/* Fiber-optic filaments — dashes crawling along the background paths */
+@keyframes wf-fiber {
+  to {
+    stroke-dashoffset: -240;
+  }
+}
+.wf-fiber {
+  animation: wf-fiber 24s linear infinite;
+  animation-delay: var(--wf-delay, 0s);
+}
+
+/* Free-floating motes, in the panel background and around the agent icon */
+@keyframes wf-mote {
+  0%,
+  100% {
+    opacity: 0.15;
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    opacity: 0.55;
+    transform: translate3d(4px, -15px, 0);
+  }
+}
+.wf-mote {
+  animation: wf-mote var(--wf-duration, 12s) cubic-bezier(0.45, 0, 0.55, 1)
+    infinite;
+  animation-delay: var(--wf-delay, 0s);
+}
+
+/* Agent card breathing glow — one soft inhale every 3s */
+@keyframes wf-breathe {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.985);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.025);
+  }
+}
+.wf-breathe {
+  animation: wf-breathe 3s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+/* Phone icon float */
+@keyframes wf-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2.5px);
+  }
+}
+.wf-float {
+  animation: wf-float 3.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+/* Database icon — a small tilt every few seconds, then settles back */
+@keyframes wf-tilt {
+  0%,
+  74%,
+  100% {
+    transform: rotate(0deg);
+  }
+  84% {
+    transform: rotate(9deg);
+  }
+}
+.wf-tilt {
+  animation: wf-tilt 7s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+}
+
+/* Held while the panel is off-screen: idle motion costs nothing when unseen. */
 .wf-paused *,
 .wf-paused *::before,
 .wf-paused *::after {
@@ -634,8 +759,22 @@ html.lenis iframe {
   .ai-glow-border::before,
   .btn-sheen::after,
   .wf-status-running,
-  .wf-status-completed {
+  .wf-status-completed,
+  .wf-drift-a,
+  .wf-drift-b,
+  .wf-streak,
+  .wf-fiber,
+  .wf-mote,
+  .wf-breathe,
+  .wf-float,
+  .wf-tilt {
     animation: none !important;
+  }
+  /* Ambient panel layers carry no meaning — drop them rather than freeze
+     them mid-sweep, where a stalled streak reads as a rendering artifact. */
+  .wf-streak,
+  .wf-mote {
+    opacity: 0 !important;
   }
   .waveform-bar {
     transform: scaleY(0.5);

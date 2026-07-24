@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
-import { ChevronDown, Sparkles, PhoneOff, Users, Clock, EyeOff } from "lucide-react";
+import { ChevronDown, Sparkles } from "lucide-react";
 import { Container, SectionHead, Button, Eyebrow } from "@/components/ui/primitives";
 import { BlurTitle, Reveal, Stagger, Item } from "@/components/motion";
 import { CallArrivalFrame, Magnetic, ParallaxDrift } from "@/components/motion/entrances";
@@ -12,7 +12,7 @@ import {
 } from "@/components/blocks";
 import { ScrollTimeline } from "@/components/blocks/ScrollTimeline";
 import { VoiceAgentSimulator } from "@/components/blocks/VoiceAgentSimulator";
-import { CallPipelineConsole } from "@/components/blocks/CallPipelineConsole";
+import { WorkflowBeam } from "@/components/blocks/WorkflowBeam";
 import { FeatureBento } from "@/components/blocks/FeatureBento";
 import { ProductTabs } from "@/components/blocks/ProductTabs";
 import { DashboardCard } from "@/components/blocks/DashboardCard";
@@ -217,9 +217,8 @@ export default function Home() {
             <ScrollTimeline steps={solveSteps} />
           </div>
 
-          {/* The machinery behind the four steps above: intake sheet filling,
-              rules resolving, slot held, systems synced */}
-          <CallPipelineConsole className="mt-16 md:mt-20" />
+          {/* Live routing visualized — beam travels inbound → agent → CRM */}
+          <WorkflowBeam className="mt-16 md:mt-20" />
         </Container>
       </Section>
 
