@@ -1,10 +1,9 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { motion, useSpring, useMotionValueEvent } from "framer-motion";
+import { useSpring, useMotionValueEvent } from "framer-motion";
 import { SpotlightCard } from "@/components/motion/SpotlightCard";
 import { cn } from "@/lib/cn";
-import { Reveal } from "@/components/motion";
 
 function AnimatedCurrency({ value, className }: { value: number; className?: string }) {
   const nodeRef = useRef<HTMLSpanElement>(null);

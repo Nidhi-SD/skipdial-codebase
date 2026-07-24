@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import type { CSSProperties, SVGProps } from "react";
+import type { CSSProperties } from "react";
 import { ChevronDown, Sparkles, PhoneOff, Users, Clock, EyeOff } from "lucide-react";
 import { Container, SectionHead, Button, Eyebrow } from "@/components/ui/primitives";
 import { BlurTitle, Reveal, Stagger, Item } from "@/components/motion";
@@ -189,7 +189,7 @@ export default function Home() {
             title="Missed Calls Are Costing You"
             mutedTitle="More Than You Think"
           >
-            Revenue doesn't disappear all at once. It leaks out quietly.
+            Revenue doesn&apos;t disappear all at once. It leaks out quietly.
             A ring that went one too long, a voicemail returned a day late,
             a detail nobody wrote down.
           </SectionHead>
