@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { Check } from "lucide-react";
+import { motion } from "framer-motion";
 import {
   Container,
   Eyebrow,
@@ -163,7 +166,7 @@ export function IconCardGrid({
 
   return (
     <Stagger className={cn("grid gap-4", colClass, className)} as="ul">
-      {cards.map((card) => (
+      {cards.map((card, index) => (
         <Item
           as="li"
           key={card.title}
@@ -171,10 +174,14 @@ export function IconCardGrid({
           <SpotlightCard
             className="group flex h-full flex-col rounded-[20px] border border-line bg-surface p-7 shadow-sm transition-all duration-300 ease-out-expo hover:border-accent/30 hover:shadow-[0_8px_30px_rgba(105,70,235,0.08)]"
           >
-            <span className="relative flex h-11 w-11 items-center justify-center rounded-xl border border-line bg-accent-tint/40 text-accent transition-all duration-500 group-hover:scale-110 group-hover:border-accent/30 group-hover:bg-accent group-hover:text-ink-inverse group-hover:shadow-[0_0_24px_rgba(105,70,235,0.4)]">
+            <motion.span 
+              animate={{ y: [0, -4, 0], scale: [1, 1.05, 1] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: index * 0.4 }}
+              className="relative flex h-11 w-11 items-center justify-center rounded-xl border border-line bg-accent-tint/40 text-accent transition-all duration-500 group-hover:scale-110 group-hover:border-accent/30 group-hover:bg-accent group-hover:text-ink-inverse group-hover:shadow-[0_0_24px_rgba(105,70,235,0.4)]"
+            >
               <RingPulse />
               <card.icon aria-hidden className="h-[20px] w-[20px] transition-transform duration-500 ease-out-expo group-hover:scale-105" />
-            </span>
+            </motion.span>
             <h3 className="mt-6 text-[16px] font-bold leading-snug">{card.title}</h3>
             <p className="mt-2.5 text-[14.5px] leading-relaxed text-ink-light">{card.body}</p>
           </SpotlightCard>
