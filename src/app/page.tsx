@@ -248,7 +248,7 @@ export default function Home() {
               />
             </div>
             <Reveal variant="wipe">
-              <img src="/Image_1.png" alt="SkipDial AI Dashboard" className="w-full rounded-2xl border border-line shadow-2xl drop-shadow-xl" />
+              <DashboardCard className="shadow-2xl drop-shadow-xl" />
             </Reveal>
           </div>
         </Container>

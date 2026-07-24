@@ -112,17 +112,6 @@ export default function InboundCallingPage() {
         </Container>
       </Section>
 
-      {/* Built around your business */}
-      <SplitSection
-        eyebrow="Configuration"
-        index="04"
-        title="Built Around Your Business,"
-        mutedTitle="Not a Generic Script"
-        intro="SkipDial agents are configured using your service offerings, intake requirements, escalation rules, pricing guidelines, and FAQs. You control what the agent says, what it must ask, and when a call transfers to a human. The result is consistent, accurate intake on every call, and structured data ready for your team."
-        tone="alt"
-      >
-        <InteractiveConfigBuilder />
-      </SplitSection>
 
       {/* Implementation */}
       <Section>
