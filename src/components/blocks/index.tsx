@@ -146,10 +146,13 @@ export type IconCard = {
 export function IconCardGrid({
   cards,
   columns = 3,
+  iconSize = "md",
   className,
 }: {
   cards: IconCard[];
   columns?: 2 | 3 | 4 | 5;
+  /** "lg" gives more detailed/compound icons room to read clearly. */
+  iconSize?: "md" | "lg";
   /** Accepted for backwards compatibility; index numbers are no longer shown. */
   numbered?: boolean;
   className?: string;
@@ -161,6 +164,9 @@ export function IconCardGrid({
     5: "sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5",
   }[columns];
 
+  const boxClass = iconSize === "lg" ? "h-16 w-16" : "h-11 w-11";
+  const glyphClass = iconSize === "lg" ? "h-9 w-9" : "h-[20px] w-[20px]";
+
   return (
     <Stagger className={cn("grid gap-4", colClass, className)} as="ul">
       {cards.map((card) => (
@@ -171,9 +177,9 @@ export function IconCardGrid({
           <SpotlightCard
             className="group flex h-full flex-col rounded-[20px] border border-line bg-surface p-7 shadow-sm transition-all duration-300 ease-out-expo hover:border-accent/30 hover:shadow-[0_8px_30px_rgba(105,70,235,0.08)]"
           >
-            <span className="relative flex h-11 w-11 items-center justify-center rounded-xl border border-line bg-accent-tint/40 text-accent transition-all duration-500 group-hover:scale-110 group-hover:border-accent/30 group-hover:bg-accent group-hover:text-ink-inverse group-hover:shadow-[0_0_24px_rgba(105,70,235,0.4)]">
+            <span className={cn("relative flex items-center justify-center rounded-xl border border-line bg-accent-tint/40 text-accent transition-all duration-500 group-hover:scale-110 group-hover:border-accent/30 group-hover:bg-accent group-hover:text-ink-inverse group-hover:shadow-[0_0_24px_rgba(105,70,235,0.4)]", boxClass)}>
               <RingPulse />
-              <card.icon aria-hidden className="h-[20px] w-[20px] transition-transform duration-500 ease-out-expo group-hover:scale-105" />
+              <card.icon aria-hidden className={cn(glyphClass, "transition-transform duration-500 ease-out-expo group-hover:scale-105")} />
             </span>
             <h3 className="mt-6 text-[16px] font-bold leading-snug">{card.title}</h3>
             <p className="mt-2.5 text-[14.5px] leading-relaxed text-ink-light">{card.body}</p>
