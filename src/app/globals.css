@@ -479,6 +479,19 @@ html.lenis iframe {
   animation-delay: var(--wf-delay, 0s);
 }
 
+/* Connector flow ticks — a small continuous marching-dash cue so each rail
+   always reads "data flows this way", independent of the phase clock that
+   only sends the big packet beam through briefly once per loop. */
+@keyframes wf-rail-flow {
+  to {
+    stroke-dashoffset: -16;
+  }
+}
+.wf-rail-flow {
+  stroke-dasharray: 2 6;
+  animation: wf-rail-flow 1.2s linear infinite;
+}
+
 /* Free-floating motes, in the panel background and around the agent icon */
 @keyframes wf-mote {
   0%,
@@ -767,7 +780,8 @@ html.lenis iframe {
   .wf-mote,
   .wf-breathe,
   .wf-float,
-  .wf-tilt {
+  .wf-tilt,
+  .wf-rail-flow {
     animation: none !important;
   }
   /* Ambient panel layers carry no meaning — drop them rather than freeze

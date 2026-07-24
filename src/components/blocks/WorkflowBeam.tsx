@@ -315,6 +315,20 @@ function Connector({
     </>
   );
 
+  /* A quiet, always-on marching-dash tick so the connector reads as directional
+     flow even between beam events — the packet above only fires for ~1.5s of
+     the ~12s loop, which otherwise leaves the rail looking inert. */
+  const flowTick = (axis: "h" | "v") => (
+    <path
+      d={paths[axis].fwd}
+      fill="none"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      className="wf-rail-flow"
+      style={{ stroke: "rgb(var(--accent-rgb) / 0.5)" }}
+    />
+  );
+
   return (
     <motion.div
       aria-hidden
@@ -333,6 +347,7 @@ function Connector({
           style={railStyle}
           variants={reduce ? undefined : railDraw}
         />
+        {flowTick("h")}
         {!reduce && beams("h")}
       </motion.svg>
 
@@ -348,6 +363,7 @@ function Connector({
           style={railStyle}
           variants={reduce ? undefined : railDraw}
         />
+        {flowTick("v")}
         {!reduce && beams("v")}
       </motion.svg>
     </motion.div>

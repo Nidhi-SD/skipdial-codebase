@@ -9,7 +9,7 @@ import type { SVGProps } from "react";
    strokeWidth to STROKE / scale so each shape renders at the same visual
    thickness despite the group's own scale factor. */
 
-const STROKE = 1.5;
+const STROKE = 0.75;
 const w = (scale: number) => STROKE / scale;
 
 const base = {
