@@ -10,6 +10,7 @@ import {
 import { BlurTitle, Reveal, Stagger, Item } from "@/components/motion";
 import { ParallaxY, PopChip, DrawLineV, RingPulse } from "@/components/motion/entrances";
 import { GlobalNetworkField } from "@/components/motion/GlobalNetworkField";
+import { SpotlightCard } from "@/components/motion/SpotlightCard";
 import { AudioPlayer } from "@/components/blocks/AudioPlayer";
 import { cn } from "@/lib/cn";
 import type { ElementType, ReactNode } from "react";
@@ -166,14 +167,17 @@ export function IconCardGrid({
         <Item
           as="li"
           key={card.title}
-          className="group relative flex flex-col rounded-2xl border border-line bg-surface p-6 transition-all duration-300 ease-out-expo hover:-translate-y-0.5 hover:border-line-strong hover:shadow-card"
         >
-          <span className="relative flex h-9 w-9 items-center justify-center rounded-lg border border-line bg-accent-tint/50 text-accent transition-colors duration-300 group-hover:border-accent/30 group-hover:bg-accent group-hover:text-ink-inverse">
-            <RingPulse />
-            <card.icon aria-hidden className="h-[17px] w-[17px]" />
-          </span>
-          <h3 className="mt-4 text-[15.5px] font-semibold leading-snug">{card.title}</h3>
-          <p className="mt-2 text-[14px] leading-relaxed text-ink-light">{card.body}</p>
+          <SpotlightCard
+            className="group flex h-full flex-col rounded-[20px] border border-line bg-surface p-7 shadow-sm transition-all duration-300 ease-out-expo hover:border-accent/30 hover:shadow-[0_8px_30px_rgba(105,70,235,0.08)]"
+          >
+            <span className="relative flex h-11 w-11 items-center justify-center rounded-xl border border-line bg-accent-tint/40 text-accent transition-all duration-500 group-hover:scale-110 group-hover:border-accent/30 group-hover:bg-accent group-hover:text-ink-inverse group-hover:shadow-[0_0_24px_rgba(105,70,235,0.4)]">
+              <RingPulse />
+              <card.icon aria-hidden className="h-[20px] w-[20px] transition-transform duration-500 ease-out-expo group-hover:scale-105" />
+            </span>
+            <h3 className="mt-6 text-[16px] font-bold leading-snug">{card.title}</h3>
+            <p className="mt-2.5 text-[14.5px] leading-relaxed text-ink-light">{card.body}</p>
+          </SpotlightCard>
         </Item>
       ))}
     </Stagger>
@@ -512,3 +516,5 @@ export function SplitSection({
     </Section>
   );
 }
+
+export * from "./LostRevenueCalculator";

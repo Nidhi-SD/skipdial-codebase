@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import type { CSSProperties, SVGProps } from "react";
-import { ChevronDown, Sparkles } from "lucide-react";
+import { ChevronDown, Sparkles, PhoneOff, Users, Clock, EyeOff } from "lucide-react";
 import { Container, SectionHead, Button, Eyebrow } from "@/components/ui/primitives";
 import { BlurTitle, Reveal, Stagger, Item } from "@/components/motion";
 import { CallArrivalFrame, Magnetic, ParallaxDrift } from "@/components/motion/entrances";
 import {
   Section,
   IconCardGrid,
+  LostRevenueCalculator,
   BulletList,
   CTABand,
 } from "@/components/blocks";
@@ -26,65 +27,24 @@ export const metadata: Metadata = {
     "SkipDial uses AI call agents to handle inbound and outbound calls 24/7, qualify leads, book appointments, and sync call data directly to your CRM for full visibility and follow-up.",
 };
 
-function LostRevenueIcon(props: SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round" {...props}>
-      <polyline points="4,7 10,10 13,9 20,17" />
-      <circle cx="20" cy="17" r="1.3" fill="currentColor" stroke="none" />
-    </svg>
-  );
-}
-
-function InconsistentIntakeIcon(props: SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round" {...props}>
-      <line x1="4" y1="7" x2="20" y2="7" />
-      <line x1="4" y1="12" x2="13" y2="12" />
-      <line x1="4" y1="17" x2="17" y2="17" />
-      <circle cx="16" cy="12" r="1.3" fill="currentColor" stroke="none" />
-    </svg>
-  );
-}
-
-function UncapturedDemandIcon(props: SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round" {...props}>
-      <circle cx="12" cy="12" r="8" />
-      <path d="M12 12 L12 6.5" />
-      <path d="M12 12 L16.2 14.5" />
-      <path d="M12 4 A8 8 0 0 1 18.8 16" strokeDasharray="1.6 2.4" />
-    </svg>
-  );
-}
-
-function PoorVisibilityIcon(props: SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round" {...props}>
-      <path d="M3.5 12.5 Q12 8 20.5 12.5" />
-      <path d="M3.5 12.5 Q12 15.5 20.5 12.5" strokeOpacity={0.35} />
-      <circle cx="12" cy="12.3" r="1.3" fill="currentColor" stroke="none" />
-    </svg>
-  );
-}
-
 const painCards = [
   {
-    icon: LostRevenueIcon,
+    icon: PhoneOff,
     title: "Missed Calls = Lost Revenue",
     body: "Every unanswered ring is a customer choosing the next provider on their list. Demand existed. It just went unmet.",
   },
   {
-    icon: InconsistentIntakeIcon,
+    icon: Users,
     title: "Front Desk Bottlenecks = Inconsistent Intake",
     body: "Intake quality shouldn't depend on who picks up. Busy staff skip questions, and details slip through.",
   },
   {
-    icon: UncapturedDemandIcon,
+    icon: Clock,
     title: "Limited Office Hours = Uncaptured Demand",
     body: "Callers don't wait for business hours. After hours voicemail is where high intent leads go cold.",
   },
   {
-    icon: PoorVisibilityIcon,
+    icon: EyeOff,
     title: "Manual Call Notes = Poor Visibility",
     body: "Sticky notes and memory aren't reporting. Without structured data, follow up discipline breaks down.",
   },
@@ -235,6 +195,10 @@ export default function Home() {
             a detail nobody wrote down.
           </SectionHead>
           <IconCardGrid cards={painCards} columns={4} className="mt-12" />
+          
+          <Reveal variant="fadeUp" delay={0.2}>
+            <LostRevenueCalculator className="mx-auto mt-12 w-full max-w-5xl" />
+          </Reveal>
         </Container>
       </Section>
 
