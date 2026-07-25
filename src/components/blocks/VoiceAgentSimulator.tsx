@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type SVGProps } from "react";
 import { AnimatePresence, motion, useReducedMotion, type Variants } from "framer-motion";
 import {
-  CheckCircle2,
   Calendar,
   MessageSquare,
   PhoneIncoming,
@@ -11,6 +10,26 @@ import {
 import { springPhysics } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 import Image from "next/image";
+
+function CapturedIssueIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <rect x="4" y="5" width="13" height="10" rx="2.2" />
+      <circle cx="7.5" cy="8.6" r="1" fill="currentColor" stroke="none" />
+      <circle cx="17.3" cy="15.3" r="4.1" fill="currentColor" stroke="none" />
+      <polyline points="15.5,15.4 16.7,16.5 19.1,14" stroke="white" strokeWidth={1.5} />
+    </svg>
+  );
+}
+
+function VerifiedAddressIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.7} strokeLinejoin="round" strokeLinecap="round" {...props}>
+      <path d="M12 21C12 21 18.5 14.7 18.5 9.4A6.5 6.5 0 1 0 5.5 9.4C5.5 14.7 12 21 12 21Z" />
+      <polyline points="9.1,9.6 11.1,11.6 15,7.3" />
+    </svg>
+  );
+}
 
 /* ─────────────────────────────────────────────────────────────────────────────
    VoiceAgentSimulator — deep-dark hero frame replaying a live SkipDial call.
@@ -29,10 +48,10 @@ const transcript = [
 ] as const;
 
 const actions = [
-  { afterLine: 2, icon: CheckCircle2, title: "Captured issue", meta: "Furnace failure · urgent", tone: "signal" },
-  { afterLine: 4, icon: CheckCircle2, title: "Verified address", meta: "4218 Camelback Rd", tone: "signal" },
-  { afterLine: 5, icon: Calendar, title: "Dispatching", meta: "Marco · ETA 8:45 PM", tone: "accent" },
-  { afterLine: 5, icon: MessageSquare, title: "Text confirmation", meta: "(602) 555-0117", tone: "accent", extraDelay: 900 },
+  { afterLine: 2, icon: CapturedIssueIcon, title: "Captured issue", meta: "Furnace failure · urgent" },
+  { afterLine: 4, icon: VerifiedAddressIcon, title: "Verified address", meta: "4218 Camelback Rd" },
+  { afterLine: 5, icon: Calendar, title: "Dispatching", meta: "Marco · ETA 8:45 PM" },
+  { afterLine: 5, icon: MessageSquare, title: "Text confirmation", meta: "(602) 555-0117", extraDelay: 900 },
 ] as const;
 
 const LINE_INTERVAL = 2100;
@@ -291,13 +310,7 @@ export function VoiceAgentSimulator({ className }: { className?: string }) {
                   }}
                   className="flex items-start gap-2.5 rounded-lg border border-line bg-surface-alt px-3 py-2.5"
                 >
-                  <a.icon
-                    aria-hidden
-                    className={cn(
-                      "mt-0.5 h-4 w-4 shrink-0",
-                      a.tone === "signal" ? "text-signal" : "text-accent"
-                    )}
-                  />
+                  <a.icon aria-hidden className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
                   <div className="min-w-0">
                     <p className="text-[12.5px] font-semibold leading-tight text-ink">
                       {a.title}
