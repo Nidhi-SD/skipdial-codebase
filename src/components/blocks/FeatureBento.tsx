@@ -97,8 +97,8 @@ function CoverageStrip() {
     <div className="rounded-xl border border-line bg-surface-alt p-4">
       <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.14em] text-ink-faint">
         <span>00:00</span>
-        <span className="flex items-center gap-1.5 text-signal">
-          <span className="pulse-dot relative inline-block h-1.5 w-1.5 rounded-full bg-signal" />
+        <span className="flex items-center gap-1.5 text-accent">
+          <span className="pulse-dot relative inline-block h-1.5 w-1.5 rounded-full bg-accent" />
           0 missed this week
         </span>
         <span>24:00</span>
@@ -185,7 +185,7 @@ function SyncPipeline() {
             )}
           </span>
         ))}
-        <span className="flex items-center gap-1 rounded-md bg-signal/15 px-2 py-1 text-[11px] font-semibold text-signal">
+        <span className="flex items-center gap-1 rounded-md bg-accent-tint px-2 py-1 text-[11px] font-semibold text-accent">
           <Check aria-hidden className="h-3 w-3" strokeWidth={3} />
           Synced · 0.4s
         </span>

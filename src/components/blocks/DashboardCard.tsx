@@ -25,11 +25,12 @@ const stats: {
   delta: string;
   decimals?: number;
   icon: LucideIcon;
+  ringPct: number;
 }[] = [
-  { label: "Calls today", value: 247, suffix: "", delta: "+18%", icon: Phone },
-  { label: "Booked appts", value: 38, suffix: "", delta: "+24%", icon: CalendarCheck2 },
-  { label: "Avg pickup", value: 1.4, suffix: "s", delta: "−0.3s", decimals: 1, icon: Gauge },
-  { label: "Connect rate", value: 31.2, suffix: "%", delta: "+2.1pp", decimals: 1, icon: Star },
+  { label: "Calls today", value: 247, suffix: "", delta: "+18%", icon: Phone, ringPct: 82 },
+  { label: "Booked appts", value: 38, suffix: "", delta: "+24%", icon: CalendarCheck2, ringPct: 76 },
+  { label: "Avg pickup", value: 1.4, suffix: "s", delta: "−0.3s", decimals: 1, icon: Gauge, ringPct: 68 },
+  { label: "Connect rate", value: 31.2, suffix: "%", delta: "+2.1pp", decimals: 1, icon: Star, ringPct: 31 },
 ];
 
 const bars = [
@@ -43,10 +44,66 @@ const bars = [
 ];
 
 const recentCalls = [
-  { name: "Mariela Ortiz", initials: "MO", note: "Furnace not heating · dispatched", tag: "Booked", tone: "signal" },
-  { name: "Bill Treadwell", initials: "BT", note: "BOV pitched · interested", tag: "Transferred", tone: "accent" },
-  { name: "Linda Park", initials: "LP", note: "Voicemail · scheduled retry", tag: "Voicemail", tone: "warn" },
+  { name: "Mariela Ortiz", initials: "MO", note: "Furnace not heating · dispatched", tag: "Booked", tone: "solid" },
+  { name: "Bill Treadwell", initials: "BT", note: "BOV pitched · interested", tag: "Transferred", tone: "tint" },
+  { name: "Linda Park", initials: "LP", note: "Voicemail · scheduled retry", tag: "Voicemail", tone: "neutral" },
 ];
+
+/* Radial progress ring around each stat's icon — echoes the goal-tracking
+   gauges from the mockup deck rather than a flat icon chip. `pct` is a
+   normalized 0-100 read on that metric (literal for Connect rate, a
+   goal-relative fill for the rest). */
+function StatRing({
+  icon: Icon,
+  pct,
+  reduce,
+}: {
+  icon: LucideIcon;
+  pct: number;
+  reduce: boolean | null;
+}) {
+  const size = 34;
+  const stroke = 3;
+  const r = (size - stroke) / 2;
+  const c = 2 * Math.PI * r;
+  const offset = c * (1 - pct / 100);
+
+  return (
+    <span className="relative flex h-[34px] w-[34px] shrink-0 items-center justify-center">
+      <svg
+        aria-hidden
+        width={size}
+        height={size}
+        viewBox={`0 0 ${size} ${size}`}
+        className="absolute inset-0 -rotate-90"
+      >
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={r}
+          strokeWidth={stroke}
+          fill="none"
+          className="stroke-accent-tint"
+        />
+        <motion.circle
+          cx={size / 2}
+          cy={size / 2}
+          r={r}
+          strokeWidth={stroke}
+          strokeLinecap="round"
+          fill="none"
+          className="stroke-accent"
+          strokeDasharray={c}
+          initial={reduce ? { strokeDashoffset: offset } : { strokeDashoffset: c }}
+          whileInView={{ strokeDashoffset: offset }}
+          viewport={viewportOnce}
+          transition={{ duration: 0.9, ease: EASE }}
+        />
+      </svg>
+      <Icon aria-hidden className="h-3.5 w-3.5 text-accent" />
+    </span>
+  );
+}
 
 /* Small decorative squiggle — separates each stat's headline number from its
    delta without the visual weight of a hard rule. */
@@ -87,8 +144,8 @@ export function DashboardCard({ className }: { className?: string }) {
         <span className="ml-3 font-mono text-[11px] text-ink-faint">
           skipdial.ai / dashboard
         </span>
-        <span className="ml-auto flex items-center gap-1.5 rounded-full bg-signal/10 px-2.5 py-1 text-[10.5px] font-bold text-signal">
-          <span className="pulse-dot relative inline-block h-1.5 w-1.5 rounded-full bg-signal" />
+        <span className="ml-auto flex items-center gap-1.5 rounded-full bg-accent-tint px-2.5 py-1 text-[10.5px] font-bold text-accent-deep">
+          <span className="pulse-dot relative inline-block h-1.5 w-1.5 rounded-full bg-accent" />
           All systems normal
         </span>
       </div>
@@ -105,9 +162,7 @@ export function DashboardCard({ className }: { className?: string }) {
                 className="rounded-xl border border-line bg-surface p-3.5"
               >
                 <div className="flex items-center gap-2">
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent-tint text-accent">
-                    <s.icon aria-hidden className="h-3.5 w-3.5" />
-                  </span>
+                  <StatRing icon={s.icon} pct={s.ringPct} reduce={reduce} />
                   <p className="truncate text-[11px] font-semibold uppercase tracking-wide text-ink-faint">
                     {s.label}
                   </p>
@@ -116,7 +171,7 @@ export function DashboardCard({ className }: { className?: string }) {
                   <CountUp to={s.value} suffix={s.suffix} decimals={s.decimals ?? 0} />
                 </p>
                 <WaveDivider />
-                <p className="flex items-center gap-0.5 text-[11.5px] font-semibold text-signal">
+                <p className="flex items-center gap-0.5 text-[11.5px] font-semibold text-accent-deep">
                   <ArrowIcon aria-hidden className="h-3 w-3" />
                   {s.delta}
                 </p>
@@ -188,9 +243,9 @@ export function DashboardCard({ className }: { className?: string }) {
                   <span
                     className={cn(
                       "flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[10.5px] font-bold",
-                      c.tone === "signal" && "bg-signal/15 text-signal",
-                      c.tone === "accent" && "bg-accent-tint text-accent",
-                      c.tone === "warn" && "bg-warn/15 text-warn"
+                      c.tone === "solid" && "bg-accent text-ink-inverse",
+                      c.tone === "tint" && "bg-accent-tint text-accent",
+                      c.tone === "neutral" && "bg-surface-alt text-ink-faint"
                     )}
                   >
                     {c.initials}
@@ -204,9 +259,9 @@ export function DashboardCard({ className }: { className?: string }) {
                   <span
                     className={cn(
                       "rounded-full px-2 py-0.5 text-[10px] font-bold",
-                      c.tone === "signal" && "bg-signal/10 text-signal",
-                      c.tone === "accent" && "bg-accent-tint text-accent",
-                      c.tone === "warn" && "bg-warn/10 text-warn"
+                      c.tone === "solid" && "bg-accent-deep/10 text-accent-deep",
+                      c.tone === "tint" && "bg-accent-tint text-accent",
+                      c.tone === "neutral" && "border border-line text-ink-faint"
                     )}
                   >
                     {c.tag}

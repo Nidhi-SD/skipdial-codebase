@@ -1,145 +1,161 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import { cn } from "@/lib/cn";
-import { PhoneOutgoing, User, Check, X, Voicemail } from "lucide-react";
+import { PhoneOutgoing, Check, X, Voicemail, type LucideIcon } from "lucide-react";
 
-const outcomes = [
-  { id: "connected", label: "Connected & Booked", icon: Check, color: "var(--signal)", bg: "bg-signal" },
-  { id: "voicemail", label: "Left Voicemail", icon: Voicemail, color: "var(--warn)", bg: "bg-warn" },
-  { id: "disconnected", label: "No Answer / Retry", icon: X, color: "var(--accent)", bg: "bg-accent" },
+/* Outbound dialer walkthrough — the AI works a follow-up list one lead at a
+   time. Previous version animated calls to unlabeled targets at random,
+   which read as noise rather than a story. This version names each lead and
+   narrates its outcome in place, so the sequence is legible at a glance. */
+
+const leads = [
+  { name: "Sarah Whitman", note: "Policy renewal follow-up" },
+  { name: "David Chen", note: "Quote requested last week" },
+  { name: "Maria Lopez", note: "Missed appointment reminder" },
+  { name: "Tom Reyes", note: "Re-engagement · cold lead" },
+  { name: "Priya Shah", note: "Referral follow-up" },
 ];
 
-export function ParallelDialerVisualizer({ className }: { className?: string }) {
-  const [activeCalls, setActiveCalls] = useState<{ id: string | number; targetIdx: number; progress: number; outcome?: typeof outcomes[0] }[]>([]);
-  
-  // Animation loop to simulate outbound calls
-  useEffect(() => {
-    const spawnCall = () => {
-      const id = Math.random().toString(36).substring(2, 9);
-      const targetIdx = Math.floor(Math.random() * 5); // 5 targets on the right
-      
-      setActiveCalls(curr => [...curr, { id, targetIdx, progress: 0 }]);
-      
-      // Call progresses over 2 seconds
-      let p = 0;
-      const interval = setInterval(() => {
-        p += 5;
-        if (p >= 100) {
-          clearInterval(interval);
-          // Assign outcome
-          const outcome = outcomes[Math.floor(Math.random() * outcomes.length)];
-          setActiveCalls(curr => curr.map(c => c.id === id ? { ...c, progress: 100, outcome } : c));
-          
-          // Remove call after 1.5s delay
-          setTimeout(() => {
-            setActiveCalls(curr => curr.filter(c => c.id !== id));
-          }, 1500);
-        } else {
-          setActiveCalls(curr => curr.map(c => c.id === id ? { ...c, progress: p } : c));
-        }
-      }, 50);
-    };
+const outcomes: {
+  id: string;
+  label: string;
+  icon: LucideIcon;
+  tone: "solid" | "tint" | "neutral";
+}[] = [
+  { id: "connected", label: "Connected & Booked", icon: Check, tone: "solid" },
+  { id: "voicemail", label: "Left Voicemail", icon: Voicemail, tone: "tint" },
+  { id: "retry", label: "No Answer · Retry", icon: X, tone: "neutral" },
+];
 
-    // Spawn calls every 800ms
-    const spawner = setInterval(spawnCall, 800);
-    spawnCall();
-    
-    return () => clearInterval(spawner);
+const outcomeForIndex = (i: number) => outcomes[i % outcomes.length];
+
+const STEP_MS = 1700;
+const HOLD_MS = 2600;
+
+export function ParallelDialerVisualizer({ className }: { className?: string }) {
+  const [activeIdx, setActiveIdx] = useState(0);
+  const [resolvedCount, setResolvedCount] = useState(0);
+
+  useEffect(() => {
+    let cancelled = false;
+    const timers: ReturnType<typeof setTimeout>[] = [];
+
+    const run = () => {
+      if (cancelled) return;
+      setActiveIdx(0);
+      setResolvedCount(0);
+      leads.forEach((_, i) => {
+        timers.push(
+          setTimeout(() => {
+            if (cancelled) return;
+            setResolvedCount(i + 1);
+            setActiveIdx(i + 1 < leads.length ? i + 1 : -1);
+          }, (i + 1) * STEP_MS)
+        );
+      });
+      timers.push(setTimeout(run, leads.length * STEP_MS + HOLD_MS));
+    };
+    run();
+
+    return () => {
+      cancelled = true;
+      timers.forEach(clearTimeout);
+    };
   }, []);
 
   return (
-    <div className={cn("relative mx-auto w-full max-w-4xl overflow-hidden rounded-3xl border border-line bg-surface p-8 shadow-card", className)}>
-      <div className="flex items-center justify-between">
-        
-        {/* Left: AI Engine */}
-        <div className="relative z-10 flex flex-col items-center">
-          <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-line bg-surface-alt shadow-sm">
-            <PhoneOutgoing className="h-7 w-7 text-ink" />
-          </div>
-          <p className="mt-3 text-[13px] font-bold uppercase tracking-wider text-ink-light">AI Dialer</p>
-          <div className="mt-2 flex items-center gap-1.5 rounded-full bg-accent/10 px-2.5 py-1">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" />
-            <span className="text-[11px] font-semibold text-accent">Calling multiple lists</span>
-          </div>
+    <div
+      className={cn(
+        "relative mx-auto w-full max-w-2xl overflow-hidden rounded-3xl border border-line bg-surface p-6 shadow-card sm:p-8",
+        className
+      )}
+    >
+      {/* Dialer header */}
+      <div className="flex items-center gap-3">
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-line bg-surface-alt shadow-sm">
+          <PhoneOutgoing aria-hidden className="h-5 w-5 text-ink" />
         </div>
-
-        {/* Center: The visualization paths */}
-        <div className="relative h-[280px] flex-1">
-          {/* Static paths */}
-          <div className="absolute inset-0 flex flex-col justify-between py-6">
-            {[0, 1, 2, 3, 4].map(idx => (
-              <div key={idx} className="h-px w-full border-b border-dashed border-line opacity-50" />
-            ))}
+        <div>
+          <p className="text-[13px] font-bold uppercase tracking-wider text-ink">AI Dialer</p>
+          <div className="mt-1 flex items-center gap-1.5">
+            <span aria-hidden className="pulse-dot relative inline-block h-1.5 w-1.5 rounded-full bg-accent" />
+            <span className="text-[12px] font-medium text-ink-faint">Working a follow-up list</span>
           </div>
-
-          {/* Active calls moving across */}
-          {activeCalls.map(call => (
-            <motion.div
-              key={call.id}
-              className="absolute left-0 top-[24px] flex items-center"
-              style={{
-                y: call.targetIdx * (280 / 4) - 24, // Distribute along height
-                x: `${call.progress}%`,
-                width: '100%',
-              }}
-            >
-              <div className="relative flex items-center justify-center">
-                {/* Connection line trail */}
-                <div 
-                  className="absolute right-full top-1/2 h-px -translate-y-1/2 bg-gradient-to-r from-transparent to-ink/20"
-                  style={{ width: `${call.progress * 3}px` }}
-                />
-                
-                {/* Node */}
-                <div className={cn(
-                  "flex h-6 w-6 items-center justify-center rounded-full shadow-sm transition-colors duration-300",
-                  call.outcome ? call.outcome.bg : "bg-ink",
-                  call.outcome ? "text-white" : "text-surface"
-                )}>
-                  {call.outcome ? (
-                    <call.outcome.icon className="h-3.5 w-3.5" />
-                  ) : (
-                    <PhoneOutgoing className="h-3 w-3" />
-                  )}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Right: Targets */}
-        <div className="relative z-10 flex h-[280px] flex-col justify-between py-2">
-          {[0, 1, 2, 3, 4].map((idx) => {
-            const hasOutcome = activeCalls.find(c => c.targetIdx === idx && c.outcome);
-            return (
-              <div 
-                key={idx} 
-                className={cn(
-                  "flex h-10 w-10 items-center justify-center rounded-full border transition-all duration-300",
-                  hasOutcome ? `border-transparent ${hasOutcome.outcome?.bg} text-white scale-110 shadow-sm` : "border-line bg-surface text-ink-light"
-                )}
-              >
-                {hasOutcome && hasOutcome.outcome ? (
-                  <hasOutcome.outcome.icon className="h-4 w-4" />
-                ) : (
-                  <User className="h-4 w-4" />
-                )}
-              </div>
-            );
-          })}
         </div>
       </div>
 
+      {/* Lead rows */}
+      <ul className="mt-6 flex flex-col gap-2">
+        {leads.map((lead, i) => {
+          const isActive = i === activeIdx;
+          const outcome = i < resolvedCount ? outcomeForIndex(i) : null;
+
+          return (
+            <li
+              key={lead.name}
+              className={cn(
+                "flex items-center gap-3 rounded-xl border px-3.5 py-2.5 transition-colors duration-300",
+                isActive ? "border-accent/30 bg-accent-tint/50" : "border-line bg-surface"
+              )}
+            >
+              <span
+                className={cn(
+                  "flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[11px] font-bold",
+                  !outcome && isActive && "bg-accent/15 text-accent",
+                  !outcome && !isActive && "bg-surface-alt text-ink-faint",
+                  outcome?.tone === "solid" && "bg-accent text-ink-inverse",
+                  outcome?.tone === "tint" && "bg-accent-tint text-accent",
+                  outcome?.tone === "neutral" && "bg-surface-alt text-ink-faint"
+                )}
+              >
+                {outcome ? (
+                  <outcome.icon aria-hidden className="h-3.5 w-3.5" />
+                ) : (
+                  lead.name
+                    .split(" ")
+                    .map((w) => w[0])
+                    .join("")
+                )}
+              </span>
+
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-[13px] font-semibold text-ink">{lead.name}</p>
+                <p className="truncate text-[11.5px] text-ink-faint">{lead.note}</p>
+              </div>
+
+              <span
+                className={cn(
+                  "shrink-0 rounded-full px-2 py-0.5 text-[10.5px] font-bold",
+                  !outcome && isActive && "bg-accent-tint text-accent",
+                  !outcome && !isActive && "text-ink-faint",
+                  outcome?.tone === "solid" && "bg-accent-deep/10 text-accent-deep",
+                  outcome?.tone === "tint" && "bg-accent-tint text-accent",
+                  outcome?.tone === "neutral" && "border border-line text-ink-faint"
+                )}
+              >
+                {outcome ? outcome.label : isActive ? "Calling…" : "Queued"}
+              </span>
+            </li>
+          );
+        })}
+      </ul>
+
       {/* Legend */}
-      <div className="mt-8 flex flex-wrap items-center justify-center gap-6 border-t border-line pt-6">
-        {outcomes.map(outcome => (
-          <div key={outcome.id} className="flex items-center gap-2">
-            <div className={cn("flex h-6 w-6 items-center justify-center rounded-md text-white", outcome.bg)}>
-              <outcome.icon className="h-3 w-3" />
-            </div>
-            <span className="text-[13px] font-medium text-ink-light">{outcome.label}</span>
+      <div className="mt-6 flex flex-wrap items-center justify-center gap-5 border-t border-line pt-5">
+        {outcomes.map((outcome) => (
+          <div key={outcome.id} className="flex items-center gap-1.5">
+            <span
+              className={cn(
+                "flex h-5 w-5 items-center justify-center rounded-md",
+                outcome.tone === "solid" && "bg-accent text-ink-inverse",
+                outcome.tone === "tint" && "bg-accent-tint text-accent",
+                outcome.tone === "neutral" && "bg-surface-alt text-ink-faint"
+              )}
+            >
+              <outcome.icon aria-hidden className="h-3 w-3" />
+            </span>
+            <span className="text-[12px] font-medium text-ink-light">{outcome.label}</span>
           </div>
         ))}
       </div>
