@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { Container, SectionHead, Button } from "@/components/ui/primitives";
 import { Reveal, Stagger, Item } from "@/components/motion";
+import { Magnetic } from "@/components/motion/entrances";
 import {
   PageHero,
   Section,
@@ -116,9 +117,16 @@ export default function IntegrationsPage() {
         mutedTitle="to Your Workflow"
         body="The real impact of AI call handling comes from structured outcomes. SkipDial integrates AI voice agents into your existing tech stack so inbound and outbound calls can trigger real actions, sync data automatically, and deliver visibility without manual entry."
         ctas={
-          <Button href="/request-a-free-demo" size="lg" arrow>
-            Get a Free Demo
-          </Button>
+          <>
+            <Magnetic>
+              <Button href="/request-a-free-demo" size="lg" arrow>
+                Try It Yourself
+              </Button>
+            </Magnetic>
+            <Button href="#hear-it-live" variant="outline" size="lg">
+              Hear a Sample
+            </Button>
+          </>
         }
       />
 
@@ -298,6 +306,9 @@ export default function IntegrationsPage() {
         title="See What Integrated Call Automation"
         mutedTitle="Looks Like in Practice"
         body="Your team may be spending valuable time on manual data entry because your call handling solution does not connect cleanly to your CRM and scheduling tools. SkipDial integrates AI voice agents into your systems so calls produce measurable outcomes, reliable follow-up, and fewer manual errors."
+        secondaryCtaLabel="Contact Us"
+        secondaryCtaHref="https://cal.com/aryanbisht/30-min-discovery-call?overlayCalendar=true"
+        secondaryCtaExternal
       />
     </>
   );

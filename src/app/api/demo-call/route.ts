@@ -70,8 +70,17 @@ export async function POST(request: Request) {
   }
 
   const apiKey = process.env.VAPI_API_KEY;
-  const phoneNumberId = process.env.VAPI_PHONE_NUMBER_ID;
-  const assistantId = process.env.VAPI_DEMO_ASSISTANT_ID;
+
+  // Insurance runs on a separate, independently-hosted Vapi assistant
+  // (its own bot/system prompt/number) — every other industry shares the
+  // single universal demo assistant.
+  const isInsurance = industry === "insurance";
+  const phoneNumberId = isInsurance
+    ? process.env.VAPI_INSURANCE_PHONE_NUMBER_ID
+    : process.env.VAPI_PHONE_NUMBER_ID;
+  const assistantId = isInsurance
+    ? process.env.VAPI_INSURANCE_ASSISTANT_ID
+    : process.env.VAPI_DEMO_ASSISTANT_ID;
 
   if (!apiKey || !phoneNumberId || !assistantId) {
     console.error("[demo-call] missing Vapi env vars");

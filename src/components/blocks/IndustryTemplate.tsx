@@ -1,7 +1,7 @@
 import { AlertTriangle, Sparkles } from "lucide-react";
 import { Container, SectionHead, Button } from "@/components/ui/primitives";
 import { Reveal, Stagger, Item } from "@/components/motion";
-import { CallArrivalFrame } from "@/components/motion/entrances";
+import { CallArrivalFrame, Magnetic } from "@/components/motion/entrances";
 import {
   PageHero,
   Section,
@@ -72,11 +72,13 @@ export function IndustryTemplate({ data }: { data: IndustryData }) {
         body={data.heroBody}
         ctas={
           <>
-            <Button href="/request-a-free-demo" size="lg" arrow>
-              Get a Free Demo
-            </Button>
-            <Button href="/how-it-works" variant="outline" size="lg">
-              How It Works
+            <Magnetic>
+              <Button href="/request-a-free-demo" size="lg" arrow>
+                Try It Yourself
+              </Button>
+            </Magnetic>
+            <Button href="#hear-it-live" variant="outline" size="lg">
+              Hear a Sample
             </Button>
           </>
         }

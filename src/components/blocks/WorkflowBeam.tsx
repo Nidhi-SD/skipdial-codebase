@@ -398,9 +398,9 @@ function WorkflowNode({
   const frameStyle = live
     ? center
       ? {
-          borderColor: "rgb(var(--signal-rgb) / 0.45)",
+          borderColor: "rgb(var(--accent-rgb) / 0.45)",
           boxShadow:
-            "0 0 46px -10px rgb(var(--signal-rgb) / 0.45), inset 0 1px 0 rgb(255 255 255 / 0.9)",
+            "0 0 46px -10px rgb(var(--accent-rgb) / 0.45), inset 0 1px 0 rgb(255 255 255 / 0.9)",
         }
       : {
           borderColor: "rgb(var(--ink-rgb) / 0.16)",
@@ -409,9 +409,9 @@ function WorkflowNode({
         }
     : done
       ? {
-          borderColor: "rgb(var(--signal-rgb) / 0.4)",
+          borderColor: "rgb(var(--accent-rgb) / 0.4)",
           boxShadow:
-            "0 0 32px -12px rgb(var(--signal-rgb) / 0.35), inset 0 1px 0 rgb(255 255 255 / 0.9)",
+            "0 0 32px -12px rgb(var(--accent-rgb) / 0.35), inset 0 1px 0 rgb(255 255 255 / 0.9)",
         }
       : {
           borderColor: "rgb(var(--line-rgb))",
@@ -421,10 +421,10 @@ function WorkflowNode({
   const iconStyle = live
     ? center
       ? {
-          borderColor: "rgb(var(--signal-rgb) / 0.4)",
-          background: "rgb(var(--signal-rgb))",
+          borderColor: "rgb(var(--accent-rgb) / 0.4)",
+          background: "rgb(var(--accent-rgb))",
           color: "#fff",
-          boxShadow: "0 0 20px rgb(var(--signal-rgb) / 0.5)",
+          boxShadow: "0 0 20px rgb(var(--accent-rgb) / 0.5)",
         }
       : {
           borderColor: "rgb(var(--ink-rgb) / 0.18)",
@@ -433,10 +433,10 @@ function WorkflowNode({
         }
     : done
       ? {
-          borderColor: "rgb(var(--signal-rgb))",
-          background: "rgb(var(--signal-rgb))",
+          borderColor: "rgb(var(--accent-rgb))",
+          background: "rgb(var(--accent-rgb))",
           color: "#fff",
-          boxShadow: "0 0 16px rgb(var(--signal-rgb) / 0.4)",
+          boxShadow: "0 0 16px rgb(var(--accent-rgb) / 0.4)",
         }
       : {
           borderColor: "rgb(var(--line-rgb))",
@@ -819,7 +819,7 @@ export function WorkflowBeam({ className }: { className?: string }) {
           <span
             className={cn(
               "relative inline-block h-2 w-2 rounded-full transition-colors duration-500",
-              callLive ? "bg-signal pulse-dot" : "bg-ink-faint"
+              callLive ? "bg-accent pulse-dot" : "bg-ink-faint"
             )}
           />
           Live call routing
@@ -858,13 +858,13 @@ export function WorkflowBeam({ className }: { className?: string }) {
             <span
               className={cn(
                 "relative inline-block h-1.5 w-1.5 rounded-full transition-colors duration-500",
-                phase === "ringing" ? "bg-signal pulse-dot" : "bg-line"
+                phase === "ringing" ? "bg-accent pulse-dot" : "bg-line"
               )}
             />
             <span
               className={cn(
                 "transition-colors duration-500",
-                phase === "ringing" ? "text-signal" : "text-ink-faint"
+                phase === "ringing" ? "text-accent" : "text-ink-faint"
               )}
             >
               {phase === "ringing" ? "Ringing" : "Line open"}
@@ -913,7 +913,7 @@ export function WorkflowBeam({ className }: { className?: string }) {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -4 }}
                   transition={{ duration: 0.24, ease: EASE }}
-                  className="flex h-4 items-center gap-1.5 text-[10.5px] font-semibold text-signal"
+                  className="flex h-4 items-center gap-1.5 text-[10.5px] font-semibold text-accent"
                 >
                   <Check className="h-3 w-3 shrink-0" strokeWidth={3} />
                   <CyclingLine
@@ -985,9 +985,9 @@ export function WorkflowBeam({ className }: { className?: string }) {
                 initial={{ opacity: 0, scale: 0.6 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={springPhysics}
-                className="flex items-center gap-1.5 whitespace-nowrap rounded-full border border-line bg-surface px-2.5 py-0.5 text-[10.5px] font-semibold text-signal"
+                className="flex items-center gap-1.5 whitespace-nowrap rounded-full border border-line bg-surface px-2.5 py-0.5 text-[10.5px] font-semibold text-accent"
                 style={{
-                  boxShadow: "0 4px 16px rgb(var(--signal-rgb) / 0.18)",
+                  boxShadow: "0 4px 16px rgb(var(--accent-rgb) / 0.18)",
                 }}
               >
                 <Check className="h-2.5 w-2.5" strokeWidth={3} />
@@ -1008,7 +1008,7 @@ export function WorkflowBeam({ className }: { className?: string }) {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={springPhysics}
-                  className="inline-flex h-4 items-center gap-1 rounded-md bg-signal/15 px-1.5 text-[10.5px] font-semibold text-signal"
+                  className="inline-flex h-4 items-center gap-1 rounded-md bg-accent/15 px-1.5 text-[10.5px] font-semibold text-accent"
                 >
                   <Check className="h-3 w-3" strokeWidth={3} />
                   Lead captured

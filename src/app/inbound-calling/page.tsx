@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Container, SectionHead, Button } from "@/components/ui/primitives";
+import { Magnetic } from "@/components/motion/entrances";
 import {
   PageHero,
   Section,
@@ -46,11 +47,13 @@ export default function InboundCallingPage() {
         body="When someone calls your business, they're usually ready to book, schedule, or move forward. SkipDial ensures those calls are answered immediately, handled consistently, and documented accurately."
         ctas={
           <>
-            <Button href="/request-a-free-demo" size="lg" arrow>
-              Get a Free Demo
-            </Button>
-            <Button href="/how-it-works" variant="outline" size="lg">
-              How It Works
+            <Magnetic>
+              <Button href="/request-a-free-demo" size="lg" arrow>
+                Try It Yourself
+              </Button>
+            </Magnetic>
+            <Button href="/how-it-works#hear-it-live" variant="outline" size="lg">
+              Hear a Sample
             </Button>
           </>
         }
@@ -135,6 +138,9 @@ export default function InboundCallingPage() {
         title="See How SkipDial Handles"
         mutedTitle="Your Inbound Calls"
         body="If your business depends on phone calls to generate revenue, consistent intake and immediate response are not optional. SkipDial provides structured inbound call handling without expanding headcount or sacrificing control."
+        secondaryCtaLabel="Contact Us"
+        secondaryCtaHref="https://cal.com/aryanbisht/30-min-discovery-call?overlayCalendar=true"
+        secondaryCtaExternal
       />
     </>
   );

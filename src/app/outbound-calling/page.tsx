@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Container, SectionHead, Button, ArrowLink } from "@/components/ui/primitives";
 import { Reveal } from "@/components/motion";
+import { Magnetic } from "@/components/motion/entrances";
 import {
   PageHero,
   Section,
@@ -60,11 +61,13 @@ export default function OutboundCallingPage() {
         body="SkipDial automates outbound calls using structured AI workflows designed around your sales process, appointment flow, and customer lifecycle. Instead of relying on manual call lists, inconsistent callbacks, or overextended staff, outbound activity becomes disciplined, trackable, and scalable."
         ctas={
           <>
-            <Button href="/request-a-free-demo" size="lg" arrow>
-              Get a Free Demo
-            </Button>
-            <Button href="/integrations" variant="outline" size="lg">
-              See Integrations
+            <Magnetic>
+              <Button href="/request-a-free-demo" size="lg" arrow>
+                Try It Yourself
+              </Button>
+            </Magnetic>
+            <Button href="#hear-it-live" variant="outline" size="lg">
+              Hear a Sample
             </Button>
           </>
         }
@@ -204,6 +207,9 @@ export default function OutboundCallingPage() {
         title="See How SkipDial Automates"
         mutedTitle="Outbound Follow-Up"
         body="Consistent outbound activity increases conversion rates without increasing headcount."
+        secondaryCtaLabel="Contact Us"
+        secondaryCtaHref="https://cal.com/aryanbisht/30-min-discovery-call?overlayCalendar=true"
+        secondaryCtaExternal
       />
     </>
   );

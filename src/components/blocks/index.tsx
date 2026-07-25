@@ -79,7 +79,7 @@ export function PageHero({
           <Reveal variant="fadeUp" delay={0.18}>
             <div
               className={cn(
-                "mt-5 max-w-copy text-[16px] leading-relaxed text-ink-light",
+                "mt-5 max-w-copy text-[16px] leading-relaxed text-ink",
                 center && "mx-auto"
               )}
             >
@@ -353,7 +353,7 @@ export function HearItLive({
   showCta?: boolean;
 }) {
   return (
-    <Section tone="alt">
+    <Section tone="alt" id="hear-it-live">
       <Container>
         <div className="grid items-center gap-10 lg:grid-cols-[1fr_1.2fr]">
           <SectionHead eyebrow="Listen in" title="Hear it Live!" className="max-w-md">

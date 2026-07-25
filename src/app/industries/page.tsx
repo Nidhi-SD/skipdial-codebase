@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 import { Container, SectionHead, Button, ArrowLink } from "@/components/ui/primitives";
 import { Reveal, Stagger, Item } from "@/components/motion";
-import { CallArrivalFrame } from "@/components/motion/entrances";
+import { CallArrivalFrame, Magnetic } from "@/components/motion/entrances";
 import { PageHero, Section, BulletList, CTABand } from "@/components/blocks";
 import { TryDemoCall } from "@/components/blocks/TryDemoCall";
 
@@ -130,9 +130,11 @@ export default function IndustriesPage() {
         mutedTitle="That Depend on Phone Calls"
         body="Not all industries rely on phone calls the same way. In some sectors, calls represent urgent service needs. In others, they are the first step in a high-value client relationship. SkipDial configures AI call agents around your specific call patterns, intake requirements, and follow-up workflows."
         ctas={
-          <Button href="/request-a-free-demo" size="lg" arrow>
-            Get a Free Demo
-          </Button>
+          <Magnetic>
+            <Button href="/request-a-free-demo" size="lg" arrow>
+              Try It Yourself
+            </Button>
+          </Magnetic>
         }
       />
 
@@ -281,6 +283,9 @@ export default function IndustriesPage() {
         title="See How SkipDial Would Work"
         mutedTitle="in Your Industry"
         body="Every industry has unique call dynamics. SkipDial adapts to them without adding operational complexity."
+        secondaryCtaLabel="Contact Us"
+        secondaryCtaHref="https://cal.com/aryanbisht/30-min-discovery-call?overlayCalendar=true"
+        secondaryCtaExternal
       />
     </>
   );
