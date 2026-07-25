@@ -8,7 +8,6 @@ import {
   ShieldCheck,
   Workflow,
   PhoneCall,
-  Braces,
 } from "lucide-react";
 import { Container, SectionHead, Button } from "@/components/ui/primitives";
 import { Reveal, Stagger, Item } from "@/components/motion";
@@ -65,13 +64,8 @@ const included = [
 const logoGroups = [
   {
     icon: PhoneCall,
-    label: "Core Telephony Infrastructure",
-    logos: ["Vonage", "Twilio", "Telnyx", "RingCentral", "SIP Trunking"],
-  },
-  {
-    icon: Database,
-    label: "CRM & Sales Platforms",
-    logos: ["HubSpot", "Salesforce", "GoHighLevel", "ServiceTitan", "Jobber", "Pipedrive"],
+    label: "Core Telephony & Voice AI Infrastructure",
+    logos: ["Vonage", "Twilio", "Telnyx", "RingCentral", "Vapi", "Retell", "LiveKit"],
   },
   {
     icon: Workflow,
@@ -79,9 +73,9 @@ const logoGroups = [
     logos: ["Zapier", "Make", "n8n", "Slack"],
   },
   {
-    icon: Braces,
-    label: "& Custom API Connections",
-    logos: ["REST APIs", "Webhooks", "Middleware", "Custom Databases"],
+    icon: Database,
+    label: "CRM & Sales Platforms",
+    logos: ["HubSpot", "Salesforce", "Zoho", "GoHighLevel", "ServiceTitan", "Jobber", "Housecall Pro"],
   },
 ];
 
@@ -198,7 +192,16 @@ export default function IntegrationsPage() {
           />
           <div className="mt-12 grid gap-4 md:grid-cols-2">
             {logoGroups.map((group, gi) => (
-              <Reveal key={group.label} variant="fadeUp" delay={gi * 0.08}>
+              <Reveal
+                key={group.label}
+                variant="fadeUp"
+                delay={gi * 0.08}
+                className={
+                  gi === logoGroups.length - 1 && logoGroups.length % 2 !== 0
+                    ? "md:col-span-2"
+                    : undefined
+                }
+              >
                 <div className="h-full rounded-2xl border border-line bg-surface p-6 shadow-soft">
                   <div className="flex items-center gap-3">
                     <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent-tint/60 text-accent">

@@ -15,27 +15,62 @@ const brandIcons: Record<string, string> = {
 };
 
 const brandColors: Record<string, string> = {
-  Twilio: "#F22F46",
-  Telnyx: "#00B67A",
-  RingCentral: "#FF7900",
   HubSpot: "#FF7A59",
-  Salesforce: "#00A1E0",
-  GoHighLevel: "#1A1A2E",
-  ServiceTitan: "#134074",
-  Jobber: "#5CB85C",
-  Pipedrive: "#212121",
   Zapier: "#FF4A00",
   Make: "#6D00CC",
   n8n: "#EA4560",
-  Slack: "#4A154B",
   Vonage: "#111111",
 };
 
-/* One logo cell — real brand glyph when we have a licensed one, otherwise a
-   colored initial badge. Both read as "a logo", not a plain text pill. */
+/* Full official logo files (own wordmark + colors baked in) — sourced from each
+   brand's own site or a freely-licensed copy (Wikimedia Commons PD-textlogo /
+   CC-BY-SA), saved locally so rendering doesn't depend on a third-party host.
+   Rendered as-is, at a fixed height, with no extra icon badge or name label
+   since the image already carries the brand's real typography. */
+const brandLogoFiles: Record<string, { src: string; ratio: number; scale?: number }> = {
+  Twilio: { src: "/logos/integrations/twilio.svg", ratio: 3.0029 },
+  Telnyx: { src: "/logos/integrations/telnyx.svg", ratio: 2.8966 },
+  // Bold italic wordmark, reads heavier than the rest of the telephony row.
+  RingCentral: { src: "/logos/integrations/ringcentral.svg", ratio: 5.8456, scale: 0.85 },
+  Salesforce: { src: "/logos/integrations/salesforce.svg", ratio: 1.3693 },
+  GoHighLevel: { src: "/logos/integrations/gohighlevel.svg", ratio: 4.0399 },
+  // These three run heavy, bold-weight wordmarks that fill their box edge-to-edge,
+  // so at a shared height they read visually larger than the lighter-weight marks
+  // next to them (HubSpot, Salesforce, Zoho) — scaled down to match perceived size.
+  ServiceTitan: { src: "/logos/integrations/servicetitan.svg", ratio: 5.1883, scale: 0.78 },
+  Jobber: { src: "/logos/integrations/jobber.svg", ratio: 4.9587, scale: 0.78 },
+  "Housecall Pro": { src: "/logos/integrations/housecallpro.svg", ratio: 6.2876, scale: 0.78 },
+  Pipedrive: { src: "/logos/integrations/pipedrive.svg", ratio: 3.9329 },
+  Slack: { src: "/logos/integrations/slack.svg", ratio: 3.545 },
+  Zoho: { src: "/logos/integrations/zoho.svg", ratio: 2.1442 },
+  Vapi: { src: "/logos/integrations/vapi.svg", ratio: 2.8372 },
+  Retell: { src: "/logos/integrations/retell.svg", ratio: 3.2401 },
+  // Bold geometric wordmark, reads heavier than Telnyx/Vapi/Retell next to it.
+  LiveKit: { src: "/logos/integrations/livekit.svg", ratio: 3.8964, scale: 0.82 },
+};
+
+/* One logo cell — real brand glyph when we have a licensed one, a full logo
+   image when we have a locally-hosted official file, otherwise a colored
+   initial badge. All three read as "a logo", not a plain text pill. */
 export function BrandLogo({ name, className }: { name: string; className?: string }) {
+  const logoFile = brandLogoFiles[name];
   const color = brandColors[name];
   const path = brandIcons[name];
+
+  if (logoFile) {
+    const scale = logoFile.scale ?? 1;
+    return (
+      <img
+        src={logoFile.src}
+        alt={name}
+        className={cn(
+          "h-[calc(1.25rem*var(--logo-scale))] w-auto object-contain md:h-[calc(1.5rem*var(--logo-scale))]",
+          className
+        )}
+        style={{ aspectRatio: logoFile.ratio, ["--logo-scale" as string]: scale }}
+      />
+    );
+  }
 
   if (!color) {
     // Generic/technical term (REST APIs, Webhooks, Middleware…) — plain text, no badge.
