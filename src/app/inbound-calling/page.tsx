@@ -9,7 +9,6 @@ import {
   SplitSection,
 } from "@/components/blocks";
 import { InboundDecisionTree } from "@/components/blocks/InboundDecisionTree";
-import { InteractiveConfigBuilder } from "@/components/blocks/InteractiveConfigBuilder";
 import { InboundRecordCard } from "@/components/blocks/InboundRecordCard";
 
 export const metadata: Metadata = {
