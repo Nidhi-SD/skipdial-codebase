@@ -32,7 +32,7 @@
     --accent-tint: #f1edfe; /* Pale chip/badge background */
 
     /* Status */
-    --signal: #16a34a; /* Live/positive — kept distinct from brand purple */
+    --signal: #6946eb; /* Live/positive — brand purple (was green, off-palette) */
     --warn: #d97706;
     --danger: #dc2626;
 
@@ -61,7 +61,7 @@
     --accent-deep-rgb: 92 73 151;
     --accent-soft-rgb: 159 129 252;
     --accent-tint-rgb: 241 237 254;
-    --signal-rgb: 22 163 74;
+    --signal-rgb: 105 70 235;
     --warn-rgb: 217 119 6;
     --danger-rgb: 220 38 38;
     --line-rgb: 232 232 236;
