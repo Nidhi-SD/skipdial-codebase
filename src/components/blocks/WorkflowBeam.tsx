@@ -9,7 +9,6 @@ import {
   type Variants,
 } from "framer-motion";
 import {
-  Bot,
   Check,
   Users,
   Loader2,
