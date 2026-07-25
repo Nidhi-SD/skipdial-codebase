@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { Container, SectionHead, Button, ArrowLink } from "@/components/ui/primitives";
 import { Stagger, Item } from "@/components/motion";
+import { Magnetic } from "@/components/motion/entrances";
 import { PageHero, Section, HearItLive, CTABand } from "@/components/blocks";
 import { ScrollTimeline } from "@/components/blocks/ScrollTimeline";
 import { WorkflowBeam } from "@/components/blocks/WorkflowBeam";
@@ -54,9 +55,11 @@ export default function HowItWorksPage() {
         mutedTitle="Call Handling Works"
         body="Every SkipDial agent is configured around how your business already operates — your workflows, your rules, your systems. Nothing is improvised, and nothing goes live until you approve it."
         ctas={
-          <Button href="/request-a-free-demo" size="lg" arrow>
-            Get a Free Demo
-          </Button>
+          <Magnetic>
+            <Button href="/request-a-free-demo" size="lg" arrow>
+              Try It Yourself
+            </Button>
+          </Magnetic>
         }
       />
 
@@ -112,6 +115,9 @@ export default function HowItWorksPage() {
         title="See How SkipDial Would Work"
         mutedTitle="for Your Business"
         body="Every business has unique call patterns and operational priorities. The best way to understand how SkipDial would function in your environment is to review your workflows and test real scenarios."
+        secondaryCtaLabel="Contact Us"
+        secondaryCtaHref="https://cal.com/aryanbisht/30-min-discovery-call?overlayCalendar=true"
+        secondaryCtaExternal
       />
     </>
   );
