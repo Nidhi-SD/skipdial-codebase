@@ -95,15 +95,15 @@ export default function HowItWorksPage() {
             align="center"
             className="mx-auto"
           />
-          <Stagger className="mt-10 flex flex-wrap items-center justify-center gap-x-2 gap-y-3">
+          <Stagger className="mt-10 flex flex-wrap items-center justify-center gap-x-1.5 gap-y-3 lg:flex-nowrap">
             {everyCall.map((c, i) => (
-              <Item key={c.label} variant="fadeIn" className="flex items-center gap-2">
-                <span className="flex items-center gap-1.5 rounded-full border border-line bg-surface px-3.5 py-1.5 text-[13px] font-medium text-ink-light shadow-soft">
-                  <c.icon aria-hidden className="h-3.5 w-3.5 text-accent" />
+              <Item key={c.label} variant="fadeIn" className="flex shrink-0 items-center gap-1.5">
+                <span className="flex items-center gap-1 whitespace-nowrap rounded-full border border-line bg-surface px-3 py-1.5 text-[12.5px] font-medium text-ink-light shadow-soft">
+                  <c.icon aria-hidden className="h-3 w-3 shrink-0 text-accent" />
                   {c.label}
                 </span>
                 {i < everyCall.length - 1 ? (
-                  <ChevronRight aria-hidden className="h-3.5 w-3.5 shrink-0 text-ink-faint/60" />
+                  <ChevronRight aria-hidden className="h-3 w-3 shrink-0 text-ink-faint/60" />
                 ) : null}
               </Item>
             ))}

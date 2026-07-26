@@ -258,7 +258,7 @@ export default function IndustriesPage() {
                 call routing work in a real interaction.
               </SectionHead>
               <Stagger className="mt-8 flex flex-wrap gap-2.5">
-                {["Structured intake", "Appointment booking", "Call routing"].map(
+                {["Structured intake", "Appointment booking", "Call routing", "Multi language support", "CRM sync", "24/7 availability"].map(
                   (chip) => (
                     <Item
                       key={chip}

@@ -192,7 +192,7 @@ export function IndustryTemplate({ data }: { data: IndustryData }) {
               </div>
             </Reveal>
             <Reveal variant="fadeUp" delay={0.1}>
-              <div className="h-full rounded-2xl border border-accent/20 bg-accent-tint/30 p-7 shadow-soft">
+              <div className="h-full rounded-2xl border border-line bg-surface p-7 shadow-soft">
                 <p className="text-[13px] font-semibold text-accent">
                   {data.reserve.focusLabel}
                 </p>
@@ -243,7 +243,7 @@ export function IndustryTemplate({ data }: { data: IndustryData }) {
                 {data.demo.body}
               </SectionHead>
               <Stagger className="mt-8 flex flex-wrap gap-2.5">
-                {["Structured intake", "Appointment booking", "Call routing"].map(
+                {["Structured intake", "Appointment booking", "Call routing", "Multi language support", "CRM sync", "24/7 availability"].map(
                   (chip) => (
                     <Item
                       key={chip}

@@ -133,28 +133,25 @@ export default function OutboundCallingPage() {
       {/* Not a robocall platform */}
       <Section tone="alt">
         <Container>
-          <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-20">
+          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
             <div className="lg:sticky lg:top-28">
               <SectionHead
                 eyebrow="Controlled outreach"
                 index="04"
                 title="Not a Robocall Platform"
               >
-                Outbound automation is often associated with mass dialing and
-                generic scripts. SkipDial operates differently. Calls respond
-                dynamically to what the prospect says, messaging is configured
-                specifically to your business, and every outcome syncs directly
-                to your CRM.{" "}
+                No mass dialing, no generic scripts. Calls adapt to what the
+                prospect says, messaging is built around your business, and
+                every outcome syncs straight to your CRM.{" "}
                 <strong className="font-semibold text-ink">
-                  This is controlled outbound follow-up, not blind cold calling.
+                  Controlled follow-up, not blind cold calling.
                 </strong>
               </SectionHead>
               <Reveal variant="fadeUp" delay={0.2}>
                 <div className="mt-8">
                   <p className="text-[15px] text-ink-light">
-                    Outbound calls update your CRM, sync appointments, log
-                    follow-up tasks, and reflect true activity in your reporting
-                    dashboards automatically, without manual data entry.
+                    Every call updates your CRM, books appointments, and logs
+                    follow-up automatically — no manual entry.
                   </p>
                   <ArrowLink href="/integrations" className="mt-4">
                     Learn About Integrations

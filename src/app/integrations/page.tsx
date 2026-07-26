@@ -8,6 +8,7 @@ import {
   ShieldCheck,
   Workflow,
   PhoneCall,
+  BellRing,
 } from "lucide-react";
 import { Container, SectionHead, Button } from "@/components/ui/primitives";
 import { Reveal, Stagger, Item } from "@/components/motion";
@@ -47,6 +48,10 @@ const possibilities = [
   {
     icon: Database,
     label: "Pulling approved details from your systems so answers stay accurate",
+  },
+  {
+    icon: BellRing,
+    label: "Sending confirmations, reminders, or internal alerts automatically",
   },
 ];
 

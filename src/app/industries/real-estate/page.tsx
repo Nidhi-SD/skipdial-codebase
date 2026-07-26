@@ -5,6 +5,7 @@ import {
   ClipboardList,
   CalendarCheck,
   Database,
+  MessageSquareText,
 } from "lucide-react";
 import { IndustryTemplate, type IndustryData } from "@/components/blocks/IndustryTemplate";
 
@@ -45,6 +46,7 @@ const data: IndustryData = {
       "Listing FAQ Responses",
       "CRM and Calendar Sync",
       "Outbound Lead Follow-Up",
+      "Escalation to Your Team",
     ],
   },
   callCards: {
@@ -75,6 +77,11 @@ const data: IndustryData = {
         icon: Database,
         title: "Logs Every Lead in Your CRM",
         body: "Qualification details and call summaries sync automatically, so nothing depends on an agent remembering to enter notes later.",
+      },
+      {
+        icon: MessageSquareText,
+        title: "Sends a Confirmation to the Client",
+        body: "Showing and consultation confirmations go out automatically, so buyers and sellers know their appointment is locked in without a follow-up call.",
       },
     ],
   },

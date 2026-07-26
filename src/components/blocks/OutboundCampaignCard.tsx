@@ -24,7 +24,7 @@ const views = [
     outcomes: [
       { icon: CalendarCheck, label: "Appointment booked", count: 34, tone: "signal" },
       { icon: PhoneForwarded, label: "Transferred to team", count: 19, tone: "accent" },
-      { icon: Voicemail, label: "Voicemail · retry queued", count: 27, tone: "warn" },
+      { icon: Voicemail, label: "Voicemail · retry queued", count: 27, tone: "accent" },
     ],
   },
   {
@@ -41,8 +41,8 @@ const views = [
     ],
     outcomes: [
       { icon: CalendarCheck, label: "Appointment booked", count: 21, tone: "signal" },
-      { icon: Voicemail, label: "Left voicemail", count: 18, tone: "warn" },
-      { icon: XCircle, label: "Not interested", count: 9, tone: "warn" },
+      { icon: Voicemail, label: "Left voicemail", count: 18, tone: "accent" },
+      { icon: XCircle, label: "Not interested", count: 9, tone: "accent" },
     ],
   },
   {
@@ -60,7 +60,7 @@ const views = [
     outcomes: [
       { icon: CalendarCheck, label: "Rescheduled", count: 14, tone: "signal" },
       { icon: PhoneForwarded, label: "Transferred to billing", count: 6, tone: "accent" },
-      { icon: Voicemail, label: "Voicemail", count: 12, tone: "warn" },
+      { icon: Voicemail, label: "Voicemail", count: 12, tone: "accent" },
     ],
   },
 ];

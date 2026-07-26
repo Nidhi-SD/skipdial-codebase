@@ -34,7 +34,7 @@ export default function RequestDemoPage() {
       >
         <div className="mt-10 grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <div className="flex flex-wrap gap-3">
-            {["Structured intake", "Appointment booking", "Call routing"].map(
+            {["Structured intake", "Appointment booking", "Call routing", "Multi language support", "CRM sync", "24/7 availability"].map(
               (feature) => (
                 <div
                   key={feature}

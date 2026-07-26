@@ -446,7 +446,7 @@ export function CTABand({
             <p
               className={cn(
                 "mx-auto mt-5 max-w-copy text-[16px] leading-relaxed",
-                isBold ? "text-ink-inverse/70" : "text-ink-light"
+                isBold ? "text-ink-inverse/70" : "text-ink"
               )}
             >
               {body}

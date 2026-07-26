@@ -108,7 +108,7 @@ export default function Home() {
           />
 
           <Reveal variant="fadeUp" delay={0.3}>
-            <p className="mx-auto mt-6 max-w-2xl text-pretty text-[19px] leading-relaxed text-ink-light">
+            <p className="mx-auto mt-6 max-w-2xl text-pretty text-[19px] leading-relaxed text-ink">
               AI voice agents that answer calls, book appointments, and sync your CRM 24/7.
             </p>
           </Reveal>
@@ -157,8 +157,14 @@ export default function Home() {
       </section>
 
       {/* ── 2 · Live call simulator — its own showcase, fully in frame ───── */}
-      <Section id="live-call">
-        <Container>
+      <Section id="live-call" className="relative overflow-hidden">
+        {/* Readability scrim — same treatment as the hero, since the scroll
+            canvas runs full-bleed behind this section too. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 [background:radial-gradient(60%_65%_at_50%_20%,rgba(255,255,255,0.92)_0%,rgba(255,255,255,0.8)_45%,rgba(255,255,255,0.5)_70%,transparent_90%)]"
+        />
+        <Container className="relative">
           <SectionHead
             eyebrow="See it live"
             title="Watch a Real Call,"
@@ -305,7 +311,7 @@ export default function Home() {
                 call routing work in a real interaction.
               </SectionHead>
               <Stagger className="mt-8 flex flex-wrap gap-2.5">
-                {["Structured intake", "Appointment booking", "Call routing", "Multi language support"].map(
+                {["Structured intake", "Appointment booking", "Call routing", "Multi language support", "CRM sync", "24/7 availability"].map(
                   (chip) => (
                     <Item
                       key={chip}
