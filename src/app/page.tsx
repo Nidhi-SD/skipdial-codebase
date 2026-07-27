@@ -87,7 +87,7 @@ export default function Home() {
             keep copy legible without hiding the animation. */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 [background:radial-gradient(72%_68%_at_50%_46%,rgba(255,255,255,0.94)_0%,rgba(255,255,255,0.86)_42%,rgba(255,255,255,0.6)_68%,transparent_88%)]"
+          className="pointer-events-none absolute inset-0 [background:radial-gradient(72%_68%_at_50%_46%,rgba(255,255,255,0.8)_0%,rgba(255,255,255,0.68)_42%,rgba(255,255,255,0.4)_68%,transparent_88%)]"
         />
 
         <Container className="relative flex flex-1 flex-col items-center justify-center text-center">
@@ -157,14 +157,8 @@ export default function Home() {
       </section>
 
       {/* ── 2 · Live call simulator — its own showcase, fully in frame ───── */}
-      <Section id="live-call" className="relative overflow-hidden">
-        {/* Readability scrim — same treatment as the hero, since the scroll
-            canvas runs full-bleed behind this section too. */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 [background:radial-gradient(60%_65%_at_50%_20%,rgba(255,255,255,0.92)_0%,rgba(255,255,255,0.8)_45%,rgba(255,255,255,0.5)_70%,transparent_90%)]"
-        />
-        <Container className="relative">
+      <Section id="live-call">
+        <Container>
           <SectionHead
             eyebrow="See it live"
             title="Watch a Real Call,"

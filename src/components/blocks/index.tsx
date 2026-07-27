@@ -124,13 +124,22 @@ export function Section({
     <section
       id={id}
       className={cn(
-        "py-16 md:py-24",
+        "relative py-16 md:py-24",
         tone === "alt" && "border-y border-line bg-surface-alt/60",
         tone === "wash" && "bg-wash/60",
         className
       )}
     >
-      {children}
+      {tone === "white" ? (
+        // Readability scrim — the full-page scroll canvas runs behind most
+        // routes (see ConditionalScrollBg), so a plain section otherwise sits
+        // directly on the animation with nothing to keep its copy legible.
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 [background:radial-gradient(65%_60%_at_50%_15%,rgba(255,255,255,0.8)_0%,rgba(255,255,255,0.68)_45%,rgba(255,255,255,0.4)_75%,transparent_92%)]"
+        />
+      ) : null}
+      <div className="relative">{children}</div>
     </section>
   );
 }
