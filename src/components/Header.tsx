@@ -606,6 +606,12 @@ export function Header() {
                   {l.label}
                 </Link>
               ))}
+              <Link
+                href="/industries"
+                className="px-3 py-2 text-[13px] font-semibold text-accent"
+              >
+                All industries →
+              </Link>
 
               <Link
                 href="/blog"

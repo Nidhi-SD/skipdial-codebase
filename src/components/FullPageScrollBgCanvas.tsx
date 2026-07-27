@@ -16,13 +16,18 @@ export function FullPageScrollBgCanvas() {
   const animationFrameIdRef = useRef<number | null>(null);
   const imagesRef = useRef<HTMLImageElement[]>([]);
 
-  // 1. Progressive Preloading
+  // 1. Progressive Preloading — the first batch loads eagerly so the
+  // animation can start immediately; the rest trickles in during idle time
+  // so it doesn't compete with the page's critical initial-load requests
+  // (240 frames fired at once was a real bandwidth/connection-count cost on
+  // every page this mounts on).
   useEffect(() => {
     let isMounted = true;
+    let idleHandle: number | ReturnType<typeof setTimeout> | null = null;
     const loadedImages: HTMLImageElement[] = new Array(TOTAL_FRAMES);
     let count = 0;
 
-    for (let i = 1; i <= TOTAL_FRAMES; i++) {
+    const loadFrame = (i: number) => {
       const img = new Image();
       const frameNum = String(i).padStart(4, "0");
       img.src = `/page-bg-frames/frame_${frameNum}.jpg`;
@@ -44,12 +49,36 @@ export function FullPageScrollBgCanvas() {
       img.onerror = handleLoadOrError;
 
       loadedImages[i - 1] = img;
-    }
+    };
 
+    for (let i = 1; i <= INITIAL_LOAD_COUNT; i++) loadFrame(i);
     imagesRef.current = loadedImages;
+
+    const requestIdle: (cb: () => void) => number | ReturnType<typeof setTimeout> =
+      typeof window.requestIdleCallback === "function"
+        ? window.requestIdleCallback
+        : (cb) => setTimeout(cb, 200);
+    const cancelIdle = (handle: number | ReturnType<typeof setTimeout>) => {
+      if (typeof window.cancelIdleCallback === "function") {
+        window.cancelIdleCallback(handle as number);
+      } else {
+        clearTimeout(handle as ReturnType<typeof setTimeout>);
+      }
+    };
+
+    // Trickle the remaining frames in one at a time during idle windows.
+    let next = INITIAL_LOAD_COUNT + 1;
+    const loadNextIdle = () => {
+      if (!isMounted || next > TOTAL_FRAMES) return;
+      loadFrame(next);
+      next += 1;
+      idleHandle = requestIdle(loadNextIdle);
+    };
+    idleHandle = requestIdle(loadNextIdle);
 
     return () => {
       isMounted = false;
+      if (idleHandle !== null) cancelIdle(idleHandle);
     };
   }, [isLoaded]);
 

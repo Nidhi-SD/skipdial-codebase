@@ -10,21 +10,21 @@ const branches = [
     id: "emergency",
     label: "Emergency",
     icon: Zap,
-    tone: "warn",
+    tone: "accent-deep",
     actions: ["Alert on-call tech", "Send SMS to team", "Log high-priority ticket"],
   },
   {
     id: "quote",
     label: "New Quote",
     icon: CalendarCheck,
-    tone: "signal",
+    tone: "accent",
     actions: ["Qualify budget & timeline", "Check availability", "Book estimate on calendar"],
   },
   {
     id: "support",
     label: "Support",
     icon: HelpCircle,
-    tone: "accent",
+    tone: "accent-soft",
     actions: ["Lookup account", "Provide status update", "Route to billing if needed"],
   },
 ];
@@ -91,8 +91,8 @@ export function InboundDecisionTree({ className }: { className?: string }) {
                 : "M 150 0 C 150 60, 250 60, 250 120"
             }
             stroke={
-              activeData.tone === "warn" ? "var(--warn)" :
-              activeData.tone === "signal" ? "var(--signal)" : "var(--accent)"
+              activeData.tone === "accent-deep" ? "var(--accent-deep)" :
+              activeData.tone === "accent-soft" ? "var(--accent-soft)" : "var(--accent)"
             }
             strokeWidth="3"
             initial={{ pathLength: 0, opacity: 0 }}
