@@ -8,6 +8,7 @@ import {
   MessageSquareText,
 } from "lucide-react";
 import { IndustryTemplate, type IndustryData } from "@/components/blocks/IndustryTemplate";
+import { realEstateSampleTranscript } from "@/components/blocks";
 
 export const metadata: Metadata = {
   title: "AI Call Automation for Real Estate Agents & Brokerages | SkipDial",
@@ -35,6 +36,10 @@ const data: IndustryData = {
     ],
     closing:
       "In competitive markets, the first agent to respond usually wins the relationship. Delay is the single biggest cost of manual call handling.",
+  },
+  hearItLive: {
+    src: "/audio/real-estate-call-recording.wav",
+    transcript: realEstateSampleTranscript,
   },
   checklist: {
     heading: "What Happens on Every Call",

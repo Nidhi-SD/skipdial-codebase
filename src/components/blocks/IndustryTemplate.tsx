@@ -15,6 +15,7 @@ import {
 } from "@/components/blocks";
 import { ArrowLink } from "@/components/ui/primitives";
 import { TryDemoCall } from "@/components/blocks/TryDemoCall";
+import type { TranscriptLine } from "@/components/blocks/AudioPlayer";
 
 /* Data-driven template shared by the three industry pages — same structural
    rhythm, industry-specific copy. */
@@ -32,6 +33,7 @@ export type IndustryData = {
     friction: string[];
     closing?: string;
   };
+  hearItLive?: { src: string; transcript: TranscriptLine[] };
   checklist: { heading: string; items: string[] };
   callCards: { title: string; muted: string; intro?: string; cards: IconCard[] };
   surge: {
@@ -130,7 +132,7 @@ export function IndustryTemplate({ data }: { data: IndustryData }) {
         </Container>
       </Section>
 
-      <HearItLive />
+      <HearItLive src={data.hearItLive?.src} transcript={data.hearItLive?.transcript} />
 
       {/* Checklist */}
       <Section>

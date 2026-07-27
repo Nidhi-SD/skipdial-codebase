@@ -11,7 +11,7 @@ import { BlurTitle, Reveal, Stagger, Item, ContinuousFloat } from "@/components/
 import { ParallaxY, PopChip, DrawLineV, RingPulse } from "@/components/motion/entrances";
 import { GlobalNetworkField } from "@/components/motion/GlobalNetworkField";
 import { SpotlightCard } from "@/components/motion/SpotlightCard";
-import { AudioPlayer } from "@/components/blocks/AudioPlayer";
+import { AudioPlayer, type TranscriptLine } from "@/components/blocks/AudioPlayer";
 import { cn } from "@/lib/cn";
 import type { ElementType, ReactNode } from "react";
 
@@ -346,20 +346,30 @@ export function BulletList({
 
 /* ── HearItLive — repeating audio-sample block ─────────────────────────────── */
 
-const sampleTranscript = [
-  { time: 0, speaker: "ai" as const, text: "Hi, this is SkipDial. I'm calling about the property." },
-  { time: 3.5, speaker: "caller" as const, text: "Yes, I was wondering if it's still available." },
-  { time: 6.0, speaker: "ai" as const, text: "It is! Would you like to schedule a viewing for this week?" },
-  { time: 9.2, speaker: "caller" as const, text: "Sure, how about Thursday afternoon?" },
-  { time: 11.5, speaker: "ai" as const, text: "Thursday at 3:00 PM works. I'll send you a calendar invite now." }
+export const realEstateSampleTranscript: TranscriptLine[] = [
+  { time: 0, speaker: "ai", text: "Hi, this is Jake calling on behalf of Realtor.com. How are you doing?" },
+  { time: 4, speaker: "caller", text: "Great. How are you?" },
+  { time: 7, speaker: "ai", text: "I'm doing well. Thank you for asking. We noticed you were previously on Realtor.com, and I wanted to reach out to see how we might be able to assist you with your real estate needs. Would you have a few minutes to discuss your current situation?" },
+  { time: 22, speaker: "caller", text: "I've got a lot in Lake City, Minnesota that I want to sell." },
+  { time: 31, speaker: "ai", text: "Thank you for sharing that. Might I ask what's motivating your decision to sell this lot in Lake City, Minnesota? Are you relocating?" },
+  { time: 39, speaker: "caller", text: "Well, I am. Yeah, I'm in the Phoenix area. We are not going to return. We are not going to build on that." },
+  { time: 49, speaker: "ai", text: "I understand." },
+  { time: 51, speaker: "caller", text: "That was our intent. That was our intent about 15 years ago." },
+  { time: 57, speaker: "ai", text: "It sounds like you've made the decision to sell. Based on what you've shared with me, I believe connecting you with a qualified broker who specializes in your area would be highly beneficial. Would you be interested in speaking with someone directly today? I can transfer you to a broker who can provide detailed assistance with your specific needs." },
+  { time: 77, speaker: "caller", text: "All right, but I need a broker that's in Minnesota that knows this particular city. I don't need a broker in Denver because he's not familiar with this country club thing." },
+  { time: 95, speaker: "ai", text: "I completely understand your need for a broker who has local knowledge of Lake City, Minnesota, especially regarding the Country Club area. Let me connect you with a qualified professional who can assist you today. Please hold for a moment while I transfer you. Transferring the call now." }
 ];
 
 export function HearItLive({
   subtext = "Hear how SkipDial handles a real inbound call for your industry.",
   showCta = false,
+  src = "/audio/real-estate-call-recording.wav",
+  transcript = realEstateSampleTranscript,
 }: {
   subtext?: string;
   showCta?: boolean;
+  src?: string;
+  transcript?: TranscriptLine[];
 }) {
   return (
     <Section tone="alt" id="hear-it-live">
@@ -370,10 +380,7 @@ export function HearItLive({
           </SectionHead>
           <Reveal variant="expandX">
             <div className="flex flex-col gap-6">
-              <AudioPlayer
-                src="/audio/real-estate-call-recording.wav"
-                transcript={sampleTranscript}
-              />
+              <AudioPlayer src={src} transcript={transcript} />
               {showCta ? (
                 <div>
                   <Button href="/request-a-free-demo" arrow>

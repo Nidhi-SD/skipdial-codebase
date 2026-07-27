@@ -83,6 +83,7 @@ export function TryDemoCall({
     const company = String(data.get("company") ?? "").trim();
     const phone = String(data.get("phone") ?? "").trim();
     const email = String(data.get("email") ?? "").trim();
+    const consent = data.get("consent");
 
     const next: Record<string, string> = {};
     if (!name) next.name = "Please enter your name.";
@@ -91,6 +92,7 @@ export function TryDemoCall({
       next.phone = "Please enter a valid phone number.";
     if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
       next.email = "Please enter a valid email.";
+    if (!consent) next.consent = "Please confirm before we place the call.";
     setErrors(next);
     if (Object.keys(next).length > 0) {
       const firstInvalid = form.querySelector<HTMLElement>(
@@ -366,6 +368,34 @@ export function TryDemoCall({
                 </div>
               )}
 
+              <div>
+                <label
+                  htmlFor="try-consent"
+                  className="flex cursor-pointer items-start gap-2.5 text-[13px] leading-relaxed text-ink-light"
+                >
+                  <input
+                    id="try-consent"
+                    name="consent"
+                    type="checkbox"
+                    className={cn(
+                      "mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-line accent-accent focus:outline-none focus:ring-2 focus:ring-accent/20",
+                      errors.consent && "border-danger"
+                    )}
+                    aria-invalid={!!errors.consent}
+                  />
+                  <span>
+                    I authorize SkipDial AI to contact me by phone, including
+                    AI-generated calls, to schedule this demo. Msg &amp; data
+                    rates may apply.
+                  </span>
+                </label>
+                {errors.consent && (
+                  <p role="alert" className="mt-1.5 text-[12.5px] text-danger">
+                    {errors.consent}
+                  </p>
+                )}
+              </div>
+
               <button
                 type="submit"
                 disabled={status === "loading"}
@@ -383,11 +413,6 @@ export function TryDemoCall({
                   </>
                 )}
               </button>
-
-              <p className="text-center text-[11.5px] leading-relaxed text-ink-light">
-                By submitting, you authorize SkipDial AI to contact you by phone, which may
-                include AI-generated calls. Standard rates may apply.
-              </p>
             </motion.form>
           )}
         </AnimatePresence>

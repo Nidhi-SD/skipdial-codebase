@@ -16,6 +16,7 @@ import { WorkflowBeam } from "@/components/blocks/WorkflowBeam";
 import { FeatureBento } from "@/components/blocks/FeatureBento";
 import { ProductTabs } from "@/components/blocks/ProductTabs";
 import { DashboardCard } from "@/components/blocks/DashboardCard";
+import { AudioPlayer } from "@/components/blocks/AudioPlayer";
 import { TryDemoCall } from "@/components/blocks/TryDemoCall";
 import {
   MissedRevenueIcon,
@@ -120,7 +121,7 @@ export default function Home() {
                   Try It Yourself
                 </Button>
               </Magnetic>
-              <Button href="#live-call" variant="outline" size="lg">
+              <Button href="#sample" variant="outline" size="lg">
                 Hear a Sample
               </Button>
             </div>
@@ -148,7 +149,7 @@ export default function Home() {
         {/* Scroll cue — signals there's more below and doubles as a
             smooth-scroll shortcut into the next section. */}
         <a
-          href="#live-call"
+          href="#sample"
           aria-label="Scroll to next section"
           className="scroll-hint absolute bottom-5 left-1/2 z-10 -translate-x-1/2 text-ink-light transition-colors hover:text-ink md:bottom-8"
         >
@@ -156,7 +157,29 @@ export default function Home() {
         </a>
       </section>
 
-      {/* ── 2 · Live call simulator — its own showcase, fully in frame ───── */}
+      {/* ── 2 · Audio sample ─────────────────────────────────────────────── */}
+      <Section id="sample">
+        <Container>
+          <div className="grid items-center gap-10 lg:grid-cols-[1fr_1.2fr] lg:gap-16">
+            <SectionHead
+              eyebrow="Listen in"
+              title="Hear SkipDial in Action"
+            >
+              Listen to how SkipDial answers calls, gathers information,
+              qualifies leads, and routes conversations using structured,
+              natural dialogue{" "}
+              <strong className="font-semibold text-ink">
+                designed around your business rules.
+              </strong>
+            </SectionHead>
+            <Reveal variant="expandX">
+              <AudioPlayer src="/audio/real-estate-call-recording.wav" />
+            </Reveal>
+          </div>
+        </Container>
+      </Section>
+
+      {/* ── 3 · Live call simulator — its own showcase, fully in frame ───── */}
       <Section id="live-call">
         <Container>
           <SectionHead
@@ -182,7 +205,7 @@ export default function Home() {
         </Reveal>
       </Section>
 
-      {/* ── 3 · Pain points ──────────────────────────────────────────────── */}
+      {/* ── 4 · Pain points ──────────────────────────────────────────────── */}
       <Section id="problem">
         <Container>
           <SectionHead
@@ -198,7 +221,7 @@ export default function Home() {
         </Container>
       </Section>
 
-      {/* ── 4 · How we solve that ────────────────────────────────────────── */}
+      {/* ── 5 · How we solve that ────────────────────────────────────────── */}
       <Section tone="alt">
         <Container>
           <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
@@ -221,7 +244,7 @@ export default function Home() {
         </Container>
       </Section>
 
-      {/* ── 5 · Workflow insights ────────────────────────────────────────── */}
+      {/* ── 6 · Workflow insights ────────────────────────────────────────── */}
       <Section>
         <Container>
           <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.25fr] lg:gap-16">
@@ -254,7 +277,7 @@ export default function Home() {
         </Container>
       </Section>
 
-      {/* ── 6 · Platform — light lavender bento + call-motion tabs ────────── */}
+      {/* ── 7 · Platform — light lavender bento + call-motion tabs ────────── */}
       <section
         id="platform"
         className="band-lavender relative overflow-hidden py-20 md:py-28"
@@ -290,7 +313,7 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* ── 7 · Live demo call widget ────────────────────────────────────── */}
+      {/* ── 8 · Live demo call widget ────────────────────────────────────── */}
       <Section tone="alt" id="live-demo">
         <Container>
           <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-20">
