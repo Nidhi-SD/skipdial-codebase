@@ -27,10 +27,10 @@ const stats: {
   icon: LucideIcon;
   ringPct: number;
 }[] = [
-  { label: "Calls today", value: 247, suffix: "", delta: "+18%", icon: Phone, ringPct: 82 },
-  { label: "Booked appts", value: 38, suffix: "", delta: "+24%", icon: CalendarCheck2, ringPct: 76 },
-  { label: "Avg pickup", value: 1.4, suffix: "s", delta: "−0.3s", decimals: 1, icon: Gauge, ringPct: 68 },
-  { label: "Connect rate", value: 31.2, suffix: "%", delta: "+2.1pp", decimals: 1, icon: Star, ringPct: 31 },
+  { label: "Calls", value: 247, suffix: "", delta: "+18%", icon: Phone, ringPct: 82 },
+  { label: "Booked", value: 38, suffix: "", delta: "+24%", icon: CalendarCheck2, ringPct: 76 },
+  { label: "Pickup", value: 1.4, suffix: "s", delta: "−0.3s", decimals: 1, icon: Gauge, ringPct: 68 },
+  { label: "Connect", value: 31.2, suffix: "%", delta: "+2.1pp", decimals: 1, icon: Star, ringPct: 31 },
 ];
 
 const bars = [
