@@ -10,10 +10,10 @@ import { PhoneOutgoing, Check, X, Voicemail, type LucideIcon } from "lucide-reac
    narrates its outcome in place, so the sequence is legible at a glance. */
 
 const leads = [
-  { name: "Sarah Whitman", note: "Policy renewal follow-up" },
-  { name: "David Chen", note: "Quote requested last week" },
-  { name: "Maria Lopez", note: "Missed appointment reminder" },
-  { name: "Tom Reyes", note: "Re-engagement · cold lead" },
+  { name: "Sarah Whitman", note: "Policy renewal" },
+  { name: "David Chen", note: "Quote requested" },
+  { name: "Maria Lopez", note: "Missed appointment" },
+  { name: "Tom Reyes", note: "Re-engagement" },
   { name: "Priya Shah", note: "Referral follow-up" },
 ];
 
@@ -23,9 +23,9 @@ const outcomes: {
   icon: LucideIcon;
   tone: "solid" | "tint" | "neutral";
 }[] = [
-  { id: "connected", label: "Connected & Booked", icon: Check, tone: "solid" },
-  { id: "voicemail", label: "Left Voicemail", icon: Voicemail, tone: "tint" },
-  { id: "retry", label: "No Answer · Retry", icon: X, tone: "neutral" },
+  { id: "connected", label: "Booked", icon: Check, tone: "solid" },
+  { id: "voicemail", label: "Voicemail", icon: Voicemail, tone: "tint" },
+  { id: "retry", label: "Retry", icon: X, tone: "neutral" },
 ];
 
 const outcomeForIndex = (i: number) => outcomes[i % outcomes.length];

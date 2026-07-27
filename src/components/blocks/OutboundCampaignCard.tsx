@@ -22,9 +22,9 @@ const views = [
       { name: "Estimate follow-up", dialed: 245, pct: 78, tone: "accent" },
     ],
     outcomes: [
-      { icon: CalendarCheck, label: "Appointment booked", count: 34, tone: "signal" },
-      { icon: PhoneForwarded, label: "Transferred to team", count: 19, tone: "accent" },
-      { icon: Voicemail, label: "Voicemail · retry queued", count: 27, tone: "accent" },
+      { icon: CalendarCheck, label: "Booked", count: 34, tone: "signal" },
+      { icon: PhoneForwarded, label: "Transferred", count: 19, tone: "accent" },
+      { icon: Voicemail, label: "Voicemail", count: 27, tone: "accent" },
     ],
   },
   {
@@ -40,8 +40,8 @@ const views = [
       { name: "Spring reactivation (List B)", dialed: 212, pct: 54, tone: "soft" },
     ],
     outcomes: [
-      { icon: CalendarCheck, label: "Appointment booked", count: 21, tone: "signal" },
-      { icon: Voicemail, label: "Left voicemail", count: 18, tone: "accent" },
+      { icon: CalendarCheck, label: "Booked", count: 21, tone: "signal" },
+      { icon: Voicemail, label: "Voicemail", count: 18, tone: "accent" },
       { icon: XCircle, label: "Not interested", count: 9, tone: "accent" },
     ],
   },
@@ -59,7 +59,7 @@ const views = [
     ],
     outcomes: [
       { icon: CalendarCheck, label: "Rescheduled", count: 14, tone: "signal" },
-      { icon: PhoneForwarded, label: "Transferred to billing", count: 6, tone: "accent" },
+      { icon: PhoneForwarded, label: "Transferred", count: 6, tone: "accent" },
       { icon: Voicemail, label: "Voicemail", count: 12, tone: "accent" },
     ],
   },
@@ -140,7 +140,7 @@ export function OutboundCampaignCard({ className }: { className?: string }) {
                           {c.name}
                         </p>
                         <p className="shrink-0 font-mono text-[11px] tabular-nums text-ink-faint">
-                          {c.dialed} dialed · {c.pct}% connected
+                          {c.dialed} · {c.pct}%
                         </p>
                       </div>
                       <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-accent-tint">

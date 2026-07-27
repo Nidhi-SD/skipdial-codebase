@@ -205,7 +205,7 @@ export function DashboardCard({ className }: { className?: string }) {
                       <p className="text-ink-faint">
                         <span className="text-ink">{b.day}</span> · Inbound{" "}
                         <span className="text-accent">{b.inbound}</span> · Outbound{" "}
-                        {b.outbound}
+                        <span className="text-accent-soft">{b.outbound}</span>
                       </p>
                     </div>
                   )}
