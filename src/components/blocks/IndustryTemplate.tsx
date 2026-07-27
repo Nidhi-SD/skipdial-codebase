@@ -233,7 +233,7 @@ export function IndustryTemplate({ data }: { data: IndustryData }) {
       {/* Live demo call widget */}
       <Section tone="alt" id="live-demo">
         <Container>
-          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+          <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-20">
             <div>
               <SectionHead
                 eyebrow="Try it now"

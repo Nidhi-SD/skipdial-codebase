@@ -3,7 +3,7 @@ import { Check, Sparkles } from "lucide-react";
 import { Container, SectionHead, Button } from "@/components/ui/primitives";
 import { Reveal, Stagger, Item } from "@/components/motion";
 import { CallArrivalFrame } from "@/components/motion/entrances";
-import { PageHero, Section } from "@/components/blocks";
+import { Section } from "@/components/blocks";
 import { TryDemoCall } from "@/components/blocks/TryDemoCall";
 
 export const metadata: Metadata = {
@@ -26,31 +26,43 @@ export default function RequestDemoPage() {
   return (
     <>
       {/* 1 — Try the AI. The hero, and the whole reason to be on this page. */}
-      <PageHero
-        eyebrow="Try it now"
-        title="Try It for"
-        mutedTitle="Yourself"
-        body="Pick an industry and language, then get a live call from our AI voice agent — hear it handle intake, booking, and routing in real time."
-      >
-        <div className="mt-10 grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-          <div className="flex flex-wrap gap-3">
-            {["Structured intake", "Appointment booking", "Call routing", "Multi language support", "CRM sync", "24/7 availability"].map(
-              (feature) => (
-                <div
-                  key={feature}
-                  className="flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 text-[13px] font-semibold text-ink shadow-sm"
-                >
-                  <Sparkles aria-hidden className="h-3.5 w-3.5 text-accent" />
-                  {feature}
-                </div>
-              )
-            )}
+      <section className="hero-wash relative overflow-hidden pb-14 pt-28 md:pb-20 md:pt-36">
+        <div
+          aria-hidden
+          className="dot-grid absolute inset-0 opacity-30 [mask-image:radial-gradient(60%_60%_at_50%_20%,black,transparent)]"
+        />
+        <Container className="relative">
+          <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
+            <div>
+              <SectionHead
+                eyebrow="Try it now"
+                title="Try It for"
+                mutedTitle="Yourself"
+              >
+                Pick an industry and language, then get a live call from our
+                AI voice agent — hear it handle intake, booking, and routing
+                in real time.
+              </SectionHead>
+              <div className="mt-8 flex flex-wrap gap-3">
+                {["Structured intake", "Appointment booking", "Call routing", "Multi language support", "CRM sync", "24/7 availability"].map(
+                  (feature) => (
+                    <div
+                      key={feature}
+                      className="flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 text-[13px] font-semibold text-ink shadow-sm"
+                    >
+                      <Sparkles aria-hidden className="h-3.5 w-3.5 text-accent" />
+                      {feature}
+                    </div>
+                  )
+                )}
+              </div>
+            </div>
+            <CallArrivalFrame>
+              <TryDemoCall />
+            </CallArrivalFrame>
           </div>
-          <CallArrivalFrame>
-            <TryDemoCall />
-          </CallArrivalFrame>
-        </div>
-      </PageHero>
+        </Container>
+      </section>
 
       {/* 2 — Book the demo. One question, one answer, one button: one
           focused column rather than a competing sales panel. */}
