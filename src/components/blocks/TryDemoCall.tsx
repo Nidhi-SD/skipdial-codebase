@@ -287,7 +287,7 @@ export function TryDemoCall({
                     name="name"
                     type="text"
                     autoComplete="name"
-                    placeholder="Enter your Name…"
+                    placeholder="Your name"
                     className={cn(inputClasses, errors.name && "border-danger")}
                     aria-invalid={!!errors.name}
                   />
@@ -306,7 +306,7 @@ export function TryDemoCall({
                     name="company"
                     type="text"
                     autoComplete="organization"
-                    placeholder="Enter your Company Name…"
+                    placeholder="Company name"
                     className={cn(inputClasses, errors.company && "border-danger")}
                     aria-invalid={!!errors.company}
                   />
@@ -325,7 +325,7 @@ export function TryDemoCall({
                     name="phone"
                     type="tel"
                     autoComplete="tel"
-                    placeholder="Enter your Number…"
+                    placeholder="Phone number"
                     className={cn(inputClasses, errors.phone && "border-danger")}
                     aria-invalid={!!errors.phone}
                   />
@@ -344,7 +344,7 @@ export function TryDemoCall({
                     name="email"
                     type="email"
                     autoComplete="email"
-                    placeholder="Enter your Email…"
+                    placeholder="Email address"
                     className={cn(inputClasses, errors.email && "border-danger")}
                     aria-invalid={!!errors.email}
                   />
