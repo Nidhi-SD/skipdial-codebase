@@ -101,10 +101,11 @@ export async function POST(request: Request) {
         phoneNumberId,
         customer: { number: e164Phone, name },
         assistantOverrides: {
-          firstMessage: `Thanks for calling ${company}, this is James. How can I help you today?`,
           variableValues: {
             industry,
             company_name: company,
+            company,
+            name,
             language,
           },
         },
