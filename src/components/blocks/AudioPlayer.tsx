@@ -29,6 +29,7 @@ export function AudioPlayer({
   className?: string;
 }) {
   const audioRef = useRef<HTMLAudioElement>(null);
+  const transcriptRef = useRef<HTMLDivElement>(null);
   const [playing, setPlaying] = useState(false);
   const [current, setCurrent] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -77,6 +78,14 @@ export function AudioPlayer({
   const activeLineIndex = transcript
     ? transcript.findLastIndex((line) => current >= line.time)
     : -1;
+
+  useEffect(() => {
+    if (activeLineIndex < 0) return;
+    const activeEl = transcriptRef.current?.children[activeLineIndex] as
+      | HTMLElement
+      | undefined;
+    activeEl?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }, [activeLineIndex]);
 
   return (
     <div className={cn("w-full flex flex-col gap-4", className)}>
@@ -143,7 +152,10 @@ export function AudioPlayer({
           <p className="mb-3 font-mono text-[10.5px] font-medium uppercase tracking-[0.18em] text-ink-faint">
             Live Transcript
           </p>
-          <div className="flex max-h-[160px] flex-col gap-3 overflow-y-auto scroll-smooth pr-2">
+          <div
+            ref={transcriptRef}
+            className="flex max-h-[160px] flex-col gap-3 overflow-y-auto scroll-smooth pr-2"
+          >
             {transcript.map((line, i) => (
               <div
                 key={i}
