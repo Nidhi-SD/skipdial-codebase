@@ -5,6 +5,7 @@ import {
   ListChecks,
   Route,
   Database,
+  MessageSquareText,
 } from "lucide-react";
 import { IndustryTemplate, type IndustryData } from "@/components/blocks/IndustryTemplate";
 
@@ -19,7 +20,7 @@ const data: IndustryData = {
   heroTitle: "AI Call Automation for",
   heroMuted: "Professional Offices",
   heroBody:
-    "Law firms, insurance agencies, healthcare practices, accounting firms, and advisory offices rely on phone calls to initiate high-value client relationships. These calls often involve sensitive information, detailed intake requirements, and careful routing. When calls are rushed, inconsistent, or sent to voicemail, the impact extends beyond inconvenience: incomplete documentation, delayed follow-up, and poor intake discipline can affect client experience, compliance standards, and internal workflow efficiency. SkipDial configures AI voice agents around the structured intake and routing requirements common to professional offices, ensuring every call follows an approved process.",
+    "These calls carry sensitive information and strict intake requirements, and a rushed or missed one risks compliance and client experience. SkipDial routes every call through your approved process.",
   breakdown: {
     title: "Where Call Handling Breaks Down",
     muted: "in Professional Offices",
@@ -74,6 +75,11 @@ const data: IndustryData = {
         icon: Database,
         title: "Logs Structured Summaries",
         body: "Call outcomes and intake details sync to your CRM or case management system for documentation and follow-up.",
+      },
+      {
+        icon: MessageSquareText,
+        title: "Sends a Confirmation to the Client",
+        body: "Appointment and intake confirmations go out automatically, so clients know their request is logged without a follow-up call.",
       },
     ],
   },
@@ -138,12 +144,7 @@ const data: IndustryData = {
       },
     ],
   },
-  demo: {
-    defaultIndustry: "injury-lawyers",
-    title: "Try It for",
-    muted: "Yourself",
-    body: "Pick your industry and language, then get a live demo call. Hear exactly how SkipDial handles structured intake and confidential routing for professional offices.",
-  },
+  demo: { defaultIndustry: "injury-lawyers" },
   cta: {
     title: "See How SkipDial Supports",
     muted: "Professional Offices",

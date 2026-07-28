@@ -5,6 +5,7 @@ import {
   FileWarning,
   ShieldCheck,
   Database,
+  MessageSquareText,
 } from "lucide-react";
 import { IndustryTemplate, type IndustryData } from "@/components/blocks/IndustryTemplate";
 
@@ -19,7 +20,7 @@ const data: IndustryData = {
   heroTitle: "AI Call Automation for",
   heroMuted: "Insurance Agencies",
   heroBody:
-    "Insurance agencies field three very different kinds of calls: new prospects requesting a quote, existing policyholders with a service question, and clients reporting a claim who need to be triaged and guided immediately. Each requires a different response, and each suffers when agents are on other calls or out of the office. A quote request left unanswered goes to the next agency in the search results. A claim call left waiting adds stress to an already difficult moment. SkipDial configures AI voice agents around your agency's workflows so every caller is identified, handled, and routed correctly.",
+    "A quote request left unanswered goes to the next agency, and a claim call left waiting adds stress to an already hard moment. SkipDial identifies, handles, and routes every caller correctly.",
   breakdown: {
     title: "Where Call Handling Breaks Down at",
     muted: "Insurance Agencies",
@@ -75,6 +76,11 @@ const data: IndustryData = {
         icon: Database,
         title: "Logs and Routes Every Call",
         body: "Quotes, service requests, and claims sync automatically to your agency management system or CRM for follow-up.",
+      },
+      {
+        icon: MessageSquareText,
+        title: "Sends a Confirmation to the Caller",
+        body: "Quote, service, and claim confirmations go out automatically, so callers know their request is logged and being handled.",
       },
     ],
   },
@@ -136,12 +142,7 @@ const data: IndustryData = {
       },
     ],
   },
-  demo: {
-    defaultIndustry: "insurance",
-    title: "Try It for",
-    muted: "Yourself",
-    body: "Pick your industry and language, then get a live demo call. Hear exactly how SkipDial handles a quote request and triages a claim.",
-  },
+  demo: { defaultIndustry: "insurance" },
   cta: {
     title: "See How SkipDial Supports",
     muted: "Insurance Agencies",

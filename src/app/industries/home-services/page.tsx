@@ -5,6 +5,7 @@ import {
   ClipboardList,
   Route,
   Database,
+  MessageSquareText,
 } from "lucide-react";
 import { IndustryTemplate, type IndustryData } from "@/components/blocks/IndustryTemplate";
 
@@ -19,7 +20,7 @@ const data: IndustryData = {
   heroTitle: "AI Call Automation Built for",
   heroMuted: "Home Service Companies",
   heroBody:
-    "In home services, phone calls are not casual inquiries. They are often tied to urgent problems, high-value jobs, and time-sensitive scheduling. Missed calls during peak periods, storm events, or after hours can mean lost revenue, especially when a caller can choose from a dozen other local providers offering identical services. SkipDial configures AI voice agents around the realities of home service operations, ensuring every call is answered, structured, and routed according to your business rules.",
+    "Home service calls are urgent and time-sensitive, and a missed one during peak hours or after a storm goes straight to the next local provider. SkipDial answers, structures, and routes every call to your business rules.",
   breakdown: {
     title: "Where Traditional Call Handling",
     muted: "Breaks Down in Home Services",
@@ -75,6 +76,11 @@ const data: IndustryData = {
         icon: Database,
         title: "Logs Everything Automatically",
         body: "Call summaries and intake data sync to your CRM or scheduling system so dispatch teams have full context.",
+      },
+      {
+        icon: MessageSquareText,
+        title: "Sends a Confirmation to the Customer",
+        body: "Appointment and dispatch confirmations go out automatically, so customers know help is on the way without a follow-up call.",
       },
     ],
   },
@@ -138,12 +144,7 @@ const data: IndustryData = {
       },
     ],
   },
-  demo: {
-    defaultIndustry: "hvac",
-    title: "Try It for",
-    muted: "Yourself",
-    body: "Pick your industry and language, then get a live demo call. Hear exactly how SkipDial answers a home service call, captures job details, and routes emergencies.",
-  },
+  demo: { defaultIndustry: "hvac" },
   cta: {
     title: "See How SkipDial Works",
     muted: "for Home Services",

@@ -5,6 +5,7 @@ import {
   Wrench,
   MoonStar,
   Database,
+  MessageSquareText,
 } from "lucide-react";
 import { IndustryTemplate, type IndustryData } from "@/components/blocks/IndustryTemplate";
 
@@ -19,7 +20,7 @@ const data: IndustryData = {
   heroTitle: "AI Call Automation for",
   heroMuted: "Property Managers",
   heroBody:
-    "Property managers field two very different kinds of calls: prospective tenants asking about availability and pricing, and current residents reporting a maintenance issue that may or may not be an emergency. Both require a fast, accurate response, and both suffer when office staff are stretched across move-ins, inspections, and owner reporting. A leasing call left unanswered is a vacancy that sits longer. A maintenance emergency left on voicemail overnight is a liability. SkipDial configures AI voice agents around your property portfolio so every call is answered, categorized, and routed correctly.",
+    "A leasing call left unanswered is a vacancy that sits longer, and a maintenance emergency on voicemail overnight is a liability. SkipDial answers, categorizes, and routes every call correctly.",
   breakdown: {
     title: "Where Call Handling Breaks Down for",
     muted: "Property Managers",
@@ -75,6 +76,11 @@ const data: IndustryData = {
         icon: Database,
         title: "Logs Everything to Your Systems",
         body: "Leasing inquiries and maintenance tickets sync directly to your property management software for staff to act on.",
+      },
+      {
+        icon: MessageSquareText,
+        title: "Sends a Confirmation to the Caller",
+        body: "Leasing and maintenance confirmations go out automatically, so tenants and prospects know their request is logged and being handled.",
       },
     ],
   },
@@ -136,12 +142,7 @@ const data: IndustryData = {
       },
     ],
   },
-  demo: {
-    defaultIndustry: "property-management",
-    title: "Try It for",
-    muted: "Yourself",
-    body: "Pick your industry and language, then get a live demo call. Hear exactly how SkipDial handles a tenant maintenance request and an after-hours emergency.",
-  },
+  demo: { defaultIndustry: "property-management" },
   cta: {
     title: "See How SkipDial Supports",
     muted: "Property Managers",

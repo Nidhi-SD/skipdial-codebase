@@ -1,4 +1,4 @@
-import { AlertTriangle, Sparkles } from "lucide-react";
+import { AlertTriangle } from "lucide-react";
 import { Container, SectionHead, Button } from "@/components/ui/primitives";
 import { Reveal, Stagger, Item } from "@/components/motion";
 import { CallArrivalFrame, Magnetic } from "@/components/motion/entrances";
@@ -57,7 +57,7 @@ export type IndustryData = {
     body: string;
     cards: { title: string; body: string }[];
   };
-  demo: { defaultIndustry: string; title: string; muted: string; body: string };
+  demo: { defaultIndustry: string };
   cta: { title: string; muted: string; body: string };
 };
 
@@ -83,6 +83,11 @@ export function IndustryTemplate({ data }: { data: IndustryData }) {
               Hear a Sample
             </Button>
           </>
+        }
+        aside={
+          <CallArrivalFrame>
+            <TryDemoCall defaultIndustry={data.demo.defaultIndustry} size="compact" />
+          </CallArrivalFrame>
         }
       />
 
@@ -229,40 +234,6 @@ export function IndustryTemplate({ data }: { data: IndustryData }) {
               Integrations
             </ArrowLink>
           </Reveal>
-        </Container>
-      </Section>
-
-      {/* Live demo call widget */}
-      <Section tone="alt" id="live-demo">
-        <Container>
-          <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-20">
-            <div>
-              <SectionHead
-                eyebrow="Try it now"
-                title={data.demo.title}
-                mutedTitle={data.demo.muted}
-              >
-                {data.demo.body}
-              </SectionHead>
-              <Stagger className="mt-8 flex flex-wrap gap-2.5">
-                {["Structured intake", "Appointment booking", "Call routing", "Multi language support", "CRM sync", "24/7 availability"].map(
-                  (chip) => (
-                    <Item
-                      key={chip}
-                      variant="fadeIn"
-                      className="flex items-center gap-1.5 rounded-full border border-line bg-surface px-3.5 py-1.5 text-[13px] font-medium text-ink-light"
-                    >
-                      <Sparkles aria-hidden className="h-3.5 w-3.5 text-accent" />
-                      {chip}
-                    </Item>
-                  )
-                )}
-              </Stagger>
-            </div>
-            <CallArrivalFrame>
-              <TryDemoCall defaultIndustry={data.demo.defaultIndustry} />
-            </CallArrivalFrame>
-          </div>
         </Container>
       </Section>
 

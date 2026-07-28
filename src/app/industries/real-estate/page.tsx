@@ -21,7 +21,7 @@ const data: IndustryData = {
   heroTitle: "AI Call Automation for Real Estate",
   heroMuted: "Agents & Brokerages",
   heroBody:
-    "For real estate agents and brokerages, an inbound call is rarely idle curiosity. It's a buyer ready to see a property, a seller weighing their options, or a past client asking about the market. Agents are frequently unreachable while showing homes, in negotiations, or at closings, and every call that slips to voicemail is a lead one search away from a competing agent. SkipDial configures AI voice agents around your listing process so buyer and seller inquiries are qualified, logged, and routed the moment they call.",
+    "Every call that slips to voicemail while you're showing homes or in negotiations is a lead one search away from a competing agent. SkipDial qualifies, logs, and routes buyer and seller inquiries the moment they call.",
   breakdown: {
     title: "Where Call Handling Breaks Down for",
     muted: "Agents and Brokerages",
@@ -148,12 +148,7 @@ const data: IndustryData = {
       },
     ],
   },
-  demo: {
-    defaultIndustry: "real-estate",
-    title: "Try It for",
-    muted: "Yourself",
-    body: "Pick your industry and language, then get a live demo call. Hear exactly how SkipDial qualifies a buyer or seller lead and books a showing.",
-  },
+  demo: { defaultIndustry: "real-estate" },
   cta: {
     title: "See How SkipDial Supports",
     muted: "Real Estate Agents",

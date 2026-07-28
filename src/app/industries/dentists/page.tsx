@@ -5,6 +5,7 @@ import {
   CalendarCheck,
   ShieldCheck,
   Database,
+  MessageSquareText,
 } from "lucide-react";
 import { IndustryTemplate, type IndustryData } from "@/components/blocks/IndustryTemplate";
 import type { TranscriptLine } from "@/components/blocks/AudioPlayer";
@@ -48,7 +49,7 @@ const data: IndustryData = {
   heroTitle: "AI Call Automation for",
   heroMuted: "Dental Practices",
   heroBody:
-    "Dental front desks answer phones between checking in patients, verifying insurance, and coordinating with the back office, all while the schedule is actively filling or falling apart. A missed call is a lost new patient or a recall that never gets rebooked, and a real dental emergency reaching voicemail after hours is a patient your practice may never see again. SkipDial configures AI voice agents around your scheduling system and front-desk protocols so every call is answered, booked, and triaged correctly.",
+    "A missed call is a lost new patient or a recall that never gets rebooked, and a real emergency reaching voicemail after hours is a patient you may never see again. SkipDial answers, books, and triages every call around your scheduling system.",
   breakdown: {
     title: "Where Call Handling Breaks Down in",
     muted: "Dental Practices",
@@ -108,6 +109,11 @@ const data: IndustryData = {
         icon: Database,
         title: "Captures Insurance and Contact Details",
         body: "Plan information and patient details are collected up front and synced to your practice management system.",
+      },
+      {
+        icon: MessageSquareText,
+        title: "Sends a Confirmation to the Patient",
+        body: "Appointment confirmations go out automatically, so patients know their visit is booked without a follow-up call.",
       },
     ],
   },
@@ -171,12 +177,7 @@ const data: IndustryData = {
       },
     ],
   },
-  demo: {
-    defaultIndustry: "dentists",
-    title: "Try It for",
-    muted: "Yourself",
-    body: "Pick your industry and language, then get a live demo call. Hear exactly how SkipDial books a new patient and triages an after-hours emergency.",
-  },
+  demo: { defaultIndustry: "dentists" },
   cta: {
     title: "See How SkipDial Supports",
     muted: "Dental Practices",

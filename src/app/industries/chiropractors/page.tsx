@@ -5,6 +5,7 @@ import {
   CalendarCheck,
   ClipboardList,
   Database,
+  MessageSquareText,
 } from "lucide-react";
 import { IndustryTemplate, type IndustryData } from "@/components/blocks/IndustryTemplate";
 
@@ -19,7 +20,7 @@ const data: IndustryData = {
   heroTitle: "AI Call Automation for",
   heroMuted: "Chiropractic Practices",
   heroBody:
-    "Chiropractic practices depend on two things happening consistently: new patients getting booked quickly, and existing patients staying on their recommended care schedule. Front-desk staff managing check-ins, adjustments, and billing questions simultaneously can't always give the phone the same attention, and a new patient inquiry left unanswered rarely calls back. SkipDial configures AI voice agents around your scheduling system so every call, new or returning, is booked, confirmed, and logged without disrupting the flow of your practice.",
+    "A new patient inquiry left unanswered rarely calls back, and recall bookings slip when the front desk is stretched thin. SkipDial books, confirms, and logs every call automatically.",
   breakdown: {
     title: "Where Call Handling Breaks Down in",
     muted: "Chiropractic Practices",
@@ -75,6 +76,11 @@ const data: IndustryData = {
         icon: Database,
         title: "Logs Every Call to Your System",
         body: "Bookings and call summaries sync directly to your practice management software, ready for staff to review.",
+      },
+      {
+        icon: MessageSquareText,
+        title: "Sends a Confirmation to the Patient",
+        body: "Appointment and recall confirmations go out automatically, so patients know their visit is locked in without a follow-up call.",
       },
     ],
   },
@@ -137,12 +143,7 @@ const data: IndustryData = {
       },
     ],
   },
-  demo: {
-    defaultIndustry: "chiropractors",
-    title: "Try It for",
-    muted: "Yourself",
-    body: "Pick your industry and language, then get a live demo call. Hear exactly how SkipDial books a new patient and schedules recurring care.",
-  },
+  demo: { defaultIndustry: "chiropractors" },
   cta: {
     title: "See How SkipDial Supports",
     muted: "Chiropractic Practices",

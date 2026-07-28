@@ -5,6 +5,7 @@ import {
   ClipboardList,
   CalendarCheck,
   Database,
+  MessageSquareText,
 } from "lucide-react";
 import { IndustryTemplate, type IndustryData } from "@/components/blocks/IndustryTemplate";
 
@@ -19,7 +20,7 @@ const data: IndustryData = {
   heroTitle: "AI Call Automation for Real Estate",
   heroMuted: "& Property Management",
   heroBody:
-    "In real estate and property management, phone calls often represent immediate interest. A prospective buyer requesting a showing, a seller evaluating listing options, or a tenant reporting an issue expects a timely response. When calls are missed or follow-up is delayed, opportunities shift quickly to competitors. Speed to lead, structured intake, and consistent routing directly influence occupancy rates, listing conversions, and client satisfaction. SkipDial configures AI voice agents around your workflows so every inquiry is handled consistently and documented accurately.",
+    "A missed call or delayed follow-up sends buyers, sellers, and tenants straight to a competitor. SkipDial qualifies and routes every inquiry consistently, the moment it comes in.",
   breakdown: {
     title: "Where Call Handling Breaks Down in",
     muted: "Real Estate and Property Management",
@@ -73,6 +74,11 @@ const data: IndustryData = {
         icon: Database,
         title: "Categorizes and Logs Every Interaction",
         body: "Call summaries, lead status, and qualification data sync to your CRM so follow-up stays organized and measurable.",
+      },
+      {
+        icon: MessageSquareText,
+        title: "Sends a Confirmation to the Caller",
+        body: "Showing, tour, and maintenance confirmations go out automatically, so callers know their request is logged and being handled.",
       },
     ],
   },
@@ -135,12 +141,7 @@ const data: IndustryData = {
       },
     ],
   },
-  demo: {
-    defaultIndustry: "real-estate",
-    title: "Try It for",
-    muted: "Yourself",
-    body: "Pick your industry and language, then get a live demo call. Hear exactly how SkipDial qualifies buyers, tenants, and sellers and books showings in real time.",
-  },
+  demo: { defaultIndustry: "real-estate" },
   cta: {
     title: "See How SkipDial Supports Real Estate",
     muted: "& Property Management Teams",

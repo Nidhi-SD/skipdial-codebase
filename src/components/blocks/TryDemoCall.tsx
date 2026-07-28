@@ -51,10 +51,13 @@ const inputClasses =
 export function TryDemoCall({
   className,
   defaultIndustry,
+  size = "default",
 }: {
   className?: string;
   defaultIndustry?: string;
+  size?: "default" | "compact";
 }) {
+  const compact = size === "compact";
   const reduce = useReducedMotion();
   const initialIdx = Math.max(
     0,
@@ -130,7 +133,12 @@ export function TryDemoCall({
       )}
     >
       {/* Incoming-call hero zone — tinted gradient, pill selectors, ripple avatar */}
-      <div className="relative overflow-hidden bg-gradient-to-b from-accent-tint/70 via-accent-soft/15 to-surface px-5 pb-10 pt-5 sm:px-6">
+      <div
+        className={cn(
+          "relative overflow-hidden bg-gradient-to-b from-accent-tint/70 via-accent-soft/15 to-surface px-5 sm:px-6",
+          compact ? "pb-6 pt-4" : "pb-10 pt-5"
+        )}
+      >
         <div
           aria-hidden
           className="grid-overlay-light absolute inset-0 opacity-[0.35] [mask-image:radial-gradient(60%_70%_at_50%_0%,black,transparent)]"
@@ -182,8 +190,13 @@ export function TryDemoCall({
         </div>
 
         {/* Ripple call preview */}
-        <div className="relative mt-8 flex flex-col items-center text-center">
-          <div className="relative flex h-20 w-20 items-center justify-center">
+        <div className={cn("relative flex flex-col items-center text-center", compact ? "mt-5" : "mt-8")}>
+          <div
+            className={cn(
+              "relative flex items-center justify-center",
+              compact ? "h-14 w-14" : "h-20 w-20"
+            )}
+          >
             {!reduce && (
               <>
                 <motion.span
@@ -200,8 +213,19 @@ export function TryDemoCall({
                 />
               </>
             )}
-            <span className="relative flex h-16 w-16 items-center justify-center rounded-full bg-accent text-[22px] font-bold text-ink-inverse shadow-lift overflow-hidden">
-              <Image src="/avatars/james.jpeg" alt="James" width={64} height={64} className="object-cover" />
+            <span
+              className={cn(
+                "relative flex items-center justify-center rounded-full bg-accent font-bold text-ink-inverse shadow-lift overflow-hidden",
+                compact ? "h-11 w-11 text-[16px]" : "h-16 w-16 text-[22px]"
+              )}
+            >
+              <Image
+                src="/avatars/james.jpeg"
+                alt="James"
+                width={compact ? 44 : 64}
+                height={compact ? 44 : 64}
+                className="object-cover"
+              />
             </span>
             <span
               aria-hidden
@@ -209,11 +233,18 @@ export function TryDemoCall({
             />
           </div>
 
-          <p className="mt-4 flex items-center gap-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-accent">
+          <p
+            className={cn(
+              "flex items-center gap-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-accent",
+              compact ? "mt-2.5" : "mt-4"
+            )}
+          >
             <PhoneCall aria-hidden className="h-3 w-3" />
             Incoming demo call
           </p>
-          <h3 className="mt-1.5 text-xl font-bold text-ink">{AGENT_NAME} is calling…</h3>
+          <h3 className={cn("mt-1.5 font-bold text-ink", compact ? "text-lg" : "text-xl")}>
+            {AGENT_NAME} is calling…
+          </h3>
           <AnimatePresence mode="wait">
             <motion.p
               key={industry.value}
@@ -231,9 +262,14 @@ export function TryDemoCall({
       </div>
 
       {/* Lead capture sheet — overlaps the hero zone */}
-      <div className="relative -mt-5 rounded-t-[28px] bg-surface p-5 shadow-[0_-12px_28px_-20px_rgb(19_19_22_/_0.25)] sm:p-6">
-        <div className="mb-5 text-center sm:text-left">
-          <h3 className="text-display-sm font-bold text-ink">
+      <div
+        className={cn(
+          "relative rounded-t-[28px] bg-surface shadow-[0_-12px_28px_-20px_rgb(19_19_22_/_0.25)]",
+          compact ? "-mt-4 p-4 sm:p-5" : "-mt-5 p-5 sm:p-6"
+        )}
+      >
+        <div className={cn("text-center sm:text-left", compact ? "mb-4" : "mb-5")}>
+          <h3 className={cn("font-bold text-ink", compact ? "text-lg" : "text-display-sm")}>
             Receive a Call From Our AI Agent!
           </h3>
         </div>
@@ -290,7 +326,7 @@ export function TryDemoCall({
                     type="text"
                     autoComplete="name"
                     placeholder="Your name"
-                    className={cn(inputClasses, errors.name && "border-danger")}
+                    className={cn(inputClasses, compact && "h-11", errors.name && "border-danger")}
                     aria-invalid={!!errors.name}
                   />
                   {errors.name && (
@@ -309,7 +345,7 @@ export function TryDemoCall({
                     type="text"
                     autoComplete="organization"
                     placeholder="Company name"
-                    className={cn(inputClasses, errors.company && "border-danger")}
+                    className={cn(inputClasses, compact && "h-11", errors.company && "border-danger")}
                     aria-invalid={!!errors.company}
                   />
                   {errors.company && (
@@ -328,7 +364,7 @@ export function TryDemoCall({
                     type="tel"
                     autoComplete="tel"
                     placeholder="Phone number"
-                    className={cn(inputClasses, errors.phone && "border-danger")}
+                    className={cn(inputClasses, compact && "h-11", errors.phone && "border-danger")}
                     aria-invalid={!!errors.phone}
                   />
                   {errors.phone && (
@@ -347,7 +383,7 @@ export function TryDemoCall({
                     type="email"
                     autoComplete="email"
                     placeholder="Email address"
-                    className={cn(inputClasses, errors.email && "border-danger")}
+                    className={cn(inputClasses, compact && "h-11", errors.email && "border-danger")}
                     aria-invalid={!!errors.email}
                   />
                   {errors.email && (
@@ -399,7 +435,10 @@ export function TryDemoCall({
               <button
                 type="submit"
                 disabled={status === "loading"}
-                className="flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-accent text-[15px] font-semibold text-ink-inverse shadow-card transition-all duration-200 ease-out-expo hover:bg-accent-deep hover:shadow-lift active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60"
+                className={cn(
+                  "flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-accent text-[15px] font-semibold text-ink-inverse shadow-card transition-all duration-200 ease-out-expo hover:bg-accent-deep hover:shadow-lift active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60",
+                  compact ? "h-11" : "h-12"
+                )}
               >
                 {status === "loading" ? (
                   <>

@@ -5,6 +5,7 @@ import {
   ClipboardList,
   Route,
   Database,
+  MessageSquareText,
 } from "lucide-react";
 import { IndustryTemplate, type IndustryData } from "@/components/blocks/IndustryTemplate";
 
@@ -19,7 +20,7 @@ const data: IndustryData = {
   heroTitle: "AI Call Automation for",
   heroMuted: "HVAC Contractors",
   heroBody:
-    "HVAC calls are rarely convenient. A no-cooling call in July or a no-heat call in January arrives the moment a system fails, and the customer is already comparing you to whoever else answers first. Dispatchers juggling phones, technician schedules, and walk-ins can't always give every call the same speed or consistency, especially when a heat wave or cold snap triples the call volume overnight. SkipDial configures AI voice agents around your dispatch rules so every call is answered, triaged by urgency, and routed to the right technician.",
+    "HVAC calls arrive the moment a system fails, and the customer is already comparing you to whoever answers first. SkipDial answers, triages by urgency, and routes every call to the right technician.",
   breakdown: {
     title: "Where Call Handling Breaks Down for",
     muted: "HVAC Contractors",
@@ -75,6 +76,11 @@ const data: IndustryData = {
         icon: Database,
         title: "Syncs Every Job to Dispatch",
         body: "Job details and customer information flow directly into your dispatch or field service software, ready for the assigned tech.",
+      },
+      {
+        icon: MessageSquareText,
+        title: "Sends a Confirmation to the Customer",
+        body: "Appointment confirmations go out automatically, so customers know their technician visit is locked in without a follow-up call.",
       },
     ],
   },
@@ -137,12 +143,7 @@ const data: IndustryData = {
       },
     ],
   },
-  demo: {
-    defaultIndustry: "hvac",
-    title: "Try It for",
-    muted: "Yourself",
-    body: "Pick your industry and language, then get a live demo call. Hear exactly how SkipDial triages a no-heat emergency and dispatches a technician.",
-  },
+  demo: { defaultIndustry: "hvac" },
   cta: {
     title: "See How SkipDial Works",
     muted: "for HVAC Contractors",

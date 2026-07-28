@@ -5,6 +5,7 @@ import {
   ClipboardList,
   Lock,
   Database,
+  MessageSquareText,
 } from "lucide-react";
 import { IndustryTemplate, type IndustryData } from "@/components/blocks/IndustryTemplate";
 
@@ -19,7 +20,7 @@ const data: IndustryData = {
   heroTitle: "AI Call Automation for",
   heroMuted: "Personal Injury Law Firms",
   heroBody:
-    "A new-case call to a personal injury firm is often made within hours of an accident, from a hospital bed, a tow yard, or a parked car on the side of the road. The caller is comparing firms in real time, and the first attorney to respond with a clear, confident intake process often wins the case. Missed calls, inconsistent intake, or a slow callback don't just lose a lead, they lose a client to the next firm on the search results page. SkipDial configures AI voice agents around your intake criteria so every caller is triaged, documented, and routed without delay.",
+    "New-case callers are comparing firms in real time, and a missed call or slow callback loses the client to the next firm on the results page. SkipDial triages, documents, and routes every caller without delay.",
   breakdown: {
     title: "Where Call Handling Breaks Down at",
     muted: "Injury Law Firms",
@@ -75,6 +76,11 @@ const data: IndustryData = {
         icon: Database,
         title: "Logs and Routes for Fast Callback",
         body: "Complete intake summaries sync to your CRM or case management system, flagged by urgency for immediate attorney follow-up.",
+      },
+      {
+        icon: MessageSquareText,
+        title: "Sends a Confirmation to the Caller",
+        body: "Intake confirmations go out automatically, so callers know their case is logged and an attorney will follow up without delay.",
       },
     ],
   },
@@ -136,12 +142,7 @@ const data: IndustryData = {
       },
     ],
   },
-  demo: {
-    defaultIndustry: "injury-lawyers",
-    title: "Try It for",
-    muted: "Yourself",
-    body: "Pick your industry and language, then get a live demo call. Hear exactly how SkipDial triages urgency and runs a new-case intake.",
-  },
+  demo: { defaultIndustry: "injury-lawyers" },
   cta: {
     title: "See How SkipDial Supports",
     muted: "Personal Injury Firms",

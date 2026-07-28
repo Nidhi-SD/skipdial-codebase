@@ -5,6 +5,7 @@ import {
   ClipboardList,
   FileWarning,
   Database,
+  MessageSquareText,
 } from "lucide-react";
 import { IndustryTemplate, type IndustryData } from "@/components/blocks/IndustryTemplate";
 
@@ -19,7 +20,7 @@ const data: IndustryData = {
   heroTitle: "AI Call Automation for",
   heroMuted: "Roofing Contractors",
   heroBody:
-    "Roofing demand doesn't arrive evenly. A single hailstorm or wind event can generate hundreds of calls in a matter of days, from homeowners who need an inspection, an estimate, or help starting an insurance claim. Offices staffed for a normal week get overwhelmed instantly, and callers who can't get through simply call the next roofer on the list. SkipDial configures AI voice agents around your storm response process so every caller gets scheduled, documented, and routed, no matter how sudden the surge.",
+    "A single storm can trigger hundreds of calls overnight, and callers who can't get through simply call the next roofer on the list. SkipDial schedules, documents, and routes every caller, no matter the surge.",
   breakdown: {
     title: "Where Call Handling Breaks Down for",
     muted: "Roofing Contractors",
@@ -75,6 +76,11 @@ const data: IndustryData = {
         icon: Database,
         title: "Books Inspections and Logs Leads",
         body: "Appointments are scheduled directly into your calendar, and every lead syncs to your CRM with full intake context.",
+      },
+      {
+        icon: MessageSquareText,
+        title: "Sends a Confirmation to the Homeowner",
+        body: "Inspection confirmations go out automatically, so homeowners know their appointment is locked in without a follow-up call.",
       },
     ],
   },
@@ -136,12 +142,7 @@ const data: IndustryData = {
       },
     ],
   },
-  demo: {
-    defaultIndustry: "roofing",
-    title: "Try It for",
-    muted: "Yourself",
-    body: "Pick your industry and language, then get a live demo call. Hear exactly how SkipDial handles a storm-damage inspection request.",
-  },
+  demo: { defaultIndustry: "roofing" },
   cta: {
     title: "See How SkipDial Works",
     muted: "for Roofing Contractors",

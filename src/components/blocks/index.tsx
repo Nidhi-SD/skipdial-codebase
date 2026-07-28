@@ -30,6 +30,7 @@ export function PageHero({
   ctas,
   children,
   center = false,
+  aside,
 }: {
   eyebrow?: string;
   breadcrumb?: { href: string; label: string }[];
@@ -39,69 +40,87 @@ export function PageHero({
   ctas?: ReactNode;
   children?: ReactNode;
   center?: boolean;
+  aside?: ReactNode;
 }) {
+  const copy = (
+    <>
+      {breadcrumb ? (
+        <Reveal variant="fadeUp">
+          <nav aria-label="Breadcrumb" className="mb-4">
+            <ol className="flex flex-wrap items-center gap-1.5 text-[13px] font-medium text-ink-light">
+              {breadcrumb.map((b, i) => (
+                <li key={b.href} className="flex items-center gap-1.5">
+                  {i > 0 && <span aria-hidden>/</span>}
+                  <Link href={b.href} className="transition-colors hover:text-accent">
+                    {b.label}
+                  </Link>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        </Reveal>
+      ) : eyebrow ? (
+        <Reveal variant="fadeUp">
+          <Eyebrow className="mb-4">{eyebrow}</Eyebrow>
+        </Reveal>
+      ) : null}
+
+      <BlurTitle
+        as="h1"
+        text={title}
+        mutedText={mutedTitle}
+        className={cn(
+          "max-w-4xl",
+          aside ? "text-display-lg" : "text-display-xl",
+          center && !aside && "mx-auto"
+        )}
+      />
+
+      {body ? (
+        <Reveal variant="fadeUp" delay={0.18}>
+          <div
+            className={cn(
+              "mt-5 max-w-copy text-[16px] leading-relaxed text-ink",
+              center && !aside && "mx-auto"
+            )}
+          >
+            {body}
+          </div>
+        </Reveal>
+      ) : null}
+
+      {ctas ? (
+        <Reveal variant="fadeUp" delay={0.28}>
+          <div
+            className={cn(
+              "mt-8 flex flex-wrap items-center gap-3",
+              center && !aside && "justify-center"
+            )}
+          >
+            {ctas}
+          </div>
+        </Reveal>
+      ) : null}
+
+      {children}
+    </>
+  );
+
   return (
     <section className="hero-wash relative overflow-hidden pb-14 pt-28 md:pb-20 md:pt-36">
       <div
         aria-hidden
         className="dot-grid absolute inset-0 opacity-30 [mask-image:radial-gradient(60%_60%_at_50%_20%,black,transparent)]"
       />
-      <Container className={cn("relative", center && "text-center")}>
-        {breadcrumb ? (
-          <Reveal variant="fadeUp">
-            <nav aria-label="Breadcrumb" className="mb-4">
-              <ol className="flex flex-wrap items-center gap-1.5 text-[13px] font-medium text-ink-light">
-                {breadcrumb.map((b, i) => (
-                  <li key={b.href} className="flex items-center gap-1.5">
-                    {i > 0 && <span aria-hidden>/</span>}
-                    <Link href={b.href} className="transition-colors hover:text-accent">
-                      {b.label}
-                    </Link>
-                  </li>
-                ))}
-              </ol>
-            </nav>
-          </Reveal>
-        ) : eyebrow ? (
-          <Reveal variant="fadeUp">
-            <Eyebrow className="mb-4">{eyebrow}</Eyebrow>
-          </Reveal>
-        ) : null}
-
-        <BlurTitle
-          as="h1"
-          text={title}
-          mutedText={mutedTitle}
-          className={cn("max-w-4xl text-display-xl", center && "mx-auto")}
-        />
-
-        {body ? (
-          <Reveal variant="fadeUp" delay={0.18}>
-            <div
-              className={cn(
-                "mt-5 max-w-copy text-[16px] leading-relaxed text-ink",
-                center && "mx-auto"
-              )}
-            >
-              {body}
-            </div>
-          </Reveal>
-        ) : null}
-
-        {ctas ? (
-          <Reveal variant="fadeUp" delay={0.28}>
-            <div
-              className={cn(
-                "mt-8 flex flex-wrap items-center gap-3",
-                center && "justify-center"
-              )}
-            >
-              {ctas}
-            </div>
-          </Reveal>
-        ) : null}
-
-        {children}
+      <Container className={cn("relative", center && !aside && "text-center")}>
+        {aside ? (
+          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+            <div>{copy}</div>
+            <div>{aside}</div>
+          </div>
+        ) : (
+          copy
+        )}
       </Container>
     </section>
   );
