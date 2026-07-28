@@ -44,6 +44,7 @@ const data: IndustryData = {
       "Tenant Call Categorization",
       "CRM and Calendar Sync",
       "Outbound Follow-Up Automation",
+      "Escalation to Your Team",
     ],
   },
   callCards: {

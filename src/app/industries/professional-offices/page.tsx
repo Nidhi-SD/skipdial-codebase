@@ -45,6 +45,7 @@ const data: IndustryData = {
       "HIPAA-Aligned Configurations",
       "CRM and Case Management Sync",
       "Appointment Scheduling",
+      "Escalation to Your Team",
     ],
   },
   callCards: {

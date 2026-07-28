@@ -46,6 +46,7 @@ const data: IndustryData = {
       "Structured Damage Intake",
       "CRM and Calendar Sync",
       "Estimate Follow-Up",
+      "Escalation to Your Team",
     ],
   },
   callCards: {

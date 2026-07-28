@@ -46,6 +46,7 @@ const data: IndustryData = {
       "Appointment Reminders",
       "Practice Management Sync",
       "Rescheduling & Cancellations",
+      "Escalation to Your Front Desk",
     ],
   },
   callCards: {

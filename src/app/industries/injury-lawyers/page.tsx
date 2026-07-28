@@ -46,6 +46,7 @@ const data: IndustryData = {
       "Callback Scheduling Discipline",
       "CRM and Case Management Sync",
       "Non-Viable Call Filtering",
+      "Escalation to Your Attorneys",
     ],
   },
   callCards: {

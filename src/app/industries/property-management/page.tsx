@@ -46,6 +46,7 @@ const data: IndustryData = {
       "After-Hours Emergency Routing",
       "Property Management Software Sync",
       "Vendor & Owner Call Routing",
+      "Escalation to Your Team",
     ],
   },
   callCards: {

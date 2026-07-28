@@ -46,6 +46,7 @@ const data: IndustryData = {
       "After-Hours Coverage",
       "CRM and Dispatch Sync",
       "Surge Call Handling",
+      "Escalation to Your Team",
     ],
   },
   callCards: {

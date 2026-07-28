@@ -79,6 +79,7 @@ const data: IndustryData = {
       "After-Hours Emergency Triage",
       "Practice Management Sync",
       "Cancellation & Rescheduling",
+      "Escalation to Your Front Desk",
     ],
   },
   callCards: {

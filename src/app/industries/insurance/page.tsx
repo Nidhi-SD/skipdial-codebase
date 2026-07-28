@@ -46,6 +46,7 @@ const data: IndustryData = {
       "Structured Coverage Intake",
       "CRM and Agency Management Sync",
       "Renewal & Follow-Up Reminders",
+      "Escalation to Your Agents",
     ],
   },
   callCards: {

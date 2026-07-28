@@ -91,6 +91,8 @@ export function IndustryTemplate({ data }: { data: IndustryData }) {
         }
       />
 
+      <HearItLive src={data.hearItLive?.src} transcript={data.hearItLive?.transcript} />
+
       {/* Where call handling breaks down */}
       <Section>
         <Container>
@@ -136,8 +138,6 @@ export function IndustryTemplate({ data }: { data: IndustryData }) {
           </div>
         </Container>
       </Section>
-
-      <HearItLive src={data.hearItLive?.src} transcript={data.hearItLive?.transcript} />
 
       {/* Checklist */}
       <Section>

@@ -46,6 +46,7 @@ const data: IndustryData = {
       "Seasonal Surge Handling",
       "CRM and Dispatch Sync",
       "Maintenance Plan Reminders",
+      "Escalation to Your Team",
     ],
   },
   callCards: {
