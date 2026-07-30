@@ -124,9 +124,6 @@ export default function HowItWorksPage() {
         title="See How SkipDial Would Work"
         mutedTitle="for Your Business"
         body="Every business has unique call patterns and operational priorities. The best way to understand how SkipDial would function in your environment is to review your workflows and test real scenarios."
-        secondaryCtaLabel="Contact Us"
-        secondaryCtaHref="https://cal.com/aryanbisht/30-min-discovery-call?overlayCalendar=true"
-        secondaryCtaExternal
       />
     </>
   );

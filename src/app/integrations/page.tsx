@@ -311,9 +311,6 @@ export default function IntegrationsPage() {
         title="See What Integrated Call Automation"
         mutedTitle="Looks Like in Practice"
         body="Your team may be spending valuable time on manual data entry because your call handling solution does not connect cleanly to your CRM and scheduling tools. SkipDial integrates AI voice agents into your systems so calls produce measurable outcomes, reliable follow-up, and fewer manual errors."
-        secondaryCtaLabel="Contact Us"
-        secondaryCtaHref="https://cal.com/aryanbisht/30-min-discovery-call?overlayCalendar=true"
-        secondaryCtaExternal
       />
     </>
   );

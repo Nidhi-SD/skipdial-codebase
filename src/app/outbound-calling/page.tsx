@@ -204,9 +204,6 @@ export default function OutboundCallingPage() {
         title="See How SkipDial Automates"
         mutedTitle="Outbound Follow-Up"
         body="Consistent outbound activity increases conversion rates without increasing headcount."
-        secondaryCtaLabel="Contact Us"
-        secondaryCtaHref="https://cal.com/aryanbisht/30-min-discovery-call?overlayCalendar=true"
-        secondaryCtaExternal
       />
     </>
   );

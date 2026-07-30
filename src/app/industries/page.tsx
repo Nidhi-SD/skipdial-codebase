@@ -283,9 +283,6 @@ export default function IndustriesPage() {
         title="See How SkipDial Would Work"
         mutedTitle="in Your Industry"
         body="Every industry has unique call dynamics. SkipDial adapts to them without adding operational complexity."
-        secondaryCtaLabel="Contact Us"
-        secondaryCtaHref="https://cal.com/aryanbisht/30-min-discovery-call?overlayCalendar=true"
-        secondaryCtaExternal
       />
     </>
   );

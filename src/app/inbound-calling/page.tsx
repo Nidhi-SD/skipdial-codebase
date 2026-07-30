@@ -137,9 +137,6 @@ export default function InboundCallingPage() {
         title="See How SkipDial Handles"
         mutedTitle="Your Inbound Calls"
         body="If your business depends on phone calls to generate revenue, consistent intake and immediate response are not optional. SkipDial provides structured inbound call handling without expanding headcount or sacrificing control."
-        secondaryCtaLabel="Contact Us"
-        secondaryCtaHref="https://cal.com/aryanbisht/30-min-discovery-call?overlayCalendar=true"
-        secondaryCtaExternal
       />
     </>
   );

@@ -238,9 +238,6 @@ export function IndustryTemplate({ data }: { data: IndustryData }) {
         title={data.cta.title}
         mutedTitle={data.cta.muted}
         body={data.cta.body}
-        secondaryCtaLabel="Contact Us"
-        secondaryCtaHref="https://cal.com/aryanbisht/30-min-discovery-call?overlayCalendar=true"
-        secondaryCtaExternal
       />
     </>
   );

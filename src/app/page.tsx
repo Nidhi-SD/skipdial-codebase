@@ -10,7 +10,6 @@ import {
   CTABand,
 } from "@/components/blocks";
 import { PainPointCards } from "@/components/blocks/PainPointCards";
-import { FREE_DEMO_URL } from "@/lib/links";
 import { ScrollTimeline } from "@/components/blocks/ScrollTimeline";
 import { VoiceAgentSimulator } from "@/components/blocks/VoiceAgentSimulator";
 import { WorkflowBeam } from "@/components/blocks/WorkflowBeam";
@@ -356,9 +355,6 @@ export default function Home() {
         mutedTitle="will cost you a customer."
         body="Consistent coverage, reliable intake, and disciplined follow up, without adding headcount."
         smallPrint="Free 30 minute demo · configured around your call workflows"
-        secondaryCtaLabel="Contact Us"
-        secondaryCtaHref={FREE_DEMO_URL}
-        secondaryCtaExternal
       />
     </>
   );
