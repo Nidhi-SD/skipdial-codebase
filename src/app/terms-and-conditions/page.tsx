@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { Container } from "@/components/ui/primitives";
 import { PageHero, Section } from "@/components/blocks";
+import { LegalDoc, type LegalBlock } from "@/components/blocks/LegalDoc";
 
 export const metadata: Metadata = {
   title: "Terms and Conditions | SkipDial",
@@ -12,13 +12,7 @@ export const metadata: Metadata = {
    Section headings are title-cased for presentation only — per the Miscellaneous
    section, headings are for convenience and do not affect interpretation. */
 
-type Block =
-  | { type: "p"; text: string }
-  | { type: "h2"; text: string }
-  | { type: "h3"; text: string }
-  | { type: "ul"; items: string[] };
-
-const terms: Block[] = [
+const terms: LegalBlock[] = [
   { type: "h2", text: "Acceptance of Terms" },
   {
     type: "p",
@@ -340,51 +334,13 @@ const terms: Block[] = [
 export default function TermsAndConditionsPage() {
   return (
     <>
-      <PageHero eyebrow="Legal" title="Terms and Conditions" />
+      <PageHero
+        eyebrow="Legal"
+        title="Terms and Conditions"
+        body="The terms that govern your use of SkipDial's AI voice agents and related automation services."
+      />
       <Section className="pt-4">
-        <Container>
-          <div className="mx-auto max-w-3xl">
-            {terms.map((block, i) => {
-              switch (block.type) {
-                case "h2":
-                  return (
-                    <h2
-                      key={i}
-                      className="mt-12 border-b border-line pb-3 text-display-sm font-bold first:mt-0"
-                    >
-                      {block.text}
-                    </h2>
-                  );
-                case "h3":
-                  return (
-                    <h3 key={i} className="mt-8 text-[17px] font-bold">
-                      {block.text}
-                    </h3>
-                  );
-                case "ul":
-                  return (
-                    <ul
-                      key={i}
-                      className="mt-4 list-disc space-y-2 pl-6 text-[15px] leading-relaxed text-ink-light marker:text-accent"
-                    >
-                      {block.items.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  );
-                default:
-                  return (
-                    <p
-                      key={i}
-                      className="mt-4 text-[15px] leading-relaxed text-ink-light"
-                    >
-                      {block.text}
-                    </p>
-                  );
-              }
-            })}
-          </div>
-        </Container>
+        <LegalDoc blocks={terms} />
       </Section>
     </>
   );
