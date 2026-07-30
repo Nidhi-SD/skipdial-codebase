@@ -16,6 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/request-a-free-demo',
     '/blog',
     '/privacy-policy',
+    '/terms-and-conditions',
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date().toISOString(),

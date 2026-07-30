@@ -149,7 +149,7 @@ export function Footer() {
 
       {/* Legal strip */}
       <div className="border-t border-line">
-        <Container className="flex flex-col items-start gap-2 py-4 text-[13px] text-ink-faint md:flex-row md:items-center md:justify-between">
+        <Container className="flex flex-col items-center justify-center gap-2 py-4 text-center text-[13px] text-ink-faint md:flex-row md:gap-5">
           <p>© 2026 All Rights Reserved · SkipDial.ai</p>
           <div className="flex items-center gap-5">
             <Link
@@ -158,7 +158,12 @@ export function Footer() {
             >
               Privacy Policy
             </Link>
-            <span>Powered by REV77 Digital Marketing</span>
+            <Link
+              href="/terms-and-conditions"
+              className="transition-colors hover:text-ink"
+            >
+              Terms &amp; Conditions
+            </Link>
           </div>
         </Container>
       </div>
