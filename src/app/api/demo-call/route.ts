@@ -69,6 +69,22 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid submission" }, { status: 422 });
   }
 
+  // CRM lead capture — fire-and-forget. A failure here (or the env var being
+  // unset) must never block the demo call itself; the two are independent
+  // side effects of one valid submission.
+  const ghlWebhookUrl = process.env.GHL_WEBHOOK_URL;
+  if (ghlWebhookUrl) {
+    fetch(ghlWebhookUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, company, phone: e164Phone, email, industry }),
+    }).catch((err) => {
+      console.error("[demo-call] GHL webhook failed", err);
+    });
+  } else {
+    console.warn("[demo-call] GHL_WEBHOOK_URL not set — skipping CRM lead capture");
+  }
+
   const apiKey = process.env.VAPI_API_KEY;
 
   // Insurance runs on a separate, independently-hosted Vapi assistant
