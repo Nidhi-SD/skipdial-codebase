@@ -7,11 +7,10 @@ import {
   Database,
   ShieldCheck,
   Workflow,
-  PhoneCall,
   BellRing,
 } from "lucide-react";
 import { Container, SectionHead, Button } from "@/components/ui/primitives";
-import { Reveal, Stagger, Item } from "@/components/motion";
+import { Reveal, Stagger, Item, Marquee } from "@/components/motion";
 import { Magnetic } from "@/components/motion/entrances";
 import {
   PageHero,
@@ -66,23 +65,38 @@ const included = [
   "Escalation Rules",
 ];
 
+/* Grouped by category so the ribbon can interleave them evenly; the labels are
+   kept as documentation of what each row of marks is, not rendered. */
 const logoGroups = [
   {
-    icon: PhoneCall,
     label: "Core Telephony & Voice AI Infrastructure",
     logos: ["Vonage", "Twilio", "Telnyx", "RingCentral", "Vapi", "Retell", "LiveKit"],
   },
   {
-    icon: Workflow,
     label: "Workflow Automation",
     logos: ["Zapier", "Make", "n8n", "Slack"],
   },
   {
-    icon: Database,
     label: "CRM & Sales Platforms",
     logos: ["HubSpot", "Salesforce", "Zoho", "GoHighLevel", "ServiceTitan", "Jobber", "Housecall Pro"],
   },
 ];
+
+/* Round-robin the categories into one strip so the ribbon reads as a mixed
+   ecosystem instead of seven telephony marks running past in a row. */
+function interleave(groups: string[][]) {
+  const queues = groups.map((g) => [...g]);
+  const out: string[] = [];
+  while (queues.some((q) => q.length > 0)) {
+    for (const q of queues) {
+      const next = q.shift();
+      if (next) out.push(next);
+    }
+  }
+  return out;
+}
+
+const ribbonLogos = interleave(logoGroups.map((g) => g.logos));
 
 const dataFlow = [
   {
@@ -160,12 +174,44 @@ export default function IntegrationsPage() {
         </Container>
       </Section>
 
-      {/* Category tabs */}
+      {/* Ecosystem ribbon — logos scroll as one continuous strip. */}
       <Section tone="alt">
         <Container>
           <SectionHead
-            eyebrow="Categories"
+            eyebrow="Ecosystem"
             index="02"
+            title="Types of Integrations"
+            mutedTitle="SkipDial Supports"
+            align="center"
+            className="mx-auto"
+          />
+        </Container>
+        {/* Full-bleed: the ribbon runs past both edges, so it sits outside
+            Container and the marquee's own mask fades it out at the sides. */}
+        <Reveal variant="fadeIn" delay={0.1}>
+          <div className="mt-12 border-y border-line bg-surface py-7">
+            <Marquee duration={44}>
+              {ribbonLogos.map((logo) => (
+                <BrandLogo key={logo} name={logo} />
+              ))}
+            </Marquee>
+          </div>
+        </Reveal>
+        <Container>
+          <Reveal variant="fadeIn" delay={0.2}>
+            <p className="mt-8 text-center text-[13px] text-ink-light">
+              + dozens more through API-based connections and middleware
+            </p>
+          </Reveal>
+        </Container>
+      </Section>
+
+      {/* Category tabs */}
+      <Section>
+        <Container>
+          <SectionHead
+            eyebrow="Categories"
+            index="03"
             title="Five Ways SkipDial Plugs"
             mutedTitle="Into Your Stack"
           />
@@ -181,55 +227,6 @@ export default function IntegrationsPage() {
       <Section>
         <Container>
           <ChecklistBand items={included} />
-        </Container>
-      </Section>
-
-      {/* Types of integrations */}
-      <Section tone="alt">
-        <Container>
-          <SectionHead
-            eyebrow="Ecosystem"
-            index="03"
-            title="Types of Integrations"
-            mutedTitle="SkipDial Supports"
-            align="center"
-            className="mx-auto"
-          />
-          <div className="mt-12 grid gap-4 md:grid-cols-2">
-            {logoGroups.map((group, gi) => (
-              <Reveal
-                key={group.label}
-                variant="fadeUp"
-                delay={gi * 0.08}
-                className={
-                  gi === logoGroups.length - 1 && logoGroups.length % 2 !== 0
-                    ? "md:col-span-2"
-                    : undefined
-                }
-              >
-                <div className="h-full rounded-2xl border border-line bg-surface p-6 shadow-soft">
-                  <div className="flex items-center gap-3">
-                    <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent-tint/60 text-accent">
-                      <group.icon aria-hidden className="h-4 w-4" />
-                    </span>
-                    <h3 className="text-[15px] font-bold">{group.label}</h3>
-                  </div>
-                  <ul className="mt-5 flex flex-wrap gap-x-5 gap-y-3.5">
-                    {group.logos.map((logo) => (
-                      <li key={logo}>
-                        <BrandLogo name={logo} />
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-          <Reveal variant="fadeIn" delay={0.2}>
-            <p className="mt-6 text-center text-[13px] text-ink-light">
-              + dozens more through API-based connections and middleware
-            </p>
-          </Reveal>
         </Container>
       </Section>
 
