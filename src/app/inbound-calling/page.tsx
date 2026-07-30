@@ -31,11 +31,12 @@ const included = [
 ];
 
 const implementationSteps = [
-  { title: "Review your call patterns and intake process" },
-  { title: "Configure workflows and required data fields" },
-  { title: "Connect CRM and scheduling systems" },
-  { title: "Test real-world call scenarios" },
-  { title: "Launch and refine" },
+  { title: "We review your call patterns and intake process" },
+  { title: "We configure your workflows and required data fields" },
+  { title: "We build and test your qualification rules" },
+  { title: "We connect your CRM and scheduling systems" },
+  { title: "We deploy once you approve" },
+  { title: "We keep refining as your business changes" },
 ];
 
 export default function InboundCallingPage() {
@@ -121,10 +122,10 @@ export default function InboundCallingPage() {
               <SectionHead
                 eyebrow="Getting started"
                 index="05"
-                title="How Implementation Works"
+                title="We Handle Implementation"
               >
-                Structured and controlled, with no prolonged setup and no
-                disruption to your existing systems.
+                Our team does the setup end to end — no prolonged project on
+                your side, and no disruption to your existing systems.
               </SectionHead>
             </div>
             <NumberedSteps steps={implementationSteps} />

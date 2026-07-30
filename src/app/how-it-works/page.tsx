@@ -16,24 +16,28 @@ import { WorkflowBeam } from "@/components/blocks/WorkflowBeam";
 
 const steps = [
   {
-    title: "Map your call workflows",
-    body: "We review how calls are handled today, what qualifies a lead, and how appointments get booked.",
+    title: "We understand your requirements",
+    body: "We sit with your team and map how calls are handled today, what qualifies a lead, and how appointments get booked. You talk; we take notes.",
   },
   {
-    title: "Configure the agent around your rules",
-    body: "Services, FAQs, pricing, and escalation rules come from your approved playbook — nothing improvised.",
+    title: "We configure your workflows",
+    body: "Your services, FAQs, pricing, and escalation rules become the agent's playbook. We write it up, you approve it.",
   },
   {
-    title: "Connect your phone system & CRM",
-    body: "Routing, booking, and call summaries sync directly into the tools your team already uses.",
+    title: "We build your automations",
+    body: "Qualification logic, booking rules, and routing paths are built out by our team — nothing for you to assemble.",
   },
   {
-    title: "Test real call scenarios",
-    body: "Emergencies, new leads, after-hours calls, and edge cases all run before anything goes live.",
+    title: "We integrate your tools",
+    body: "We connect your phone system, calendar, and CRM so bookings and call summaries land where your team already works.",
   },
   {
-    title: "Launch and optimize",
-    body: "Dashboards and call outcomes keep the agent aligned as your services and priorities evolve.",
+    title: "We deploy everything",
+    body: "We test emergencies, new leads, after-hours calls, and edge cases first. Nothing goes live until you give the word.",
+  },
+  {
+    title: "We keep supporting you",
+    body: "We monitor call outcomes and tune the agent as your services, pricing, and priorities change. It stays our job, not yours.",
   },
 ];
 
@@ -53,7 +57,7 @@ export default function HowItWorksPage() {
         eyebrow="The Process"
         title="How SkipDial AI"
         mutedTitle="Call Handling Works"
-        body="Every SkipDial agent is configured around how your business already operates — your workflows, your rules, your systems. Nothing is improvised, and nothing goes live until you approve it."
+        body="Our team builds every SkipDial agent around how your business already operates — your workflows, your rules, your systems. We handle the setup end to end. Nothing is improvised, and nothing goes live until you approve it."
         ctas={
           <Magnetic>
             <Button href="/request-a-free-demo" size="lg" arrow>
@@ -63,18 +67,23 @@ export default function HowItWorksPage() {
         }
       />
 
-      {/* Five-step process + live call-routing visual */}
+      {/* Six-step process + live call-routing visual */}
       <Section>
         <Container>
-          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+          {/* No align override: the column stretches to the row height, and the
+              short inner block sticks inside it while the steps scroll past. */}
+          <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
             <div>
-              <SectionHead eyebrow="Five steps" title="Configured Around" mutedTitle="Your Business">
-                Not a generic script. Every agent is mapped, built, tested, and
-                launched around how your business already runs calls.
-              </SectionHead>
-              <ArrowLink href="/integrations" className="mt-6">
-                See supported integrations
-              </ArrowLink>
+              <div className="lg:sticky lg:top-28">
+                <SectionHead eyebrow="We handle it" title="We Build It Around" mutedTitle="Your Business">
+                  Not a generic script, and not a setup project you have to run.
+                  Our team maps, builds, integrates, and launches your agent —
+                  you review and approve.
+                </SectionHead>
+                <ArrowLink href="/integrations" className="mt-6">
+                  See supported integrations
+                </ArrowLink>
+              </div>
             </div>
             <ScrollTimeline steps={steps} />
           </div>

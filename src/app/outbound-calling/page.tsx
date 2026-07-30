@@ -45,11 +45,12 @@ const controlCards = [
 
 
 const implementationSteps = [
-  { title: "Define outbound triggers and target lists" },
-  { title: "Configure scripts and qualification rules" },
-  { title: "Connect CRM and scheduling systems" },
-  { title: "Test scenarios and call flows" },
-  { title: "Launch and refine based on performance" },
+  { title: "We define your outbound triggers and target lists" },
+  { title: "We configure your scripts and qualification rules" },
+  { title: "We build and test your call flows" },
+  { title: "We connect your CRM and scheduling systems" },
+  { title: "We deploy once you approve" },
+  { title: "We keep refining based on performance" },
 ];
 
 export default function OutboundCallingPage() {
@@ -188,10 +189,10 @@ export default function OutboundCallingPage() {
               <SectionHead
                 eyebrow="Getting started"
                 index="06"
-                title="How Implementation Works"
+                title="We Handle Implementation"
               >
-                Outbound workflows evolve alongside your sales and retention
-                strategy.
+                Our team builds and runs it, then keeps your outbound workflows
+                evolving alongside your sales and retention strategy.
               </SectionHead>
             </div>
             <NumberedSteps steps={implementationSteps} />
