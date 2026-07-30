@@ -1,5 +1,4 @@
 import type { ElementType } from "react";
-import { Stagger, Item } from "@/components/motion";
 import { PainCardTile } from "@/components/blocks/PainCardTile";
 import { cn } from "@/lib/cn";
 
@@ -12,7 +11,11 @@ import { cn } from "@/lib/cn";
 
    Stays a server component so `card.icon` (a plain function reference) can
    be resolved to JSX here — the interactive bits live in PainCardTile
-   ("use client"), which receives the already-rendered icon as a prop.
+   ("use client"), which receives the already-rendered icon as a prop and
+   also owns this grid's entire entrance animation (its own viewport trigger,
+   stagger delay, and shadow ramp) — plain <ul>/<li> here, not the shared
+   <Stagger>/<Item>, so that timing isn't laid on top of a second, competing
+   fadeUp.
    ──────────────────────────────────────────────────────────────────────────── */
 
 export type PainCard = {
@@ -29,9 +32,9 @@ export function PainPointCards({
   className?: string;
 }) {
   return (
-    <Stagger className={cn("grid gap-4 sm:grid-cols-2 lg:grid-cols-4", className)} as="ul">
+    <ul className={cn("grid gap-4 sm:grid-cols-2 lg:grid-cols-4", className)}>
       {cards.map((card, index) => (
-        <Item as="li" key={card.title}>
+        <li key={card.title}>
           <PainCardTile
             index={index}
             title={card.title}
@@ -43,8 +46,8 @@ export function PainPointCards({
               />
             }
           />
-        </Item>
+        </li>
       ))}
-    </Stagger>
+    </ul>
   );
 }
