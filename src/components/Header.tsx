@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 import { Button, Container, Logo } from "@/components/ui/primitives";
 import { cn } from "@/lib/cn";
+import { FREE_DEMO_URL } from "@/lib/links";
 import { EASE, springPhysics } from "@/lib/motion";
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -492,7 +493,7 @@ export function Header() {
 
         {/* Right actions */}
         <div className="hidden items-center gap-2 lg:flex">
-          <Button href="/request-a-free-demo" size="md" arrow>
+          <Button href={FREE_DEMO_URL} external size="md" arrow>
             Free Demo
           </Button>
 
@@ -624,7 +625,7 @@ export function Header() {
               </Link>
 
               <div className="mt-4 flex flex-col gap-2.5">
-                <Button href="/request-a-free-demo" size="lg" arrow className="w-full">
+                <Button href={FREE_DEMO_URL} external size="lg" arrow className="w-full">
                   Free Demo
                 </Button>
                 <Button

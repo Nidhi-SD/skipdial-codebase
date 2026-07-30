@@ -6,10 +6,11 @@ import { BlurTitle, Reveal, Stagger, Item } from "@/components/motion";
 import { CallArrivalFrame, Magnetic, ParallaxDrift } from "@/components/motion/entrances";
 import {
   Section,
-  IconCardGrid,
   BulletList,
   CTABand,
 } from "@/components/blocks";
+import { PainPointCards } from "@/components/blocks/PainPointCards";
+import { FREE_DEMO_URL } from "@/lib/links";
 import { ScrollTimeline } from "@/components/blocks/ScrollTimeline";
 import { VoiceAgentSimulator } from "@/components/blocks/VoiceAgentSimulator";
 import { WorkflowBeam } from "@/components/blocks/WorkflowBeam";
@@ -179,7 +180,23 @@ export default function Home() {
         </Container>
       </Section>
 
-      {/* ── 3 · Live call simulator — its own showcase, fully in frame ───── */}
+      {/* ── 3 · Pain points ──────────────────────────────────────────────── */}
+      <Section id="problem">
+        <Container>
+          <SectionHead
+            eyebrow="The problem"
+            title="Missed Calls Are Costing You"
+            mutedTitle="More Than You Think"
+          >
+            Revenue doesn&apos;t disappear all at once. It leaks out quietly.
+            A ring that went one too long, a voicemail returned a day late,
+            a detail nobody wrote down.
+          </SectionHead>
+          <PainPointCards cards={painCards} className="mt-12" />
+        </Container>
+      </Section>
+
+      {/* ── 4 · Live call simulator — its own showcase, fully in frame ───── */}
       <Section id="live-call">
         <Container>
           <SectionHead
@@ -203,22 +220,6 @@ export default function Home() {
             </ParallaxDrift>
           </div>
         </Reveal>
-      </Section>
-
-      {/* ── 4 · Pain points ──────────────────────────────────────────────── */}
-      <Section id="problem">
-        <Container>
-          <SectionHead
-            eyebrow="The problem"
-            title="Missed Calls Are Costing You"
-            mutedTitle="More Than You Think"
-          >
-            Revenue doesn&apos;t disappear all at once. It leaks out quietly.
-            A ring that went one too long, a voicemail returned a day late,
-            a detail nobody wrote down.
-          </SectionHead>
-          <IconCardGrid cards={painCards} columns={4} iconSize="lg" className="mt-12" />
-        </Container>
       </Section>
 
       {/* ── 5 · How we solve that ────────────────────────────────────────── */}
@@ -356,7 +357,7 @@ export default function Home() {
         body="Consistent coverage, reliable intake, and disciplined follow up, without adding headcount."
         smallPrint="Free 30 minute demo · configured around your call workflows"
         secondaryCtaLabel="Contact Us"
-        secondaryCtaHref="https://cal.com/aryanbisht/30-min-discovery-call?overlayCalendar=true"
+        secondaryCtaHref={FREE_DEMO_URL}
         secondaryCtaExternal
       />
     </>

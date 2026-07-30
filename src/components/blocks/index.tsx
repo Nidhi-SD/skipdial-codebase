@@ -13,6 +13,7 @@ import { GlobalNetworkField } from "@/components/motion/GlobalNetworkField";
 import { SpotlightCard } from "@/components/motion/SpotlightCard";
 import { AudioPlayer, type TranscriptLine } from "@/components/blocks/AudioPlayer";
 import { cn } from "@/lib/cn";
+import { FREE_DEMO_URL } from "@/lib/links";
 import type { ElementType, ReactNode } from "react";
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -402,7 +403,7 @@ export function HearItLive({
               <AudioPlayer src={src} transcript={transcript} />
               {showCta ? (
                 <div>
-                  <Button href="/request-a-free-demo" arrow>
+                  <Button href={FREE_DEMO_URL} external arrow>
                     Get a Free Demo
                   </Button>
                 </div>
@@ -422,7 +423,7 @@ export function CTABand({
   mutedTitle,
   body,
   ctaLabel = "Get a Free Demo",
-  ctaHref = "/request-a-free-demo",
+  ctaHref = FREE_DEMO_URL,
   secondaryCtaLabel,
   secondaryCtaHref,
   secondaryCtaExternal = false,
@@ -495,6 +496,7 @@ export function CTABand({
               variant={isBold ? "inverse" : "primary"}
               size="lg"
               arrow
+              external={ctaHref.startsWith("http")}
             >
               {ctaLabel}
             </Button>

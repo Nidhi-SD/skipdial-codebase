@@ -12,6 +12,7 @@ import {
   CTABand,
   SplitSection,
 } from "@/components/blocks";
+import { OutboundProblemVisual } from "@/components/blocks/OutboundProblemVisual";
 import { ParallelDialerVisualizer } from "@/components/blocks/ParallelDialerVisualizer";
 import { ObjectionFlipCards } from "@/components/blocks/ObjectionFlipCards";
 import { OutboundCampaignCard } from "@/components/blocks/OutboundCampaignCard";
@@ -82,11 +83,9 @@ export default function OutboundCallingPage() {
             title="Where Outbound Follow-Up"
             mutedTitle="Breaks Down"
           >
-            New leads wait too long for a response. Missed-call callbacks fall
-            through the cracks. Appointment confirmations get skipped. As
-            inbound demand increases, outbound discipline typically declines,
-            and call outcomes go poorly documented or not documented at all.
+            When the phones get busy, follow-up is the first thing to slip.
           </SectionHead>
+          <OutboundProblemVisual className="mt-10" />
         </Container>
       </Section>
 

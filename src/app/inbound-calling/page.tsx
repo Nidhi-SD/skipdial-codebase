@@ -10,6 +10,7 @@ import {
   SplitSection,
 } from "@/components/blocks";
 import { InboundDecisionTree } from "@/components/blocks/InboundDecisionTree";
+import { InboundProblemVisual } from "@/components/blocks/InboundProblemVisual";
 import { InboundRecordCard } from "@/components/blocks/InboundRecordCard";
 
 export const metadata: Metadata = {
@@ -68,12 +69,9 @@ export default function InboundCallingPage() {
             title="The Problem with"
             mutedTitle="Traditional Call Handling"
           >
-            Even well-run offices miss calls during busy periods, lose
-            after-hours inquiries to voicemail, and end up with intake that
-            varies depending on who picks up. As call volume increases, these
-            gaps become more frequent, and each one represents demand that
-            existed but went unmet.
+            Every missed call was demand that already existed.
           </SectionHead>
+          <InboundProblemVisual className="mt-10" />
         </Container>
       </Section>
 

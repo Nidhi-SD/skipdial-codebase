@@ -1,5 +1,6 @@
 import { PhoneMissed } from "lucide-react";
 import { Container, Button } from "@/components/ui/primitives";
+import { FREE_DEMO_URL } from "@/lib/links";
 
 export default function NotFound() {
   return (
@@ -26,7 +27,7 @@ export default function NotFound() {
           <Button href="/" size="lg" arrow>
             Back to Home
           </Button>
-          <Button href="/request-a-free-demo" variant="outline" size="lg">
+          <Button href={FREE_DEMO_URL} external variant="outline" size="lg">
             Get a Free Demo
           </Button>
         </div>
