@@ -34,7 +34,8 @@ export function PageHero({
   aside,
 }: {
   eyebrow?: string;
-  breadcrumb?: { href: string; label: string }[];
+  /** Omit `href` (or let it be the last crumb) to render plain, unlinked text. */
+  breadcrumb?: { href?: string; label: string }[];
   title: string;
   mutedTitle?: string;
   body?: ReactNode;
@@ -49,14 +50,21 @@ export function PageHero({
         <Reveal variant="fadeUp">
           <nav aria-label="Breadcrumb" className="mb-4">
             <ol className="flex flex-wrap items-center gap-1.5 text-[13px] font-medium text-ink-light">
-              {breadcrumb.map((b, i) => (
-                <li key={b.href} className="flex items-center gap-1.5">
-                  {i > 0 && <span aria-hidden>/</span>}
-                  <Link href={b.href} className="transition-colors hover:text-accent">
-                    {b.label}
-                  </Link>
-                </li>
-              ))}
+              {breadcrumb.map((b, i) => {
+                const isCurrent = i === breadcrumb.length - 1 || !b.href;
+                return (
+                  <li key={b.label} className="flex items-center gap-1.5">
+                    {i > 0 && <span aria-hidden>/</span>}
+                    {isCurrent ? (
+                      <span aria-current="page">{b.label}</span>
+                    ) : (
+                      <Link href={b.href!} className="transition-colors hover:text-accent">
+                        {b.label}
+                      </Link>
+                    )}
+                  </li>
+                );
+              })}
             </ol>
           </nav>
         </Reveal>

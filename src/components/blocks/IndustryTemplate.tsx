@@ -65,10 +65,7 @@ export function IndustryTemplate({ data }: { data: IndustryData }) {
   return (
     <>
       <PageHero
-        breadcrumb={[
-          { href: "/industries", label: "Industries" },
-          { href: "#", label: data.breadcrumbLabel },
-        ]}
+        breadcrumb={[{ label: data.breadcrumbLabel }]}
         title={data.heroTitle}
         mutedTitle={data.heroMuted}
         body={data.heroBody}
