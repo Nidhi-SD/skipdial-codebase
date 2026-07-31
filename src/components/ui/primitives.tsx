@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight } from "@/components/icons/SystemIcons";
 import { cn } from "@/lib/cn";
 import { BlurTitle, Reveal } from "@/components/motion";
 import type { ReactNode } from "react";

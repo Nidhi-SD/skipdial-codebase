@@ -8,7 +8,7 @@ import {
   Calendar,
   Check,
   ArrowRight,
-} from "lucide-react";
+} from "@/components/icons/SystemIcons";
 import Link from "next/link";
 import { springPhysics } from "@/lib/motion";
 import { cn } from "@/lib/cn";

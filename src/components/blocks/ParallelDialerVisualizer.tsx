@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { cn } from "@/lib/cn";
-import { PhoneOutgoing, Check, X, Voicemail, type LucideIcon } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import { PhoneOutgoing, Check, X, Voicemail } from "@/components/icons/SystemIcons";
 
 /* Outbound dialer walkthrough — the AI works a follow-up list one lead at a
    time. Previous version animated calls to unlabeled targets at random,
@@ -10,11 +12,11 @@ import { PhoneOutgoing, Check, X, Voicemail, type LucideIcon } from "lucide-reac
    narrates its outcome in place, so the sequence is legible at a glance. */
 
 const leads = [
-  { name: "Sarah Whitman", note: "Policy renewal" },
-  { name: "David Chen", note: "Quote requested" },
-  { name: "Maria Lopez", note: "Missed appointment" },
-  { name: "Tom Reyes", note: "Re-engagement" },
-  { name: "Priya Shah", note: "Referral follow-up" },
+  { name: "Sarah Whitman", note: "Policy renewal", photo: "/avatars/sarah.jpg" },
+  { name: "David Chen", note: "Quote requested", photo: "/avatars/david.jpg" },
+  { name: "Maria Lopez", note: "Missed appointment", photo: "/avatars/maria.jpg" },
+  { name: "Tom Reyes", note: "Re-engagement", photo: "/avatars/tom.jpg" },
+  { name: "Priya Shah", note: "Referral follow-up", photo: "/avatars/priya.jpg" },
 ];
 
 const outcomes: {
@@ -101,9 +103,8 @@ export function ParallelDialerVisualizer({ className }: { className?: string }) 
             >
               <span
                 className={cn(
-                  "flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[11px] font-bold",
-                  !outcome && isActive && "bg-accent/15 text-accent",
-                  !outcome && !isActive && "bg-surface-alt text-ink-faint",
+                  "relative flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full text-[11px] font-bold",
+                  !outcome && "bg-surface-alt",
                   outcome?.tone === "solid" && "bg-accent text-ink-inverse",
                   outcome?.tone === "tint" && "bg-accent-tint text-accent",
                   outcome?.tone === "neutral" && "bg-surface-alt text-ink-faint"
@@ -112,10 +113,13 @@ export function ParallelDialerVisualizer({ className }: { className?: string }) 
                 {outcome ? (
                   <outcome.icon aria-hidden className="h-3.5 w-3.5" />
                 ) : (
-                  lead.name
-                    .split(" ")
-                    .map((w) => w[0])
-                    .join("")
+                  <Image
+                    src={lead.photo}
+                    alt=""
+                    fill
+                    sizes="32px"
+                    className="object-cover object-top"
+                  />
                 )}
               </span>
 

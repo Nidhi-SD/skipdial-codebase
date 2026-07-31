@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import type { LucideIcon } from "lucide-react";
 import {
   Database,
   CalendarCheck,
@@ -9,8 +10,7 @@ import {
   BellRing,
   LineChart,
   Check,
-  type LucideIcon,
-} from "lucide-react";
+} from "@/components/icons/SystemIcons";
 import { EASE } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 

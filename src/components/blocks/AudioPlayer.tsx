@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Play, Pause } from "lucide-react";
+import { Play, Pause } from "@/components/icons/SystemIcons";
 import { cn } from "@/lib/cn";
 
 function fmt(t: number) {

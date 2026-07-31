@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Mail, MapPin } from "lucide-react";
+import { Mail, MapPin } from "@/components/icons/SystemIcons";
 import { Container, Logo } from "@/components/ui/primitives";
 
 const productLinks = [

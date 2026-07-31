@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { motion } from "framer-motion";
-import { Plus, ArrowRight, Calendar } from "lucide-react";
+import { Plus, ArrowRight, Calendar } from "@/components/icons/SystemIcons";
 import { Container } from "@/components/ui/primitives";
 import { PageHero, Section } from "@/components/blocks";
 import { fadeUp, staggerContainer } from "@/lib/motion";

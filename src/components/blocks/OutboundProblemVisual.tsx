@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { AnimatePresence, motion, useInView, useReducedMotion } from "framer-motion";
-import { BellOff, PhoneMissed, Snowflake } from "lucide-react";
+import { BellOff, PhoneMissed, Snowflake } from "@/components/icons/SystemIcons";
 import { Stagger, Item } from "@/components/motion";
 import { ProblemCard, useProblemLoop } from "@/components/blocks/ProblemVisualCard";
 import { cn } from "@/lib/cn";

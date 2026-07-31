@@ -6,7 +6,7 @@ import {
   Lock,
   Database,
   MessageSquareText,
-} from "lucide-react";
+} from "@/components/icons/SystemIcons";
 import { IndustryTemplate, type IndustryData } from "@/components/blocks/IndustryTemplate";
 
 export const metadata: Metadata = {

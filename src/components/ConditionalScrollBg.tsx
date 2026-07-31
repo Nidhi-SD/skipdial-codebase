@@ -10,7 +10,6 @@ const EXCLUDED_PATHS = [
   "/login",
   "/privacy-policy",
   "/terms-and-conditions",
-  "/request-a-free-demo",
 ];
 
 export function ConditionalScrollBg() {

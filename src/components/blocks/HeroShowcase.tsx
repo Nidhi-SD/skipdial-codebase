@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { PhoneIncoming, CalendarCheck } from "lucide-react";
+import { PhoneIncoming, CalendarCheck } from "@/components/icons/SystemIcons";
 import { DashboardCard } from "@/components/blocks/DashboardCard";
 import { springPhysics } from "@/lib/motion";
 import { cn } from "@/lib/cn";

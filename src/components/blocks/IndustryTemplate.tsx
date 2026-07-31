@@ -1,4 +1,4 @@
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle } from "@/components/icons/SystemIcons";
 import { Container, SectionHead, Button } from "@/components/ui/primitives";
 import { Reveal, Stagger, Item } from "@/components/motion";
 import { CallArrivalFrame, Magnetic } from "@/components/motion/entrances";
@@ -72,7 +72,7 @@ export function IndustryTemplate({ data }: { data: IndustryData }) {
         ctas={
           <>
             <Magnetic>
-              <Button href="/request-a-free-demo" size="lg" arrow>
+              <Button href="#live-demo" size="lg" arrow>
                 Try It Yourself
               </Button>
             </Magnetic>
@@ -82,9 +82,11 @@ export function IndustryTemplate({ data }: { data: IndustryData }) {
           </>
         }
         aside={
-          <CallArrivalFrame>
-            <TryDemoCall defaultIndustry={data.demo.defaultIndustry} size="compact" />
-          </CallArrivalFrame>
+          <div id="live-demo">
+            <CallArrivalFrame>
+              <TryDemoCall defaultIndustry={data.demo.defaultIndustry} size="compact" />
+            </CallArrivalFrame>
+          </div>
         }
       />
 

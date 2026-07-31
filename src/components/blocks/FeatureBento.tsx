@@ -2,6 +2,7 @@
 
 import { useRef, type MouseEvent, type ReactNode } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
+import type { LucideIcon } from "lucide-react";
 import {
   Clock,
   MessageSquare,
@@ -11,8 +12,7 @@ import {
   TrendingUp,
   Check,
   ArrowRight,
-  type LucideIcon,
-} from "lucide-react";
+} from "@/components/icons/SystemIcons";
 import { springPhysics } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 

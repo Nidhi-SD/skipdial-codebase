@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Check, PhoneIncoming, CalendarCheck, ArrowRight, LifeBuoy } from "lucide-react";
+import Image from "next/image";
+import { Check, PhoneIncoming, CalendarCheck, ArrowRight, LifeBuoy } from "@/components/icons/SystemIcons";
 import { AnimatePresence, motion } from "framer-motion";
 import { Stagger, Item } from "@/components/motion";
 import { cn } from "@/lib/cn";
@@ -10,7 +11,7 @@ const scenarios = [
   {
     id: "emergency",
     label: "Emergency Service",
-    initial: "M",
+    photo: "/avatars/mariela.jpg",
     name: "Mariela Ortiz",
     meta: "Inbound · after hours · 2m 14s",
     tag: "New lead",
@@ -32,7 +33,7 @@ const scenarios = [
   {
     id: "support",
     label: "Support Question",
-    initial: "D",
+    photo: "/avatars/david.jpg",
     name: "David Chen",
     meta: "Inbound · business hours · 4m 10s",
     tag: "Existing customer",
@@ -91,8 +92,14 @@ export function InboundRecordCard({ className }: { className?: string }) {
           >
             {/* Record header */}
             <div className="flex items-center gap-3 border-b border-line bg-surface-alt/70 px-5 py-4">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent text-[14px] font-bold text-ink-inverse">
-                {activeScenario.initial}
+              <span className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full bg-accent-tint">
+                <Image
+                  src={activeScenario.photo}
+                  alt=""
+                  fill
+                  sizes="40px"
+                  className="object-cover object-top"
+                />
               </span>
               <div className="min-w-0 flex-1">
                 <p className="truncate text-[14.5px] font-bold text-ink">

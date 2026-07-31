@@ -2,13 +2,13 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import type { LucideIcon } from "lucide-react";
 import {
   PhoneIncoming,
   Zap,
   CalendarCheck,
   HelpCircle,
-  type LucideIcon,
-} from "lucide-react";
+} from "@/components/icons/SystemIcons";
 import { cn } from "@/lib/cn";
 
 /* ─────────────────────────────────────────────────────────────────────────────

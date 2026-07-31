@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView, useReducedMotion } from "framer-motion";
-import { Phone, PhoneCall, PhoneOff, Check, X } from "lucide-react";
+import { Phone, PhoneCall, PhoneOff, Check, X } from "@/components/icons/SystemIcons";
 import { Stagger, Item } from "@/components/motion";
 import { ProblemCard, useProblemLoop } from "@/components/blocks/ProblemVisualCard";
 import { cn } from "@/lib/cn";

@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useSession, signOut } from "next-auth/react";
+import type { LucideIcon } from "lucide-react";
 import {
   ChevronDown,
   Menu,
@@ -26,8 +27,7 @@ import {
   PhoneOutgoing,
   Route,
   Plug,
-  type LucideIcon,
-} from "lucide-react";
+} from "@/components/icons/SystemIcons";
 import { Button, Container, Logo } from "@/components/ui/primitives";
 import { cn } from "@/lib/cn";
 import { FREE_DEMO_URL } from "@/lib/links";

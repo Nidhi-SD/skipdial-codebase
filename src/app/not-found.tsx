@@ -1,4 +1,4 @@
-import { PhoneMissed } from "lucide-react";
+import { PhoneMissed } from "@/components/icons/SystemIcons";
 import { Container, Button } from "@/components/ui/primitives";
 import { FREE_DEMO_URL } from "@/lib/links";
 

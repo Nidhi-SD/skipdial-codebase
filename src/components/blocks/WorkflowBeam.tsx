@@ -8,15 +8,11 @@ import {
   useReducedMotion,
   type Variants,
 } from "framer-motion";
-import {
-  Check,
-  Users,
-  Loader2,
-  PhoneIncoming,
-  type LucideIcon,
-} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import { Check, Loader2 } from "@/components/icons/SystemIcons";
 import { EASE, springPhysics } from "@/lib/motion";
 import { cn } from "@/lib/cn";
+import { CrmSyncIcon, InboundCallIcon, SkipDialAgentIcon } from "@/components/blocks/WorkflowIcons";
 
 /* ─────────────────────────────────────────────────────────────────────────────
    WorkflowBeam — the call-routing story told as motion.
@@ -378,14 +374,16 @@ type NodeState = "idle" | "live" | "done";
 function WorkflowNode({
   icon: Icon,
   iconClass,
+  iconSize = "h-[18px] w-[18px]",
   title,
   state,
   center = false,
   badge,
   children,
 }: {
-  icon: LucideIcon | string;
+  icon: LucideIcon;
   iconClass?: string;
+  iconSize?: string;
   title: string;
   state: NodeState;
   center?: boolean;
@@ -493,11 +491,7 @@ function WorkflowNode({
             className="flex h-10 w-10 items-center justify-center rounded-xl border transition-[transform,background,border-color,box-shadow,color] duration-500 group-hover:rotate-6"
             style={iconStyle}
           >
-            {typeof Icon === "string" ? (
-              <img src={Icon} alt="" className={cn("h-[28px] w-[28px] object-contain drop-shadow-md", iconClass)} />
-            ) : (
-              <Icon aria-hidden className={cn("h-[18px] w-[18px]", iconClass)} />
-            )}
+            <Icon aria-hidden className={cn(iconSize, iconClass)} />
           </span>
 
           {/* Motes drifting off the agent icon */}
@@ -836,7 +830,7 @@ export function WorkflowBeam({ className }: { className?: string }) {
       >
         {/* 1 · Inbound call */}
         <WorkflowNode
-          icon={PhoneIncoming}
+          icon={InboundCallIcon}
           iconClass={phase === "idle" ? undefined : "wf-float"}
           title="Inbound Call"
           state={callState}
@@ -880,7 +874,8 @@ export function WorkflowBeam({ className }: { className?: string }) {
 
         {/* 2 · SkipDial AI agent */}
         <WorkflowNode
-          icon="/technical-support.png"
+          icon={SkipDialAgentIcon}
+          iconSize="h-[24px] w-[24px]"
           title="SkipDial AI Agent"
           state={agentState}
           center
@@ -964,7 +959,7 @@ export function WorkflowBeam({ className }: { className?: string }) {
 
         {/* 3 · CRM */}
         <WorkflowNode
-          icon={Users}
+          icon={CrmSyncIcon}
           iconClass={crmState === "idle" ? undefined : "wf-tilt"}
           title="CRM Sync"
           state={crmState}

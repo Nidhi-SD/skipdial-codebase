@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/cn";
-import { CalendarClock, History, MessageSquareText, ShieldAlert, ArrowRight } from "lucide-react";
+import { CalendarClock, History, MessageSquareText, ShieldAlert, ArrowRight } from "@/components/icons/SystemIcons";
 import { Stagger, Item } from "@/components/motion";
 
 const flipCards = [

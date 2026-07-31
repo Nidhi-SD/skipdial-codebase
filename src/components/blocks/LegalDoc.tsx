@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ArrowUp, ChevronDown } from "lucide-react";
+import { ArrowUp, ChevronDown } from "@/components/icons/SystemIcons";
 import { Container } from "@/components/ui/primitives";
 import { cn } from "@/lib/cn";
 

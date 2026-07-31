@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { motion } from "framer-motion";
-import { ArrowLeft, Send, Loader2 } from "lucide-react";
+import { ArrowLeft, Send, Loader2 } from "@/components/icons/SystemIcons";
 import Link from "next/link";
 import { isAdmin } from "@/lib/admin";
 import { fadeUp, staggerContainer } from "@/lib/motion";

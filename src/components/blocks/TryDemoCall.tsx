@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import type { LucideIcon } from "lucide-react";
 import {
   Home,
   Stethoscope,
@@ -16,8 +17,7 @@ import {
   CheckCircle2,
   AlertCircle,
   Loader2,
-  type LucideIcon,
-} from "lucide-react";
+} from "@/components/icons/SystemIcons";
 import { EASE } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 import Image from "next/image";

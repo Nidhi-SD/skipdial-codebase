@@ -6,7 +6,7 @@ import {
   ShieldCheck,
   Database,
   MessageSquareText,
-} from "lucide-react";
+} from "@/components/icons/SystemIcons";
 import { IndustryTemplate, type IndustryData } from "@/components/blocks/IndustryTemplate";
 import type { TranscriptLine } from "@/components/blocks/AudioPlayer";
 

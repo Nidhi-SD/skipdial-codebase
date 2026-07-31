@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { PhoneOutgoing, CalendarCheck, Voicemail, PhoneForwarded, XCircle } from "lucide-react";
+import { PhoneOutgoing, CalendarCheck, Voicemail, PhoneForwarded, XCircle } from "@/components/icons/SystemIcons";
 import { CountUp } from "@/components/motion";
 import { EASE } from "@/lib/motion";
 import { cn } from "@/lib/cn";

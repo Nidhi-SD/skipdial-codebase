@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import type { LucideIcon } from "lucide-react";
 import {
   Phone,
   CalendarCheck2,
@@ -9,8 +10,7 @@ import {
   ArrowUpRight,
   ArrowDownRight,
   ChevronRight,
-  type LucideIcon,
-} from "lucide-react";
+} from "@/components/icons/SystemIcons";
 import { CountUp } from "@/components/motion";
 import { EASE, viewportOnce } from "@/lib/motion";
 import { cn } from "@/lib/cn";

@@ -6,13 +6,15 @@ import {
   Route,
   Database,
   ChevronRight,
-} from "lucide-react";
+  Sparkles,
+} from "@/components/icons/SystemIcons";
 import { Container, SectionHead, Button, ArrowLink } from "@/components/ui/primitives";
 import { Stagger, Item } from "@/components/motion";
-import { Magnetic } from "@/components/motion/entrances";
+import { Magnetic, CallArrivalFrame } from "@/components/motion/entrances";
 import { PageHero, Section, HearItLive, CTABand } from "@/components/blocks";
 import { ScrollTimeline } from "@/components/blocks/ScrollTimeline";
 import { WorkflowBeam } from "@/components/blocks/WorkflowBeam";
+import { TryDemoCall } from "@/components/blocks/TryDemoCall";
 
 const steps = [
   {
@@ -60,7 +62,7 @@ export default function HowItWorksPage() {
         body="Our team builds every SkipDial agent around how your business already operates — your workflows, your rules, your systems. We handle the setup end to end. Nothing is improvised, and nothing goes live until you approve it."
         ctas={
           <Magnetic>
-            <Button href="/request-a-free-demo" size="lg" arrow>
+            <Button href="#live-demo" size="lg" arrow>
               Try It Yourself
             </Button>
           </Magnetic>
@@ -104,7 +106,10 @@ export default function HowItWorksPage() {
             align="center"
             className="mx-auto"
           />
-          <Stagger className="mt-10 flex flex-wrap items-center justify-center gap-x-1.5 gap-y-3 lg:flex-nowrap">
+          <Stagger
+            stagger={0.22}
+            className="mt-10 flex flex-wrap items-center justify-center gap-x-1.5 gap-y-3 lg:flex-nowrap"
+          >
             {everyCall.map((c, i) => (
               <Item key={c.label} variant="fadeIn" className="flex shrink-0 items-center gap-1.5">
                 <span className="flex items-center gap-1 whitespace-nowrap rounded-full border border-line bg-surface px-3 py-1.5 text-[12.5px] font-medium text-ink-light shadow-soft">
@@ -117,6 +122,42 @@ export default function HowItWorksPage() {
               </Item>
             ))}
           </Stagger>
+        </Container>
+      </Section>
+
+      {/* Live demo call widget */}
+      <Section id="live-demo" tone="alt">
+        <Container>
+          <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-20">
+            <div>
+              <SectionHead
+                eyebrow="Try it now"
+                title="Try It for"
+                mutedTitle="Yourself"
+              >
+                Pick your industry and language, then get a live demonstration
+                call. Hear how structured intake, appointment booking, and
+                call routing work in a real interaction.
+              </SectionHead>
+              <Stagger className="mt-8 flex flex-wrap gap-2.5">
+                {["Structured intake", "Appointment booking", "Call routing", "Multi language support", "CRM sync", "24/7 availability"].map(
+                  (chip) => (
+                    <Item
+                      key={chip}
+                      variant="fadeIn"
+                      className="flex items-center gap-1.5 rounded-full border border-line bg-surface px-3.5 py-1.5 text-[13px] font-medium text-ink-light"
+                    >
+                      <Sparkles aria-hidden className="h-3.5 w-3.5 text-accent" />
+                      {chip}
+                    </Item>
+                  )
+                )}
+              </Stagger>
+            </div>
+            <CallArrivalFrame>
+              <TryDemoCall />
+            </CallArrivalFrame>
+          </div>
         </Container>
       </Section>
 

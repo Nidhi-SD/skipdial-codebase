@@ -6,7 +6,7 @@ import {
   Calendar,
   MessageSquare,
   PhoneIncoming,
-} from "lucide-react";
+} from "@/components/icons/SystemIcons";
 import { EASE } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 

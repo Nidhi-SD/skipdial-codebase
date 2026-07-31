@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowLeft, Calendar, User } from "lucide-react";
+import { ArrowLeft, Calendar, User } from "@/components/icons/SystemIcons";
 import DOMPurify from "isomorphic-dompurify";
 import { fadeUp, staggerContainer } from "@/lib/motion";
 

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { LucideIcon } from "lucide-react";
 import {
   Wrench,
   Building2,
@@ -16,8 +17,7 @@ import {
   Activity,
   ShieldCheck,
   Sparkles,
-  type LucideIcon,
-} from "lucide-react";
+} from "@/components/icons/SystemIcons";
 import { Container, SectionHead, Button, ArrowLink } from "@/components/ui/primitives";
 import { Reveal, Stagger, Item } from "@/components/motion";
 import { CallArrivalFrame, Magnetic } from "@/components/motion/entrances";
@@ -131,7 +131,7 @@ export default function IndustriesPage() {
         body="Not all industries rely on phone calls the same way. In some sectors, calls represent urgent service needs. In others, they are the first step in a high-value client relationship. SkipDial configures AI call agents around your specific call patterns, intake requirements, and follow-up workflows."
         ctas={
           <Magnetic>
-            <Button href="/request-a-free-demo" size="lg" arrow>
+            <Button href="#live-demo" size="lg" arrow>
               Try It Yourself
             </Button>
           </Magnetic>

@@ -13,7 +13,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/industries/real-estate-property-management',
     '/industries/professional-offices',
     '/integrations',
-    '/request-a-free-demo',
     '/blog',
     '/privacy-policy',
     '/terms-and-conditions',

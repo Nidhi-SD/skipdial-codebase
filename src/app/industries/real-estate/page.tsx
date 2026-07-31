@@ -6,7 +6,7 @@ import {
   CalendarCheck,
   Database,
   MessageSquareText,
-} from "lucide-react";
+} from "@/components/icons/SystemIcons";
 import { IndustryTemplate, type IndustryData } from "@/components/blocks/IndustryTemplate";
 import { realEstateSampleTranscript } from "@/components/blocks";
 

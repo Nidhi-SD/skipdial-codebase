@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
-import { ChevronDown, Sparkles } from "lucide-react";
+import { ChevronDown, Sparkles } from "@/components/icons/SystemIcons";
 import { Container, SectionHead, Button, Eyebrow } from "@/components/ui/primitives";
 import { BlurTitle, Reveal, Stagger, Item } from "@/components/motion";
 import { CallArrivalFrame, Magnetic, ParallaxDrift } from "@/components/motion/entrances";
@@ -117,7 +117,7 @@ export default function Home() {
           <Reveal variant="fadeUp" delay={0.4}>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Magnetic>
-                <Button href="/request-a-free-demo" size="lg" arrow>
+                <Button href="#live-demo" size="lg" arrow>
                   Try It Yourself
                 </Button>
               </Magnetic>

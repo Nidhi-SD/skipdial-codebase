@@ -11,7 +11,7 @@ import {
   ArrowRight,
   AlertCircle,
   Loader2,
-} from "lucide-react";
+} from "@/components/icons/SystemIcons";
 
 /* Open-redirect guard — only same-origin paths are honored; absolute and
    protocol-relative URLs fall back to home. */

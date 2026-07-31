@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Check } from "lucide-react";
+import { Check } from "@/components/icons/SystemIcons";
 import {
   Container,
   Eyebrow,

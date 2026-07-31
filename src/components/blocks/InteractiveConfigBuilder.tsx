@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/cn";
-import { Thermometer, Home, Stethoscope } from "lucide-react";
+import { Thermometer, Home, Stethoscope } from "@/components/icons/SystemIcons";
 
 const industries = [
   {
