@@ -202,22 +202,22 @@ export function InboundProblemVisual({ className }: { className?: string }) {
 
   return (
     <div ref={ref} className={className}>
-      <Stagger className="grid gap-5 md:grid-cols-3" as="ul">
-        <Item as="li">
+      <Stagger className="grid gap-5 md:grid-cols-3" as="ul" stagger={0.32}>
+        <Item as="li" variant="fadeUpSlow">
           <ProblemCard
             graphic={<UnansweredCalls running={running} />}
             title="Calls go unanswered"
             sub="When the desk is busy, the phone just keeps ringing."
           />
         </Item>
-        <Item as="li">
+        <Item as="li" variant="fadeUpSlow">
           <ProblemCard
             graphic={<ClosedClock running={running} />}
             title="Closed most of the day"
             sub="Nights and weekends go straight to voicemail."
           />
         </Item>
-        <Item as="li">
+        <Item as="li" variant="fadeUpSlow">
           <ProblemCard
             graphic={<MismatchedNotes running={running} />}
             title="Notes vary by person"

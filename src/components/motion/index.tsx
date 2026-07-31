@@ -4,6 +4,7 @@ import { motion, useInView, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState, type ReactNode, type ElementType } from "react";
 import {
   fadeUp,
+  fadeUpSlow,
   blurUp,
   fadeIn,
   scaleIn,
@@ -17,6 +18,7 @@ import type { Variants } from "framer-motion";
 
 const variantMap = {
   fadeUp,
+  fadeUpSlow,
   blurUp,
   fadeIn,
   scaleIn,

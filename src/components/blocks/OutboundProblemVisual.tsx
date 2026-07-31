@@ -197,22 +197,22 @@ export function OutboundProblemVisual({ className }: { className?: string }) {
 
   return (
     <div ref={ref} className={className}>
-      <Stagger className="grid gap-5 md:grid-cols-3" as="ul">
-        <Item as="li">
+      <Stagger className="grid gap-5 md:grid-cols-3" as="ul" stagger={0.32}>
+        <Item as="li" variant="fadeUpSlow">
           <ProblemCard
             graphic={<CoolingLead running={running} />}
             title="Leads go cold waiting"
             sub="The longer a new lead sits, the less it's worth."
           />
         </Item>
-        <Item as="li">
+        <Item as="li" variant="fadeUpSlow">
           <ProblemCard
             graphic={<CallbackPile running={running} />}
             title="Callbacks pile up"
             sub="Missed calls wait for someone who never gets to them."
           />
         </Item>
-        <Item as="li">
+        <Item as="li" variant="fadeUpSlow">
           <ProblemCard
             graphic={<SkippedConfirmation running={running} />}
             title="Confirmations get skipped"

@@ -206,11 +206,12 @@ export function IconCardGrid({
   const plain = iconSize === "lg";
 
   return (
-    <Stagger className={cn("grid gap-4", colClass, className)} as="ul">
+    <Stagger className={cn("grid gap-4", colClass, className)} as="ul" stagger={0.32}>
       {cards.map((card, index) => (
         <Item
           as="li"
           key={card.title}
+          variant="fadeUpSlow"
         >
           <SpotlightCard
             className="group flex h-full flex-col rounded-[20px] border border-line bg-surface p-7 shadow-sm transition-all duration-300 ease-out-expo hover:border-accent/30 hover:shadow-[0_8px_30px_rgba(105,70,235,0.08)]"
@@ -321,10 +322,11 @@ export function SubCardGrid({
   className?: string;
 }) {
   return (
-    <Stagger className={cn("grid gap-4 sm:grid-cols-2 lg:grid-cols-4", className)}>
+    <Stagger className={cn("grid gap-4 sm:grid-cols-2 lg:grid-cols-4", className)} stagger={0.32}>
       {cards.map((c) => (
         <Item
           key={c.title}
+          variant="fadeUpSlow"
           className="rounded-2xl border border-line bg-surface p-5 transition-all duration-300 ease-out-expo hover:-translate-y-0.5 hover:border-line-strong hover:shadow-card"
         >
           <h3 className="text-[15px] font-semibold">{c.title}</h3>

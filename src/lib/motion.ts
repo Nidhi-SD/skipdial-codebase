@@ -29,6 +29,19 @@ export const fadeUp: Variants = {
   exit: { opacity: 0, y: -10, transition: { duration: 0.3, ease: EASE } },
 };
 
+/** Slower, more deliberate rise — the card-grid cadence (pain cards, problem
+    cards, icon/sub card grids): bigger distance, ~0.9s, paired with a longer
+    Stagger delay so each card visibly lands before the next begins. */
+export const fadeUpSlow: Variants = {
+  initial: { opacity: 0, y: 40 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] },
+  },
+  exit: { opacity: 0, y: -10, transition: { duration: 0.3, ease: EASE } },
+};
+
 /** Attio signature — blur-to-sharp rise, for headlines and hero widgets. */
 export const blurUp: Variants = {
   initial: { opacity: 0, y: 18, filter: "blur(10px)" },

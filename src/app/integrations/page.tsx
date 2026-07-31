@@ -157,11 +157,12 @@ export default function IntegrationsPage() {
             When the AI agent is connected to your systems, it can support
             workflows such as:
           </SectionHead>
-          <Stagger as="ul" className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <Stagger as="ul" className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3" stagger={0.32}>
             {possibilities.map((p) => (
               <Item
                 as="li"
                 key={p.label}
+                variant="fadeUpSlow"
                 className="flex items-start gap-3.5 rounded-2xl border border-line bg-surface p-5 shadow-soft transition-all duration-300 ease-out-expo hover:-translate-y-0.5 hover:border-accent/25 hover:shadow-card"
               >
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent-tint/60 text-accent">

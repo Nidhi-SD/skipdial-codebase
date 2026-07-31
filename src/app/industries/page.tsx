@@ -192,9 +192,9 @@ export default function IndustriesPage() {
             Each vertical below has its own dedicated breakdown of common call
             patterns, intake requirements, and configuration options.
           </SectionHead>
-          <Stagger className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <Stagger className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4" stagger={0.32}>
             {verticals.map((v) => (
-              <Item key={v.href} variant="fadeUp">
+              <Item key={v.href} variant="fadeUpSlow">
                 <ArrowLink
                   href={v.href}
                   className="flex h-full items-center gap-3 rounded-2xl border border-line bg-surface p-5 shadow-soft transition-all duration-300 ease-out-expo hover:-translate-y-0.5 hover:border-accent/30 hover:shadow-card [&>svg]:ml-auto"

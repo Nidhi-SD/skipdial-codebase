@@ -41,9 +41,13 @@ const flipCards = [
 
 export function ObjectionFlipCards({ className }: { className?: string }) {
   return (
-    <Stagger className={cn("grid gap-5 sm:grid-cols-2", className)}>
+    <Stagger className={cn("grid gap-5 sm:grid-cols-2", className)} stagger={0.32}>
       {flipCards.map((card, i) => (
-        <Item key={i} className="group relative h-[220px] w-full [perspective:1000px]">
+        <Item
+          key={i}
+          variant="fadeUpSlow"
+          className="group relative h-[220px] w-full [perspective:1000px]"
+        >
           {/* Inner wrapper for 3D flip */}
           <div className="relative h-full w-full transition-all duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
             
