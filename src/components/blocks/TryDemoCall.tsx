@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import type { LucideIcon } from "lucide-react";
+import type { IconComponent } from "@/components/icons/SystemIcons";
 import {
   Home,
   Stethoscope,
@@ -26,7 +26,7 @@ type Status = "idle" | "loading" | "success" | "error";
 
 const AGENT_NAME = "James";
 
-const industries: { value: string; label: string; icon: LucideIcon }[] = [
+const industries: { value: string; label: string; icon: IconComponent }[] = [
   { value: "real-estate", label: "Real Estate", icon: Home },
   { value: "dentists", label: "Dentists", icon: Stethoscope },
   { value: "injury-lawyers", label: "Injury Lawyers", icon: Gavel },

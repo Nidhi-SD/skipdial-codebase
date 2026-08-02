@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import type { LucideIcon } from "lucide-react";
+import type { IconComponent } from "@/components/icons/SystemIcons";
 import {
   Wrench,
   Building2,
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
 };
 
 type IndustryCard = {
-  icon: LucideIcon;
+  icon: IconComponent;
   title: string;
   body: string;
   helpsLabel: string;
@@ -104,7 +104,7 @@ const gaps = [
   { icon: IterationCcw, label: "Follow-up breakdowns" },
 ];
 
-type Vertical = { href: string; label: string; icon: LucideIcon };
+type Vertical = { href: string; label: string; icon: IconComponent };
 
 const verticals: Vertical[] = [
   { href: "/industries/real-estate", label: "Real Estate", icon: Home },

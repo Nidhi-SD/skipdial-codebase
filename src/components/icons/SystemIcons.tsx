@@ -1,5 +1,11 @@
 import type { SVGProps } from "react";
 
+/** Shared type for every icon in this file — use in place of lucide-react's
+    `LucideIcon` wherever an icon component is passed as a prop or stored in
+    data, since these are plain function components, not lucide's
+    ForwardRefExoticComponent. */
+export type IconComponent = (props: SVGProps<SVGSVGElement>) => JSX.Element;
+
 /* ─────────────────────────────────────────────────────────────────────────────
    SystemIcons — SkipDial's own icon set, drop-in replacements for every
    lucide-react icon used across the site. Each export matches a lucide name

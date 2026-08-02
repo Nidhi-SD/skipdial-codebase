@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import type { LucideIcon } from "lucide-react";
+import type { IconComponent } from "@/components/icons/SystemIcons";
 import {
   Phone,
   CalendarCheck2,
@@ -24,7 +24,7 @@ const stats: {
   suffix: string;
   delta: string;
   decimals?: number;
-  icon: LucideIcon;
+  icon: IconComponent;
   ringPct: number;
 }[] = [
   { label: "Calls", value: 247, suffix: "", delta: "+18%", icon: Phone, ringPct: 82 },
@@ -58,7 +58,7 @@ function StatRing({
   pct,
   reduce,
 }: {
-  icon: LucideIcon;
+  icon: IconComponent;
   pct: number;
   reduce: boolean | null;
 }) {

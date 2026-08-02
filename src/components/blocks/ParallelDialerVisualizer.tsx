@@ -3,8 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/cn";
-import type { LucideIcon } from "lucide-react";
-import { PhoneOutgoing, Check, X, Voicemail } from "@/components/icons/SystemIcons";
+import { PhoneOutgoing, Check, X, Voicemail, type IconComponent } from "@/components/icons/SystemIcons";
 
 /* Outbound dialer walkthrough — the AI works a follow-up list one lead at a
    time. Previous version animated calls to unlabeled targets at random,
@@ -22,7 +21,7 @@ const leads = [
 const outcomes: {
   id: string;
   label: string;
-  icon: LucideIcon;
+  icon: IconComponent;
   tone: "solid" | "tint" | "neutral";
 }[] = [
   { id: "connected", label: "Booked", icon: Check, tone: "solid" },

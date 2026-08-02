@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useSession, signOut } from "next-auth/react";
-import type { LucideIcon } from "lucide-react";
+import type { IconComponent } from "@/components/icons/SystemIcons";
 import {
   ChevronDown,
   Menu,
@@ -40,7 +40,7 @@ import { EASE, springPhysics } from "@/lib/motion";
    the top-level items via layoutId.
    ──────────────────────────────────────────────────────────────────────────── */
 
-type NavLink = { href: string; label: string; desc: string; icon: LucideIcon };
+type NavLink = { href: string; label: string; desc: string; icon: IconComponent };
 
 const productLinks: NavLink[] = [
   {

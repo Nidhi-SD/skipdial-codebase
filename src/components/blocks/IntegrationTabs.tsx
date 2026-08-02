@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import type { LucideIcon } from "lucide-react";
+import type { IconComponent } from "@/components/icons/SystemIcons";
 import {
   Database,
   CalendarCheck,
@@ -16,7 +16,7 @@ import { cn } from "@/lib/cn";
 
 type Category = {
   id: string;
-  icon: LucideIcon;
+  icon: IconComponent;
   label: string;
   intro: string;
   outcomesLabel: string;

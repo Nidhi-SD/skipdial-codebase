@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import type { LucideIcon } from "lucide-react";
+import type { IconComponent } from "@/components/icons/SystemIcons";
 import {
   PhoneIncoming,
   Zap,
@@ -32,7 +32,7 @@ type Branch = {
   id: string;
   label: string;
   caption: string;
-  icon: LucideIcon;
+  icon: IconComponent;
   color: string;
   actions: string[];
 };

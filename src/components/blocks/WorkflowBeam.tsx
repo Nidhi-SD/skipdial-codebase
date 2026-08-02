@@ -8,8 +8,7 @@ import {
   useReducedMotion,
   type Variants,
 } from "framer-motion";
-import type { LucideIcon } from "lucide-react";
-import { Check, Loader2 } from "@/components/icons/SystemIcons";
+import { Check, Loader2, type IconComponent } from "@/components/icons/SystemIcons";
 import { EASE, springPhysics } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 import { CrmSyncIcon, InboundCallIcon, SkipDialAgentIcon } from "@/components/blocks/WorkflowIcons";
@@ -381,7 +380,7 @@ function WorkflowNode({
   badge,
   children,
 }: {
-  icon: LucideIcon;
+  icon: IconComponent;
   iconClass?: string;
   iconSize?: string;
   title: string;

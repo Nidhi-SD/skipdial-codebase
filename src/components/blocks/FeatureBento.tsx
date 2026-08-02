@@ -2,7 +2,7 @@
 
 import { useRef, type MouseEvent, type ReactNode } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
-import type { LucideIcon } from "lucide-react";
+import type { IconComponent } from "@/components/icons/SystemIcons";
 import {
   Clock,
   MessageSquare,
@@ -41,7 +41,7 @@ function SpotlightCard({
   className,
   children,
 }: {
-  icon: LucideIcon;
+  icon: IconComponent;
   title: string;
   body: string;
   className?: string;
