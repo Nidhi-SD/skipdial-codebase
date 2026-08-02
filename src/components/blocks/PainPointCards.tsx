@@ -1,5 +1,6 @@
 import type { ElementType } from "react";
 import { PainCardTile } from "@/components/blocks/PainCardTile";
+import { PainGridActiveProvider } from "@/components/blocks/PainGridActive";
 import { cn } from "@/lib/cn";
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -16,6 +17,11 @@ import { cn } from "@/lib/cn";
    stagger delay, and shadow ramp) — plain <ul>/<li> here, not the shared
    <Stagger>/<Item>, so that timing isn't laid on top of a second, competing
    fadeUp.
+
+   Wrapped in PainGridActiveProvider (client) so the grid's "nearest to
+   viewport center" card can be tracked and shared across the sibling
+   PainCardTile leaves without lifting icon resolution into a client
+   component.
    ──────────────────────────────────────────────────────────────────────────── */
 
 export type PainCard = {
@@ -32,22 +38,24 @@ export function PainPointCards({
   className?: string;
 }) {
   return (
-    <ul className={cn("grid gap-4 sm:grid-cols-2 lg:grid-cols-4", className)}>
-      {cards.map((card, index) => (
-        <li key={card.title}>
-          <PainCardTile
-            index={index}
-            title={card.title}
-            body={card.body}
-            icon={
-              <card.icon
-                aria-hidden
-                className="h-12 w-12 transition-transform duration-500 ease-out-expo group-hover:scale-105"
-              />
-            }
-          />
-        </li>
-      ))}
-    </ul>
+    <PainGridActiveProvider>
+      <ul className={cn("grid gap-4 sm:grid-cols-2 lg:grid-cols-4", className)}>
+        {cards.map((card, index) => (
+          <li key={card.title}>
+            <PainCardTile
+              index={index}
+              title={card.title}
+              body={card.body}
+              icon={
+                <card.icon
+                  aria-hidden
+                  className="h-12 w-12 transition-[transform,filter] duration-300 ease-out-expo motion-safe:group-hover:rotate-[8deg] motion-safe:group-hover:scale-[1.08] group-hover:drop-shadow-[0_0_10px_rgba(105,70,235,0.55)]"
+                />
+              }
+            />
+          </li>
+        ))}
+      </ul>
+    </PainGridActiveProvider>
   );
 }

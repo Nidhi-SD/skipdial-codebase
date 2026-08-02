@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useMemo, useState, type MouseEvent as ReactMouseEvent, type ReactNode } from "react";
-import { motion, useMotionValue, useReducedMotion, useSpring, type Variants } from "framer-motion";
+import { animate, motion, useMotionValue, useReducedMotion, useSpring, type Variants } from "framer-motion";
 import { PopChip } from "@/components/motion/entrances";
 import { SpotlightCard } from "@/components/motion/SpotlightCard";
+import { usePainCardActive } from "@/components/blocks/PainGridActive";
+import { cn } from "@/lib/cn";
 
 /* ─────────────────────────────────────────────────────────────────────────────
    PainCardTile — the interactive leaf for PainPointCards. Split into its own
@@ -12,21 +14,31 @@ import { SpotlightCard } from "@/components/motion/SpotlightCard";
    icon *function* can't cross the server/client boundary as a prop, only an
    already-rendered element can.
 
-   Entrance is owned entirely here (opacity/rise/scale/blur + a shadow ramp
-   that fades back to nothing, plus a trailing icon pop) rather than through
-   the site's shared <Stagger>/<Item> — those apply their own fadeUp timing,
-   and layering a second viewport-triggered animation on top would compound
-   into a different, unintended motion instead of this section's own spec.
+   Three nested motion layers, each owning one concern so nothing fights for
+   the same transform on the same element:
+     A (outer)  — scroll-reveal entrance: opacity/rise/rotate, once, driven by
+                  whileInView variants that propagate down to the icon/number.
+     B (middle) — ambient float + cursor tilt. Both live on `style` motion
+                  values (not the `animate` prop) so this layer stays a
+                  transparent passthrough for A's variant context — an actual
+                  `animate={...}` here would otherwise replace what A
+                  propagates to the icon below, and it would just stop
+                  animating in.
+     C (inner)  — SpotlightCard: hover lift/scale + cursor spotlight glow.
+   Active-card highlighting (border/shadow/number/icon) is plain conditional
+   className from usePainCardActive — colour/shadow only, so it's left
+   unaffected by prefers-reduced-motion (that gates movement, not this).
    ──────────────────────────────────────────────────────────────────────────── */
 
 const TILT_MAX = 7; // degrees, capped small — tactile, not gimmicky
 const TILT_SPRING = { stiffness: 300, damping: 22 };
 
-const ENTRANCE_EASE = [0.22, 1, 0.36, 1] as const;
-const ENTRANCE_DURATION = 0.9;
-const ENTRANCE_STAGGER = 0.32;
-const NO_SHADOW = "0px 0px 0px 0px rgba(105, 70, 235, 0)";
-const PEAK_SHADOW = "0px 24px 48px -16px rgba(105, 70, 235, 0.22)";
+const ENTRANCE_DURATION = 0.7;
+const ENTRANCE_STAGGER = 0.12;
+
+const FLOAT_DISTANCE = 4; // px — "almost unnoticeable"
+const FLOAT_DURATION = 7;
+const FLOAT_STAGGER = 0.6;
 
 function Drip({ delay }: { delay: number }) {
   const reduce = useReducedMotion();
@@ -58,10 +70,24 @@ export function PainCardTile({
   const rawY = useMotionValue(0);
   const rotateX = useSpring(rawX, TILT_SPRING);
   const rotateY = useSpring(rawY, TILT_SPRING);
+  const floatY = useMotionValue(0);
+
+  const { ref: activeRef, isActive, isMuted } = usePainCardActive(index);
 
   useEffect(() => {
     setFinePointer(window.matchMedia("(pointer: fine)").matches);
   }, []);
+
+  useEffect(() => {
+    if (reduce) return;
+    const controls = animate(floatY, [0, -FLOAT_DISTANCE, 0], {
+      duration: FLOAT_DURATION,
+      repeat: Infinity,
+      ease: "easeInOut",
+      delay: index * FLOAT_STAGGER,
+    });
+    return () => controls.stop();
+  }, [reduce, floatY, index]);
 
   const tiltEnabled = !reduce && finePointer;
 
@@ -80,28 +106,16 @@ export function PainCardTile({
 
   const cardVariants: Variants = useMemo(() => {
     if (reduce) {
-      const settled = { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", boxShadow: NO_SHADOW };
+      const settled = { opacity: 1, y: 0, rotate: 0 };
       return { initial: settled, animate: settled };
     }
     return {
-      initial: { opacity: 0, y: 40, scale: 0.95, filter: "blur(6px)", boxShadow: NO_SHADOW },
+      initial: { opacity: 0, y: 40, rotate: 2 },
       animate: (i: number) => ({
         opacity: 1,
         y: 0,
-        scale: 1,
-        filter: "blur(0px)",
-        boxShadow: [NO_SHADOW, PEAK_SHADOW, NO_SHADOW],
-        transition: {
-          duration: ENTRANCE_DURATION,
-          delay: i * ENTRANCE_STAGGER,
-          ease: ENTRANCE_EASE,
-          boxShadow: {
-            duration: ENTRANCE_DURATION,
-            delay: i * ENTRANCE_STAGGER,
-            ease: ENTRANCE_EASE,
-            times: [0, 0.55, 1],
-          },
-        },
+        rotate: 0,
+        transition: { duration: ENTRANCE_DURATION, delay: i * ENTRANCE_STAGGER, ease: "easeOut" },
       }),
     };
   }, [reduce]);
@@ -112,20 +126,13 @@ export function PainCardTile({
       initial: { scale: 0.8 },
       animate: (i: number) => ({
         scale: 1,
-        transition: {
-          duration: 0.7,
-          delay: i * ENTRANCE_STAGGER + 0.2,
-          ease: ENTRANCE_EASE,
-        },
+        transition: { duration: 0.5, delay: i * ENTRANCE_STAGGER + 0.15, ease: "easeOut" },
       }),
     };
   }, [reduce]);
 
   return (
     <motion.div
-      onMouseMove={onMouseMove}
-      onMouseLeave={onMouseLeave}
-      style={tiltEnabled ? { rotateX, rotateY, transformPerspective: 900 } : undefined}
       className="h-full"
       custom={index}
       variants={cardVariants}
@@ -133,20 +140,50 @@ export function PainCardTile({
       whileInView="animate"
       viewport={{ once: true, amount: 0.35 }}
     >
-      <SpotlightCard className="group flex h-full flex-col rounded-[20px] border border-line bg-surface p-7 shadow-sm transition-colors duration-300 ease-out-expo hover:border-accent/30 hover:shadow-[0_8px_30px_rgba(105,70,235,0.08)]">
-        <PopChip className="absolute right-0 top-0 font-mono text-[12px] font-semibold tabular-nums text-ink-faint/60">
-          <span aria-hidden>0{index + 1}</span>
-        </PopChip>
-        <motion.div
-          variants={iconVariants}
-          className="relative flex h-12 w-12 items-center justify-center text-accent"
+      <motion.div
+        ref={activeRef}
+        data-pain-index={index}
+        onMouseMove={onMouseMove}
+        onMouseLeave={onMouseLeave}
+        style={tiltEnabled ? { y: floatY, rotateX, rotateY, transformPerspective: 900 } : { y: floatY }}
+        className="h-full"
+      >
+        <SpotlightCard
+          hoverLift={10}
+          hoverScale={1.03}
+          hoverTransition={{ duration: 0.3, ease: "easeOut" }}
+          className={cn(
+            "group flex h-full flex-col rounded-[20px] border bg-surface p-7 cursor-pointer",
+            "transition-[border-color,box-shadow,opacity] duration-300 ease-out-expo",
+            "hover:border-accent/55 hover:shadow-[0_18px_44px_-12px_rgba(105,70,235,0.26)] hover:opacity-100",
+            isActive
+              ? "border-accent/45 shadow-[0_14px_34px_-10px_rgba(105,70,235,0.2)]"
+              : "border-line shadow-sm",
+            isMuted && "opacity-90"
+          )}
         >
-          {icon}
-          <Drip delay={index * 0.5} />
-        </motion.div>
-        <h3 className="mt-6 text-[16px] font-bold leading-snug">{title}</h3>
-        <p className="mt-2.5 text-[14.5px] leading-relaxed text-ink-light">{body}</p>
-      </SpotlightCard>
+          <PopChip
+            className={cn(
+              "absolute right-0 top-0 font-mono text-[12px] font-semibold tabular-nums transition-colors duration-300",
+              isActive ? "text-accent" : "text-ink-faint/60"
+            )}
+          >
+            <span aria-hidden>0{index + 1}</span>
+          </PopChip>
+          <motion.div
+            variants={iconVariants}
+            className={cn(
+              "relative flex h-12 w-12 items-center justify-center text-accent transition-[filter] duration-300 ease-out-expo",
+              isActive && "brightness-110 drop-shadow-[0_0_6px_rgba(105,70,235,0.35)]"
+            )}
+          >
+            {icon}
+            <Drip delay={index * 0.5} />
+          </motion.div>
+          <h3 className="mt-6 text-[16px] font-bold leading-snug">{title}</h3>
+          <p className="mt-2.5 text-[14.5px] leading-relaxed text-ink-light">{body}</p>
+        </SpotlightCard>
+      </motion.div>
     </motion.div>
   );
 }

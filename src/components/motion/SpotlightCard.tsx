@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, type MouseEvent, type ReactNode, type ElementType } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion, type Transition } from "framer-motion";
 
 /* ─────────────────────────────────────────────────────────────────────────────
    SpotlightCard — cursor-tracked radial glow + a thin border-light on hover.
@@ -9,18 +9,29 @@ import { motion } from "framer-motion";
    component only adds the glow layers and the group-hover hook. Extracted
    from how-it-works/page.tsx, where the same pattern is used for two card
    grids, so both places share one implementation.
+
+   hoverLift/hoverScale/hoverTransition default to the original values so
+   existing callers render identically; pass stronger values (as the
+   homepage pain cards do) without forking the component.
    ──────────────────────────────────────────────────────────────────────────── */
 
 export function SpotlightCard({
   children,
   className,
   as: Component = motion.div,
+  hoverLift = 4,
+  hoverScale = 1,
+  hoverTransition = { type: "spring", stiffness: 400, damping: 30 },
 }: {
   children: ReactNode;
   className?: string;
   as?: ElementType;
+  hoverLift?: number;
+  hoverScale?: number;
+  hoverTransition?: Transition;
 }) {
   const divRef = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
     if (!divRef.current) return;
@@ -36,7 +47,7 @@ export function SpotlightCard({
     <Component
       ref={divRef}
       onMouseMove={handleMouseMove}
-      whileHover={{ y: -4, transition: { type: "spring", stiffness: 400, damping: 30 } }}
+      whileHover={reduce ? undefined : { y: -hoverLift, scale: hoverScale, transition: hoverTransition }}
       className={`group relative overflow-hidden ${className}`}
     >
       {/* Dynamic Cursor Spotlight */}
