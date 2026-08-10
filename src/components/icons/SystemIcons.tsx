@@ -585,6 +585,15 @@ export function TrendingUp(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+export function TrendingDown(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M4 8l6 6 3.5-3.5L20 18" />
+      <path d="M20 13v5h-5" />
+    </svg>
+  );
+}
+
 export function Activity(props: SVGProps<SVGSVGElement>) {
   return (
     <svg {...base} {...props}>
@@ -827,6 +836,15 @@ export function Filter(props: SVGProps<SVGSVGElement>) {
   return (
     <svg {...base} {...props}>
       <path d="M4 4.5h16L14 12.5V19l-4 2v-8.5Z" />
+    </svg>
+  );
+}
+
+export function Search(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="10.5" cy="10.5" r="6.5" />
+      <path d="M20 20l-4.8-4.8" />
     </svg>
   );
 }

@@ -8,6 +8,7 @@ import { FullPageScrollBgCanvas } from "@/components/FullPageScrollBgCanvas";
 // with a cinematic scroll animation built for the long homepage scroll.
 const EXCLUDED_PATHS = [
   "/login",
+  "/dashboard",
   "/privacy-policy",
   "/terms-and-conditions",
 ];

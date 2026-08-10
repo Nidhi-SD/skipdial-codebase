@@ -9,7 +9,9 @@
     "lint": "next lint",
     "postinstall": "prisma generate",
     "db:push": "prisma db push",
-    "db:seed": "prisma db seed"
+    "db:seed": "prisma db seed",
+    "client:create": "node scripts/create-client.js",
+    "client:agents": "node scripts/create-client.js --agents"
   },
   "prisma": {
     "seed": "node prisma/seed.js"

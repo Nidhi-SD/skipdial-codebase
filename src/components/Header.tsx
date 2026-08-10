@@ -22,6 +22,7 @@ import {
   Activity,
   ShieldCheck,
   LogOut,
+  Gauge,
   Plus,
   PhoneIncoming,
   PhoneOutgoing,
@@ -523,11 +524,21 @@ export function Header() {
                       {session.user.email}
                     </p>
                     <Link
-                      href="/blog/create"
+                      href="/dashboard"
                       className="flex items-center gap-2 rounded-lg px-3 py-2 text-[13px] font-medium text-ink hover:bg-surface-alt"
                     >
-                      <Plus aria-hidden className="h-3.5 w-3.5" /> New blog post
+                      <Gauge aria-hidden className="h-3.5 w-3.5" /> Dashboard
                     </Link>
+                    {/* Authoring is staff-only — clients signing into the portal
+                        must never be offered the blog composer. */}
+                    {session.user.role === "admin" ? (
+                      <Link
+                        href="/blog/create"
+                        className="flex items-center gap-2 rounded-lg px-3 py-2 text-[13px] font-medium text-ink hover:bg-surface-alt"
+                      >
+                        <Plus aria-hidden className="h-3.5 w-3.5" /> New blog post
+                      </Link>
+                    ) : null}
                     <button
                       type="button"
                       onClick={() => signOut({ callbackUrl: "/" })}
@@ -637,13 +648,18 @@ export function Header() {
                   Contact us
                 </Button>
                 {sessionStatus === "authenticated" && session?.user ? (
-                  <button
-                    type="button"
-                    onClick={() => signOut({ callbackUrl: "/" })}
-                    className="flex h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-line text-[14px] font-medium text-ink"
-                  >
-                    <LogOut aria-hidden className="h-3.5 w-3.5" /> Sign out
-                  </button>
+                  <>
+                    <Button href="/dashboard" variant="outline" size="lg" className="w-full">
+                      Dashboard
+                    </Button>
+                    <button
+                      type="button"
+                      onClick={() => signOut({ callbackUrl: "/" })}
+                      className="flex h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-line text-[14px] font-medium text-ink"
+                    >
+                      <LogOut aria-hidden className="h-3.5 w-3.5" /> Sign out
+                    </button>
+                  </>
                 ) : (
                   <Button href="/login" variant="outline" size="lg" className="w-full">
                     Login

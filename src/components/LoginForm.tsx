@@ -14,9 +14,10 @@ import {
 } from "@/components/icons/SystemIcons";
 
 /* Open-redirect guard — only same-origin paths are honored; absolute and
-   protocol-relative URLs fall back to home. */
+   protocol-relative URLs fall back to the client dashboard, which is what
+   signing in is for. */
 function safeCallbackUrl(raw: string | null): string {
-  return raw && raw.startsWith("/") && !raw.startsWith("//") ? raw : "/";
+  return raw && raw.startsWith("/") && !raw.startsWith("//") ? raw : "/dashboard";
 }
 
 type Status = "idle" | "submitting" | "invalid" | "failed";
