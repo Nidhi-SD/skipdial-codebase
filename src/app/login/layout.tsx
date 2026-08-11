@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Sign In | SkipDial",
-  description: "Sign in to your SkipDial account.",
+  title: "Login | SkipDial",
+  description: "Login to your SkipDial account.",
 };
 
 export default function LoginLayout({

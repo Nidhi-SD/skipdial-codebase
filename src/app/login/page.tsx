@@ -7,7 +7,7 @@ import { LoginForm } from "@/components/LoginForm";
 
 export default function LoginPage() {
   return (
-    <section className="hero-wash relative flex min-h-dvh items-center overflow-hidden px-6 pb-20 pt-40 md:pb-32 md:pt-48">
+    <section className="hero-wash relative flex min-h-dvh items-center overflow-hidden px-6 pb-20 pt-28 md:pb-32 md:pt-32">
       <div
         aria-hidden
         className="dot-grid absolute inset-0 opacity-40 [mask-image:radial-gradient(60%_55%_at_50%_25%,black,transparent)]"
@@ -27,7 +27,7 @@ export default function LoginPage() {
           variants={fadeUp}
           className="mb-3 text-center font-display text-[clamp(2.4rem,5vw,3.25rem)] font-bold leading-[1.05] tracking-tight text-ink"
         >
-          Sign <span className="text-accent">in.</span>
+          Log<span className="text-accent">in.</span>
         </motion.h1>
         <motion.p variants={fadeUp} className="mb-10 text-center text-ink-light">
           Access your SkipDial account.

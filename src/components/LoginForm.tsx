@@ -148,11 +148,11 @@ export function LoginForm() {
             {status === "submitting" ? (
               <>
                 <Loader2 aria-hidden className="h-4 w-4 animate-spin" />
-                Signing in…
+                Logging in…
               </>
             ) : (
               <>
-                Sign In
+                Login
                 <ArrowRight
                   aria-hidden
                   className="h-4 w-4 transition-transform duration-200 ease-out-expo group-hover:translate-x-0.5"
@@ -163,7 +163,7 @@ export function LoginForm() {
         </div>
 
         <p className="pt-1 text-center text-[12.5px] text-ink-light">
-          Trouble signing in?{" "}
+          Trouble logging in?{" "}
           <a
             href="mailto:info@skipdial.ai"
             className="font-medium text-accent transition-colors hover:text-accent-deep"
