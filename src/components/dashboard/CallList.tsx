@@ -189,11 +189,14 @@ export function CallDrawer({ call, onClose }: { call: PortalCall; onClose: () =>
               {detail.recordingUrl ? (
                 <div>
                   <p className="mb-2 text-[13px] font-semibold text-ink">Recording</p>
-                  {/* Native controls: a utility surface, not a marketing player. */}
+                  {/* Native controls: a utility surface, not a marketing player.
+                      `detail.recordingUrl` itself is just this account's private-
+                      bucket path (not directly playable) — this route resolves it
+                      to a short-lived signed URL on each play. */}
                   <audio
                     controls
                     preload="none"
-                    src={detail.recordingUrl}
+                    src={`/api/dashboard/calls/${call.id}/recording`}
                     className="w-full"
                   >
                     Your browser does not support audio playback.
@@ -364,7 +367,12 @@ export function CallList({ calls }: { calls: PortalCall[] }) {
                       onClick={() => setSelected(call)}
                       className="flex w-full cursor-pointer items-center gap-3 px-5 py-3.5 text-left transition-colors hover:bg-surface-alt md:px-6"
                     >
-                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-line bg-surface-alt text-accent">
+                      <span
+                        className={cn(
+                          "flex h-9 w-9 shrink-0 items-center justify-center rounded-full",
+                          outcome.className
+                        )}
+                      >
                         {call.outcome === "voicemail" ? (
                           <Voicemail aria-hidden className="h-4 w-4" />
                         ) : (

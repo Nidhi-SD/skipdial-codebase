@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import {
   Activity,
   AlertCircle,
@@ -9,10 +9,7 @@ import {
   Gauge,
   Loader2,
   Phone,
-  PhoneIncoming,
-  PhoneOutgoing,
   RefreshCw,
-  MessageSquareText,
   TrendingUp,
   TrendingDown,
 } from "@/components/icons/SystemIcons";
@@ -20,9 +17,10 @@ import type { IconComponent } from "@/components/icons/SystemIcons";
 import { Container, Eyebrow } from "@/components/ui/primitives";
 import { CallVolumeChart, type DailyBucket } from "@/components/dashboard/CallVolumeChart";
 import { PeakHoursChart } from "@/components/dashboard/PeakHoursChart";
+import { CallComposition } from "@/components/dashboard/CallComposition";
 import { MissedCallsPanel } from "@/components/dashboard/MissedCallsPanel";
 import { CallList } from "@/components/dashboard/CallList";
-import { fadeUp, staggerContainer } from "@/lib/motion";
+import { fadeUp, staggerContainer, EASE } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 import type { PortalCall } from "@/lib/portal";
 
@@ -30,9 +28,8 @@ type Trend = { current: number; previous: number; changePct: number | null };
 
 type DashboardPayload = {
   configured: true;
-  /** Window actually queried, after clamping to the plan's retention. */
+  /** Always the plan's full retained window — there's no shorter view to opt into. */
   days: number;
-  requestedDays: number;
   retentionDays: number;
   agent: {
     name: string;
@@ -51,8 +48,8 @@ type DashboardPayload = {
     byDirection: { inbound: number; outbound: number; web: number };
     daily: DailyBucket[];
   };
-  /** null when the selected range leaves no room for a same-length prior
-   *  period inside the plan's retention window (see vapi.ts RETENTION_DAYS). */
+  /** null when the retained window is too short to hold a comparable prior
+   *  half (see the trend-splitting logic in api/dashboard/route.ts). */
   trend: {
     totalCalls: Trend;
     connected: Trend;
@@ -62,14 +59,6 @@ type DashboardPayload = {
 };
 
 type ApiResponse = DashboardPayload | { configured: false };
-
-/* Vapi retains call history per subscription plan (14 days on the current
-   one), so offering a 90-day range would just render an empty chart. */
-const RANGES = [
-  { days: 7, label: "7 days" },
-  { days: 14, label: "14 days" },
-  { days: 30, label: "30 days" },
-];
 
 function formatAvg(seconds: number): string {
   if (seconds <= 0) return "—";
@@ -88,7 +77,7 @@ function TrendBadge({ trend }: { trend?: Trend }) {
   if (trend.changePct === null) {
     if (trend.current === 0) return null;
     return (
-      <span className="inline-flex items-center gap-1 text-[12px] font-semibold text-signal">
+      <span className="inline-flex items-center gap-1 text-[12px] font-semibold text-accent-deep">
         New activity
       </span>
     );
@@ -102,11 +91,59 @@ function TrendBadge({ trend }: { trend?: Trend }) {
     <span
       className={cn(
         "inline-flex items-center gap-1 text-[12px] font-semibold",
-        up ? "text-signal" : "text-ink-light"
+        up ? "text-accent-deep" : "text-ink-light"
       )}
     >
       <TrendIcon aria-hidden className="h-3 w-3" />
       {Math.abs(trend.changePct)}%
+    </span>
+  );
+}
+
+/** Radial progress ring — reserved for stats that are genuinely a 0–100%
+ *  ratio (Connect rate) rather than a bare count, so the fill always reads
+ *  as "share of a real ceiling," never a fabricated goal. */
+function StatRingBadge({ icon: Icon, pct }: { icon: IconComponent; pct: number }) {
+  const reduce = useReducedMotion();
+  const size = 44;
+  const stroke = 3;
+  const r = (size - stroke) / 2;
+  const c = 2 * Math.PI * r;
+  const clamped = Math.max(0, Math.min(100, pct));
+  const offset = c * (1 - clamped / 100);
+
+  return (
+    <span className="relative flex h-11 w-11 shrink-0 items-center justify-center">
+      <svg
+        aria-hidden
+        width={size}
+        height={size}
+        viewBox={`0 0 ${size} ${size}`}
+        className="absolute inset-0 -rotate-90"
+      >
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={r}
+          strokeWidth={stroke}
+          fill="none"
+          className="stroke-accent-tint"
+        />
+        <motion.circle
+          cx={size / 2}
+          cy={size / 2}
+          r={r}
+          strokeWidth={stroke}
+          strokeLinecap="round"
+          fill="none"
+          className="stroke-accent"
+          strokeDasharray={c}
+          initial={reduce ? { strokeDashoffset: offset } : { strokeDashoffset: c }}
+          animate={{ strokeDashoffset: offset }}
+          transition={{ duration: 0.9, ease: EASE }}
+        />
+      </svg>
+      <Icon aria-hidden className="h-[18px] w-[18px] text-accent" />
     </span>
   );
 }
@@ -117,27 +154,35 @@ function StatCard({
   value,
   hint,
   trend,
+  ringPct,
 }: {
   icon: IconComponent;
   label: string;
   value: string;
   hint?: string;
   trend?: Trend;
+  /** When set, renders the icon inside a filled progress ring instead of a
+   *  flat badge — only pass this for a stat that is itself a 0–100 ratio. */
+  ringPct?: number;
 }) {
   return (
     <motion.div
       variants={fadeUp}
-      className="rounded-2xl border border-line bg-surface p-5 shadow-soft"
+      className="group rounded-2xl border border-line bg-surface p-5 shadow-soft transition-shadow duration-300 hover:shadow-card md:p-6"
     >
-      <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg bg-accent-tint text-accent">
-        <Icon aria-hidden className="h-[18px] w-[18px]" />
-      </div>
-      <p className="text-[13px] text-ink-light">{label}</p>
-      <p className="mt-1 font-display text-[28px] font-bold leading-none tracking-tight text-ink">
+      {typeof ringPct === "number" ? (
+        <StatRingBadge icon={Icon} pct={ringPct} />
+      ) : (
+        <div className="flex h-11 w-11 items-center justify-center rounded-full border border-accent/15 bg-accent-tint text-accent">
+          <Icon aria-hidden className="h-[19px] w-[19px]" />
+        </div>
+      )}
+      <p className="mt-3.5 text-[13px] font-medium text-ink-light">{label}</p>
+      <p className="mt-1 font-mono text-[30px] font-bold leading-none tracking-tight text-ink tabular-nums">
         {value}
       </p>
       {hint || trend ? (
-        <div className="mt-1.5 flex items-center gap-2">
+        <div className="mt-2 flex items-center gap-2">
           {hint ? <p className="text-[12.5px] text-ink-faint">{hint}</p> : null}
           <TrendBadge trend={trend} />
         </div>
@@ -158,8 +203,8 @@ function Panel({
   children: React.ReactNode;
 }) {
   return (
-    <div className="rounded-2xl border border-line bg-surface p-8 text-center shadow-soft">
-      <div className="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-accent-tint text-accent">
+    <div className="rounded-2xl border border-line bg-surface p-8 text-center shadow-soft sm:p-10">
+      <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-accent/15 bg-accent-tint text-accent">
         <Icon aria-hidden className="h-5 w-5" />
       </div>
       <h2 className="text-[16px] font-semibold text-ink">{title}</h2>
@@ -181,65 +226,81 @@ export function DashboardView({
   email: string;
   hasAgent: boolean;
 }) {
-  const [days, setDays] = useState(14);
   const [data, setData] = useState<ApiResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [refreshing, setRefreshing] = useState(false);
 
-  const load = useCallback(
-    async (range: number, signal?: AbortSignal) => {
-      setRefreshing(true);
-      setError(null);
-      try {
-        const res = await fetch(`/api/dashboard?days=${range}`, { signal });
-        const body = await res.json();
-        if (!res.ok) throw new Error(body?.error ?? "Request failed");
-        setData(body as ApiResponse);
-      } catch (err) {
-        if ((err as Error).name === "AbortError") return;
-        setError(
-          err instanceof Error ? err.message : "Something went wrong loading your data."
-        );
-      } finally {
-        setRefreshing(false);
-      }
-    },
-    []
-  );
+  const load = useCallback(async (signal?: AbortSignal) => {
+    setRefreshing(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/dashboard", { signal });
+      const body = await res.json();
+      if (!res.ok) throw new Error(body?.error ?? "Request failed");
+      setData(body as ApiResponse);
+    } catch (err) {
+      if ((err as Error).name === "AbortError") return;
+      setError(
+        err instanceof Error ? err.message : "Something went wrong loading your data."
+      );
+    } finally {
+      setRefreshing(false);
+    }
+  }, []);
 
   useEffect(() => {
     const controller = new AbortController();
-    load(days, controller.signal);
+    load(controller.signal);
     return () => controller.abort();
-  }, [days, load]);
+  }, [load]);
 
   const payload = data && data.configured ? data : null;
   const loading = !data && !error;
 
   return (
-    <section className="min-h-dvh bg-wash px-5 pb-24 pt-28 md:px-8 md:pt-32">
-      <Container className="px-0 md:px-0">
+    <section className="relative min-h-dvh bg-wash px-5 pb-24 pt-28 md:px-8 md:pt-32">
+      {/* Quiet brand wash behind the header only — same restrained radial-glow
+          language as the marketing hero, never a loud gradient feature. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-[420px] bg-[radial-gradient(58%_55%_at_50%_0%,rgb(var(--accent-soft-rgb)/0.14),transparent_72%)]"
+      />
+      <Container className="relative px-0 md:px-0">
         {/* Header */}
         <motion.div
           initial="initial"
           animate="animate"
           variants={staggerContainer}
-          className="mb-8 flex flex-wrap items-end justify-between gap-5"
+          className="mb-10 flex flex-wrap items-end justify-between gap-5"
         >
           <div>
             <motion.div variants={fadeUp}>
               <Eyebrow className="mb-2">Client Portal</Eyebrow>
             </motion.div>
-            <motion.h1
-              variants={fadeUp}
-              className="font-display text-[clamp(1.9rem,3.4vw,2.55rem)] font-bold leading-[1.1] tracking-tight text-ink"
-            >
-              {clientLabel}
-            </motion.h1>
+            <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-3">
+              <h1 className="font-display text-[clamp(1.9rem,3.4vw,2.55rem)] font-bold leading-[1.1] tracking-tight text-ink">
+                {clientLabel}
+              </h1>
+              {payload?.agent.exists ? (
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-2.5 py-1 text-[11.5px] font-bold uppercase tracking-wide text-ink-light shadow-soft">
+                  <span className="pulse-dot relative inline-block h-1.5 w-1.5 rounded-full bg-accent" />
+                  Agent live
+                </span>
+              ) : null}
+            </motion.div>
             <motion.p variants={fadeUp} className="mt-1.5 text-[14px] text-ink-light">
               {payload ? (
                 <>
                   Agent: <span className="font-medium text-ink">{payload.agent.name}</span>
+                  {payload.agent.voice || payload.agent.language ? (
+                    <span className="text-ink-faint">
+                      {" "}
+                      ·{" "}
+                      {[payload.agent.voice, payload.agent.language]
+                        .filter(Boolean)
+                        .join(" · ")}
+                    </span>
+                  ) : null}
                 </>
               ) : (
                 email
@@ -247,44 +308,18 @@ export function DashboardView({
             </motion.p>
           </div>
 
-          <motion.div variants={fadeUp} className="flex items-center gap-2">
-            <div className="flex rounded-lg border border-line bg-surface p-1">
-              {RANGES.map((r) => {
-                /* Ranges past the plan's retention stay selectable: the server
-                   clamps the window and the notice below the stats explains
-                   why. Disabling them would hide the reason on touch devices,
-                   where the tooltip never appears. */
-                const beyondPlan = payload ? r.days > payload.retentionDays : false;
-                return (
-                  <button
-                    key={r.days}
-                    type="button"
-                    onClick={() => setDays(r.days)}
-                    title={
-                      beyondPlan
-                        ? `Your plan retains ${payload?.retentionDays} days of call history`
-                        : undefined
-                    }
-                    className={cn(
-                      "cursor-pointer rounded-md px-3 py-1.5 text-[13px] font-medium transition-colors",
-                      days === r.days
-                        ? "bg-accent-tint text-accent"
-                        : beyondPlan
-                          ? "text-ink-faint hover:text-ink-light"
-                          : "text-ink-light hover:text-ink"
-                    )}
-                  >
-                    {r.label}
-                  </button>
-                );
-              })}
-            </div>
+          <motion.div variants={fadeUp} className="flex items-center gap-3">
+            {payload ? (
+              <span className="text-[12.5px] font-medium text-ink-faint">
+                Last {payload.days} days
+              </span>
+            ) : null}
             <button
               type="button"
-              onClick={() => load(days)}
+              onClick={() => load()}
               disabled={refreshing}
               aria-label="Refresh"
-              className="flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-lg border border-line bg-surface text-ink-light transition-colors hover:border-line-strong hover:text-ink disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-lg border border-line bg-surface text-ink-light transition-colors hover:border-line-strong hover:bg-surface-alt hover:text-ink disabled:cursor-not-allowed disabled:opacity-50"
             >
               <RefreshCw
                 aria-hidden
@@ -308,9 +343,11 @@ export function DashboardView({
             if you were expecting it to be live.
           </Panel>
         ) : loading ? (
-          <div className="flex items-center justify-center gap-2 rounded-2xl border border-line bg-surface py-20 text-[14px] text-ink-light shadow-soft">
-            <Loader2 aria-hidden className="h-4 w-4 animate-spin" />
-            Loading your call data…
+          <div className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-line bg-surface py-24 text-center shadow-soft">
+            <span className="flex h-11 w-11 items-center justify-center rounded-full border border-accent/15 bg-accent-tint text-accent">
+              <Loader2 aria-hidden className="h-5 w-5 animate-spin" />
+            </span>
+            <p className="text-[14px] text-ink-light">Loading your call data…</p>
           </div>
         ) : error ? (
           <Panel icon={AlertCircle} title="Couldn't load your data">
@@ -318,7 +355,7 @@ export function DashboardView({
             <div className="mt-4">
               <button
                 type="button"
-                onClick={() => load(days)}
+                onClick={() => load()}
                 className="cursor-pointer rounded-lg bg-accent px-4 py-2 text-[13px] font-semibold text-ink-inverse transition-colors hover:bg-accent-deep"
               >
                 Try again
@@ -346,9 +383,9 @@ export function DashboardView({
             initial="initial"
             animate="animate"
             variants={staggerContainer}
-            className="space-y-6"
+            className="space-y-8"
           >
-            <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+            <div className="grid grid-cols-2 gap-4 md:gap-5 lg:grid-cols-4">
               <StatCard
                 icon={Phone}
                 label="Total calls"
@@ -362,6 +399,7 @@ export function DashboardView({
                 value={`${payload.stats.connectRate}%`}
                 hint={`${payload.stats.connected} connected`}
                 trend={payload.trend?.connected}
+                ringPct={payload.stats.connectRate}
               />
               <StatCard
                 icon={Clock}
@@ -374,26 +412,29 @@ export function DashboardView({
                 icon={Activity}
                 label="Avg call length"
                 value={formatAvg(payload.stats.avgDurationSeconds)}
-                hint={
-                  payload.stats.voicemail > 0
-                    ? `${payload.stats.voicemail} hit voicemail`
-                    : undefined
-                }
+                hint="Across all calls"
               />
             </div>
 
-            {payload.requestedDays > payload.days ? (
-              <motion.p
-                variants={fadeUp}
-                className="-mt-2 text-[12.5px] text-ink-faint"
-              >
-                Showing the last {payload.days} days — your voice platform plan
-                retains {payload.retentionDays} days of call history.
-              </motion.p>
-            ) : null}
+            <motion.div variants={fadeUp}>
+              <CallComposition
+                outcomes={{
+                  connected: payload.stats.connected,
+                  voicemail: payload.stats.voicemail,
+                  missed: payload.stats.missed,
+                }}
+                direction={payload.stats.byDirection}
+              />
+            </motion.div>
 
             <motion.div variants={fadeUp}>
               <MissedCallsPanel calls={payload.calls} />
+            </motion.div>
+
+            {/* The actual call-by-call ground truth ranks above the charts —
+                a client checking in wants "what happened" before "the trend." */}
+            <motion.div variants={fadeUp}>
+              <CallList calls={payload.calls} />
             </motion.div>
 
             <motion.div variants={fadeUp}>
@@ -402,35 +443,6 @@ export function DashboardView({
 
             <motion.div variants={fadeUp}>
               <PeakHoursChart calls={payload.calls} />
-            </motion.div>
-
-            <motion.div variants={fadeUp} className="grid gap-4 sm:grid-cols-3">
-              {(
-                [
-                  { key: "inbound", label: "Inbound", icon: PhoneIncoming },
-                  { key: "outbound", label: "Outbound", icon: PhoneOutgoing },
-                  { key: "web", label: "Web calls", icon: MessageSquareText },
-                ] as const
-              ).map(({ key, label, icon: Icon }) => (
-                <div
-                  key={key}
-                  className="flex items-center gap-3 rounded-2xl border border-line bg-surface p-4 shadow-soft"
-                >
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent-tint text-accent">
-                    <Icon aria-hidden className="h-[18px] w-[18px]" />
-                  </span>
-                  <span>
-                    <span className="block text-[13px] text-ink-light">{label}</span>
-                    <span className="block font-display text-[20px] font-bold leading-tight text-ink">
-                      {payload.stats.byDirection[key]}
-                    </span>
-                  </span>
-                </div>
-              ))}
-            </motion.div>
-
-            <motion.div variants={fadeUp}>
-              <CallList calls={payload.calls} />
             </motion.div>
           </motion.div>
         )}

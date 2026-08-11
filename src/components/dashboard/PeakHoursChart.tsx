@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
+import { Clock } from "@/components/icons/SystemIcons";
 import { cn } from "@/lib/cn";
 import type { PortalCall } from "@/lib/portal";
 
@@ -40,13 +41,18 @@ export function PeakHoursChart({ calls }: { calls: PortalCall[] }) {
   const active = hovered !== null ? buckets[hovered] : null;
 
   return (
-    <div className="rounded-2xl border border-line bg-surface p-5 shadow-soft md:p-6">
-      <div className="mb-5 flex flex-wrap items-baseline justify-between gap-3">
-        <div>
-          <h2 className="text-[15px] font-semibold text-ink">Peak call times</h2>
-          <p className="mt-0.5 text-[13px] text-ink-light">
-            {hasData ? `Busiest around ${formatHour(peakHour)}` : "By hour of day"}
-          </p>
+    <div className="rounded-2xl border border-line bg-surface p-5 shadow-soft transition-shadow duration-300 hover:shadow-card md:p-6">
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-accent/15 bg-accent-tint text-accent">
+            <Clock aria-hidden className="h-4 w-4" />
+          </span>
+          <div>
+            <h2 className="text-[15px] font-semibold text-ink">Peak call times</h2>
+            <p className="mt-0.5 text-[13px] text-ink-light">
+              {hasData ? `Busiest around ${formatHour(peakHour)}` : "By hour of day"}
+            </p>
+          </div>
         </div>
       </div>
 
@@ -58,7 +64,7 @@ export function PeakHoursChart({ calls }: { calls: PortalCall[] }) {
         <div className="relative">
           <div className="pointer-events-none absolute -top-1 left-0 right-0 flex justify-center">
             {active !== null && hovered !== null ? (
-              <span className="rounded-lg border border-line bg-surface px-2.5 py-1 text-[12px] font-medium text-ink shadow-card">
+              <span className="rounded-lg border border-line bg-surface px-2.5 py-1 text-[12px] font-medium text-ink shadow-lift">
                 {formatHour(hovered)} · {active} {active === 1 ? "call" : "calls"}
               </span>
             ) : null}
@@ -86,8 +92,10 @@ export function PeakHoursChart({ calls }: { calls: PortalCall[] }) {
                     ease: [0.16, 1, 0.3, 1],
                   }}
                   className={cn(
-                    "w-full rounded-[2px]",
-                    hour === peakHour ? "bg-accent" : "bg-ink/15"
+                    "w-full rounded-t-[3px]",
+                    hour === peakHour
+                      ? "bg-gradient-to-t from-accent to-accent-soft"
+                      : "bg-ink/15"
                   )}
                 />
               </div>

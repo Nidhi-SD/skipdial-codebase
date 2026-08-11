@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
+import { Activity } from "@/components/icons/SystemIcons";
 import { cn } from "@/lib/cn";
 
 export type DailyBucket = {
@@ -27,21 +28,26 @@ export function CallVolumeChart({ daily }: { daily: DailyBucket[] }) {
   const active = hovered !== null ? daily[hovered] : null;
 
   return (
-    <div className="rounded-2xl border border-line bg-surface p-5 shadow-soft md:p-6">
-      <div className="mb-5 flex flex-wrap items-baseline justify-between gap-3">
-        <div>
-          <h2 className="text-[15px] font-semibold text-ink">Call volume</h2>
-          <p className="mt-0.5 text-[13px] text-ink-light">
-            Peak day: {peak} {peak === 1 ? "call" : "calls"}
-          </p>
+    <div className="rounded-2xl border border-line bg-surface p-5 shadow-soft transition-shadow duration-300 hover:shadow-card md:p-6">
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-accent/15 bg-accent-tint text-accent">
+            <Activity aria-hidden className="h-4 w-4" />
+          </span>
+          <div>
+            <h2 className="text-[15px] font-semibold text-ink">Call volume</h2>
+            <p className="mt-0.5 text-[13px] text-ink-light">
+              Peak day: {peak} {peak === 1 ? "call" : "calls"}
+            </p>
+          </div>
         </div>
         <div className="flex items-center gap-4 text-[12.5px] text-ink-light">
           <span className="flex items-center gap-1.5">
-            <span className="h-2.5 w-2.5 rounded-[3px] bg-accent" aria-hidden />
+            <span className="h-2.5 w-2.5 rounded-full bg-accent" aria-hidden />
             Connected
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="h-2.5 w-2.5 rounded-[3px] bg-ink/15" aria-hidden />
+            <span className="h-2.5 w-2.5 rounded-full bg-ink/15" aria-hidden />
             Not connected
           </span>
         </div>
@@ -52,7 +58,7 @@ export function CallVolumeChart({ daily }: { daily: DailyBucket[] }) {
             no layout thrash, and it never clips at the container edges. */}
         <div className="pointer-events-none absolute -top-1 left-0 right-0 flex justify-center">
           {active ? (
-            <span className="rounded-lg border border-line bg-surface px-2.5 py-1 text-[12px] font-medium text-ink shadow-card">
+            <span className="rounded-lg border border-line bg-surface px-2.5 py-1 text-[12px] font-medium text-ink shadow-lift">
               {active.label} · {active.connected} connected
               {active.missed > 0 ? ` · ${active.missed} missed` : ""}
             </span>
@@ -86,12 +92,12 @@ export function CallVolumeChart({ daily }: { daily: DailyBucket[] }) {
                     ease: [0.16, 1, 0.3, 1],
                   }}
                   className={cn(
-                    "relative w-full overflow-hidden rounded-[3px] bg-ink/15",
+                    "relative w-full overflow-hidden rounded-t-[4px] bg-ink/15",
                     d.total === 0 && "bg-transparent"
                   )}
                 >
                   <span
-                    className="absolute inset-x-0 bottom-0 bg-accent"
+                    className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-accent to-accent-soft"
                     style={{ height: `${connectedShare}%` }}
                     aria-hidden
                   />

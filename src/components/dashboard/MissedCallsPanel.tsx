@@ -29,8 +29,8 @@ export function MissedCallsPanel({ calls }: { calls: PortalCall[] }) {
 
   if (missed.length === 0) {
     return (
-      <div className="flex items-center gap-3 rounded-2xl border border-line bg-surface p-5 shadow-soft md:p-6">
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent-tint text-accent">
+      <div className="flex items-center gap-3.5 rounded-2xl border border-line bg-surface p-5 shadow-soft md:p-6">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-accent/15 bg-accent-tint text-accent">
           <PhoneMissed aria-hidden className="h-[18px] w-[18px]" />
         </span>
         <div>
@@ -42,9 +42,9 @@ export function MissedCallsPanel({ calls }: { calls: PortalCall[] }) {
   }
 
   return (
-    <div className="rounded-2xl border border-warn/25 bg-warn/[0.04] shadow-soft">
-      <div className="flex items-center gap-3 border-b border-warn/15 px-5 py-4 md:px-6">
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-warn/15 text-warn">
+    <div className="overflow-hidden rounded-2xl border border-warn/25 bg-warn/[0.04] shadow-soft">
+      <div className="flex items-center gap-3.5 border-b border-warn/15 px-5 py-4 md:px-6">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-warn/20 bg-warn/15 text-warn">
           <PhoneMissed aria-hidden className="h-[18px] w-[18px]" />
         </span>
         <div>
@@ -73,7 +73,7 @@ export function MissedCallsPanel({ calls }: { calls: PortalCall[] }) {
             {call.customerNumber ? (
               <a
                 href={`tel:${call.customerNumber}`}
-                className="flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-lg border border-line bg-surface px-3 text-[12.5px] font-semibold text-ink transition-colors hover:border-line-strong"
+                className="flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-lg bg-accent px-3 text-[12.5px] font-semibold text-ink-inverse transition-colors hover:bg-accent-deep"
               >
                 <Phone aria-hidden className="h-3.5 w-3.5" />
                 <span className="hidden sm:inline">Call back</span>

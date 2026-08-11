@@ -157,6 +157,26 @@ export async function getCall(id: string): Promise<VapiCall | null> {
   }
 }
 
+/** This account keeps recordings in its own private (HIPAA-compliant) bucket,
+ *  so `call.recordingUrl` is just the bare storage path — not playable
+ *  directly by a browser, which can't attach the auth a private bucket needs.
+ *  This is the one endpoint Vapi provides that actually resolves to a
+ *  playable link: it 302s to a short-lived signed URL. Returns null if Vapi
+ *  answers with anything other than a redirect (e.g. no recording exists). */
+export async function getRecordingRedirectUrl(callId: string): Promise<string | null> {
+  const apiKey = process.env.VAPI_API_KEY;
+  if (!apiKey) throw new VapiError("VAPI_API_KEY is not set", 500);
+
+  const res = await fetch(`${VAPI_BASE}/call/${encodeURIComponent(callId)}/mono-recording`, {
+    headers: { Authorization: `Bearer ${apiKey}` },
+    redirect: "manual",
+    cache: "no-store",
+  });
+
+  if (res.status < 300 || res.status >= 400) return null;
+  return res.headers.get("location");
+}
+
 /* ── Derived values ────────────────────────────────────────────────────────── */
 
 export function callDurationSeconds(call: VapiCall): number {
@@ -242,8 +262,22 @@ export function trendFor(current: number, previous: number): Trend {
 
 const DAY_MS = 86_400_000;
 
+/* SkipDial's own business timezone (Phoenix, AZ — fixed UTC-7, no DST), used
+   to bucket the volume chart by the calendar day a client actually
+   experienced a call on. Individual clients aren't necessarily in Arizona,
+   but there's no per-client timezone on the User row today, and this is a
+   sharper default than UTC, which lines up with no one's clock. */
+const DASHBOARD_TIME_ZONE = "America/Phoenix";
+
 function dayKey(d: Date): string {
-  return d.toISOString().slice(0, 10);
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: DASHBOARD_TIME_ZONE,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(d);
+  const get = (type: string) => parts.find((p) => p.type === type)?.value ?? "";
+  return `${get("year")}-${get("month")}-${get("day")}`;
 }
 
 /** Vapi calls carry both `startedAt` (set once the call connects) and

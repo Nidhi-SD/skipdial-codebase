@@ -13,13 +13,14 @@ import {
 // Live agent data — must never be cached at build time or between clients.
 export const dynamic = "force-dynamic";
 
-const ALLOWED_RANGES = [7, 14, 30, 90] as const;
 const DAY_MS = 86_400_000;
 
-/** GET /api/dashboard?days=30 — overview for the signed-in client's own agent.
- *  The assistant id comes from the user's DB row, so `days` is the only thing
- *  a caller can influence. */
-export async function GET(request: Request) {
+/** GET /api/dashboard — overview for the signed-in client's own agent.
+ *  Always the full window the plan retains (no client-selectable range —
+ *  Vapi's retention is the real ceiling, so a picker just invited requests
+ *  that silently clamped anyway). The assistant id comes from the user's DB
+ *  row; nothing here is caller-influenced. */
+export async function GET() {
   const account = await getClientAccount();
   if (!account) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -31,45 +32,46 @@ export async function GET(request: Request) {
     return NextResponse.json({ configured: false });
   }
 
-  const requested = Number(new URL(request.url).searchParams.get("days"));
-  const requestedDays = (ALLOWED_RANGES as readonly number[]).includes(requested)
-    ? requested
-    : 14;
-
-  // Asking for more history than the plan retains yields nothing but an error,
-  // so the window is clamped and the UI is told why the axis is shorter.
-  const days = Math.min(requestedDays, RETENTION_DAYS);
+  const days = RETENTION_DAYS;
   const now = Date.now();
   const boundary = now - days * DAY_MS;
 
-  // A trend needs a full prior period of the same length, and both periods
-  // must fit inside the plan's retention — otherwise "previous period" would
-  // be partial (missing its earliest days) and the % change would be a lie.
-  const canCompareTrend = days * 2 <= RETENTION_DAYS;
-  const fetchSince = new Date(canCompareTrend ? now - days * 2 * DAY_MS : boundary);
+  // A trend needs a comparable prior period, but the display window already
+  // spends the plan's entire retention — there's nothing further back to
+  // fetch. So the trend compares the two halves of the *same* fetched
+  // window (most recent half vs. the half before it) instead of asking Vapi
+  // for more history than it has.
+  const trendWindow = Math.floor(days / 2);
+  const canCompareTrend = trendWindow >= 1;
+  const recentBoundary = now - trendWindow * DAY_MS;
+  const earlierBoundary = now - trendWindow * 2 * DAY_MS;
 
   try {
     const [assistant, fetchedCalls] = await Promise.all([
       getAssistant(account.vapiAssistantId),
-      listCalls(account.vapiAssistantId, { since: fetchSince, limit: 1000 }),
+      listCalls(account.vapiAssistantId, { since: new Date(boundary), limit: 1000 }),
     ]);
 
-    const currentCalls: VapiCall[] = [];
-    const previousCalls: VapiCall[] = [];
-    for (const call of fetchedCalls) {
-      const ts = callTimestampMs(call);
-      if (ts === null || ts >= boundary) currentCalls.push(call);
-      else if (canCompareTrend) previousCalls.push(call);
-    }
+    const stats = summarizeCalls(fetchedCalls, days);
 
-    const stats = summarizeCalls(currentCalls, days);
     const trend = canCompareTrend
       ? (() => {
-          const prev = summarizeCalls(previousCalls, days);
+          const recent: VapiCall[] = [];
+          const earlier: VapiCall[] = [];
+          for (const call of fetchedCalls) {
+            const ts = callTimestampMs(call);
+            if (ts === null) continue;
+            if (ts >= recentBoundary) recent.push(call);
+            else if (ts >= earlierBoundary) earlier.push(call);
+            // else: older than the comparable window — still counted in
+            // `stats` above, just excluded from the trend comparison.
+          }
+          const cur = summarizeCalls(recent, trendWindow);
+          const prev = summarizeCalls(earlier, trendWindow);
           return {
-            totalCalls: trendFor(stats.totalCalls, prev.totalCalls),
-            connected: trendFor(stats.connected, prev.connected),
-            totalMinutes: trendFor(stats.totalMinutes, prev.totalMinutes),
+            totalCalls: trendFor(cur.totalCalls, prev.totalCalls),
+            connected: trendFor(cur.connected, prev.connected),
+            totalMinutes: trendFor(cur.totalMinutes, prev.totalMinutes),
           };
         })()
       : null;
@@ -77,7 +79,6 @@ export async function GET(request: Request) {
     return NextResponse.json({
       configured: true,
       days,
-      requestedDays,
       retentionDays: RETENTION_DAYS,
       agent: {
         // The Vapi id itself is intentionally withheld; the client has no use
@@ -89,7 +90,7 @@ export async function GET(request: Request) {
       },
       stats,
       trend,
-      calls: currentCalls.map(toPortalCall),
+      calls: fetchedCalls.map(toPortalCall),
     });
   } catch (err) {
     // Upstream detail (bad key, rate limit) stays in the server log; the client
