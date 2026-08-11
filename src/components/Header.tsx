@@ -544,7 +544,7 @@ export function Header() {
                       onClick={() => signOut({ callbackUrl: "/" })}
                       className="flex w-full cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-left text-[13px] font-medium text-ink hover:bg-surface-alt"
                     >
-                      <LogOut aria-hidden className="h-3.5 w-3.5" /> Sign out
+                      <LogOut aria-hidden className="h-3.5 w-3.5" /> Log out
                     </button>
                   </motion.div>
                 )}
@@ -657,7 +657,7 @@ export function Header() {
                       onClick={() => signOut({ callbackUrl: "/" })}
                       className="flex h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-line text-[14px] font-medium text-ink"
                     >
-                      <LogOut aria-hidden className="h-3.5 w-3.5" /> Sign out
+                      <LogOut aria-hidden className="h-3.5 w-3.5" /> Log out
                     </button>
                   </>
                 ) : (
