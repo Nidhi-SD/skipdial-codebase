@@ -1,32 +1,33 @@
 import { NextResponse } from "next/server";
-import { getClientAccount, toPortalCall } from "@/lib/portal";
 import {
-  callTimestampMs,
-  getAssistant,
-  listCalls,
-  RETENTION_DAYS,
+  agentId,
+  getClientAccount,
   summarizeCalls,
+  toPortalCall,
+  toPortalCallFromRetell,
   trendFor,
-  type VapiCall,
-} from "@/lib/vapi";
+  type PortalCall,
+} from "@/lib/portal";
+import { getAssistant, listCalls as listVapiCalls, RETENTION_DAYS } from "@/lib/vapi";
+import { getAgent, listCalls as listRetellCalls } from "@/lib/retell";
 
 // Live agent data — must never be cached at build time or between clients.
 export const dynamic = "force-dynamic";
 
 const DAY_MS = 86_400_000;
 
-/** GET /api/dashboard — overview for the signed-in client's own agent.
- *  Always the full window the plan retains (no client-selectable range —
- *  Vapi's retention is the real ceiling, so a picker just invited requests
- *  that silently clamped anyway). The assistant id comes from the user's DB
- *  row; nothing here is caller-influenced. */
+/** GET /api/dashboard — overview for the signed-in client's own agent, on
+ *  whichever platform (Vapi or Retell) that agent lives on. Always the full
+ *  window RETENTION_DAYS covers (no client-selectable range). The agent id
+ *  comes from the user's DB row; nothing here is caller-influenced. */
 export async function GET() {
   const account = await getClientAccount();
   if (!account) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  if (!account.vapiAssistantId) {
+  const id = agentId(account);
+  if (!id) {
     // Provisioned login, but no agent linked yet — a real state during
     // onboarding, so it is a 200 the UI can explain rather than an error.
     return NextResponse.json({ configured: false });
@@ -39,27 +40,50 @@ export async function GET() {
   // A trend needs a comparable prior period, but the display window already
   // spends the plan's entire retention — there's nothing further back to
   // fetch. So the trend compares the two halves of the *same* fetched
-  // window (most recent half vs. the half before it) instead of asking Vapi
-  // for more history than it has.
+  // window (most recent half vs. the half before it) instead of asking for
+  // more history than there is.
   const trendWindow = Math.floor(days / 2);
   const canCompareTrend = trendWindow >= 1;
   const recentBoundary = now - trendWindow * DAY_MS;
   const earlierBoundary = now - trendWindow * 2 * DAY_MS;
 
   try {
-    const [assistant, fetchedCalls] = await Promise.all([
-      getAssistant(account.vapiAssistantId),
-      listCalls(account.vapiAssistantId, { since: new Date(boundary), limit: 1000 }),
-    ]);
+    let agentName: string;
+    let agentExists: boolean;
+    let voice: string | null;
+    let language: string | null;
+    let calls: PortalCall[];
 
-    const stats = summarizeCalls(fetchedCalls, days);
+    if (account.provider === "retell") {
+      const [agent, fetchedCalls] = await Promise.all([
+        getAgent(id),
+        listRetellCalls(id, { since: new Date(boundary), limit: 1000 }),
+      ]);
+      agentName = agent?.agent_name ?? "Your agent";
+      agentExists = agent !== null;
+      voice = agent?.voice_id ?? null;
+      language = agent?.language ?? null;
+      calls = fetchedCalls.map(toPortalCallFromRetell);
+    } else {
+      const [assistant, fetchedCalls] = await Promise.all([
+        getAssistant(id),
+        listVapiCalls(id, { since: new Date(boundary), limit: 1000 }),
+      ]);
+      agentName = assistant?.name ?? "Your agent";
+      agentExists = assistant !== null;
+      voice = assistant?.voice?.voiceId ?? null;
+      language = assistant?.transcriber?.language ?? null;
+      calls = fetchedCalls.map(toPortalCall);
+    }
+
+    const stats = summarizeCalls(calls, days);
 
     const trend = canCompareTrend
       ? (() => {
-          const recent: VapiCall[] = [];
-          const earlier: VapiCall[] = [];
-          for (const call of fetchedCalls) {
-            const ts = callTimestampMs(call);
+          const recent: PortalCall[] = [];
+          const earlier: PortalCall[] = [];
+          for (const call of calls) {
+            const ts = call.startedAt ? new Date(call.startedAt).getTime() : null;
             if (ts === null) continue;
             if (ts >= recentBoundary) recent.push(call);
             else if (ts >= earlierBoundary) earlier.push(call);
@@ -81,21 +105,21 @@ export async function GET() {
       days,
       retentionDays: RETENTION_DAYS,
       agent: {
-        // The Vapi id itself is intentionally withheld; the client has no use
-        // for it and it is an org-internal handle.
-        name: assistant?.name ?? "Your agent",
-        exists: assistant !== null,
-        voice: assistant?.voice?.voiceId ?? null,
-        language: assistant?.transcriber?.language ?? null,
+        // The platform-internal id is intentionally withheld; the client has
+        // no use for it and it is an org-internal handle either way.
+        name: agentName,
+        exists: agentExists,
+        voice,
+        language,
       },
       stats,
       trend,
-      calls: fetchedCalls.map(toPortalCall),
+      calls,
     });
   } catch (err) {
     // Upstream detail (bad key, rate limit) stays in the server log; the client
     // gets one neutral message either way.
-    console.error("[dashboard] failed to load Vapi data:", err);
+    console.error("[dashboard] failed to load voice-platform data:", err);
     return NextResponse.json(
       { error: "Could not reach the voice platform. Please try again." },
       { status: 502 }

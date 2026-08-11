@@ -71,14 +71,15 @@ function groupByDay(calls: PortalCall[]): { label: string; calls: PortalCall[] }
   return groups;
 }
 
-/** Vapi returns transcripts as newline-separated "AI: …" / "User: …" lines.
+/** Vapi and Retell both return transcripts as newline-separated
+ *  "Speaker: …" lines — "AI:"/"Assistant:" on Vapi, "Agent:" on Retell.
  *  Continuation lines (no speaker prefix) fold into the previous turn. */
 function parseTranscript(raw: string): { speaker: "agent" | "caller"; text: string }[] {
   const turns: { speaker: "agent" | "caller"; text: string }[] = [];
   for (const line of raw.split("\n")) {
     const trimmed = line.trim();
     if (!trimmed) continue;
-    const match = /^(AI|Assistant|Bot|User|Customer|Human)\s*:\s*(.*)$/i.exec(trimmed);
+    const match = /^(AI|Assistant|Agent|Bot|User|Customer|Human)\s*:\s*(.*)$/i.exec(trimmed);
     if (match) {
       const speaker = /^(user|customer|human)$/i.test(match[1]) ? "caller" : "agent";
       turns.push({ speaker, text: match[2] });

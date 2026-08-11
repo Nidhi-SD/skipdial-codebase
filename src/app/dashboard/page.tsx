@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { accountLabel, getClientAccount } from "@/lib/portal";
+import { accountLabel, agentId, getClientAccount } from "@/lib/portal";
 import { DashboardView } from "@/components/dashboard/DashboardView";
 
 // The session is read per-request; nothing here may be prerendered.
@@ -17,7 +17,7 @@ export default async function DashboardPage() {
     <DashboardView
       clientLabel={accountLabel(account)}
       email={account.email}
-      hasAgent={Boolean(account.vapiAssistantId)}
+      hasAgent={Boolean(agentId(account))}
     />
   );
 }

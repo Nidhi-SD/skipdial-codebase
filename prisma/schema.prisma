@@ -20,11 +20,19 @@ model User {
   role     String  @default("user")
 
   // Client portal — company label shown in the dashboard header, and the one
-  // Vapi assistant this client owns. The dashboard resolves the assistant id
-  // from here on every request, so a client can only ever read their own
+  // voice-platform agent this client owns. The dashboard resolves the agent
+  // id from here on every request, so a client can only ever read their own
   // agent's data; it is never accepted from the browser.
+  //
+  // A client's agent lives on exactly one platform. `provider` picks which
+  // id column is authoritative; the other stays null. Two separate columns
+  // (rather than one generic externalAgentId) because the two platforms'
+  // ids aren't interchangeable and a stray value in the wrong column would
+  // silently query the wrong API.
   company         String?
+  provider        String  @default("vapi") // "vapi" | "retell"
   vapiAssistantId String?
+  retellAgentId   String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

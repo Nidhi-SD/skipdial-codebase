@@ -230,56 +230,6 @@ export function callDirection(call: VapiCall): CallDirection {
   return "web";
 }
 
-export type DashboardStats = {
-  totalCalls: number;
-  connected: number;
-  voicemail: number;
-  missed: number;
-  /** connected / total, 0–100, rounded. */
-  connectRate: number;
-  totalMinutes: number;
-  avgDurationSeconds: number;
-  byDirection: Record<CallDirection, number>;
-  /** One bucket per day in range, oldest → newest, for the volume chart. */
-  daily: { date: string; label: string; connected: number; missed: number; total: number }[];
-};
-
-export type Trend = {
-  current: number;
-  previous: number;
-  /** null when there's no prior period to compare against (previous === 0) —
-   *  a % change against zero is undefined, not "∞%" or "0%". */
-  changePct: number | null;
-};
-
-export function trendFor(current: number, previous: number): Trend {
-  return {
-    current,
-    previous,
-    changePct: previous > 0 ? Math.round(((current - previous) / previous) * 100) : null,
-  };
-}
-
-const DAY_MS = 86_400_000;
-
-/* SkipDial's own business timezone (Phoenix, AZ — fixed UTC-7, no DST), used
-   to bucket the volume chart by the calendar day a client actually
-   experienced a call on. Individual clients aren't necessarily in Arizona,
-   but there's no per-client timezone on the User row today, and this is a
-   sharper default than UTC, which lines up with no one's clock. */
-const DASHBOARD_TIME_ZONE = "America/Phoenix";
-
-function dayKey(d: Date): string {
-  const parts = new Intl.DateTimeFormat("en-CA", {
-    timeZone: DASHBOARD_TIME_ZONE,
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).formatToParts(d);
-  const get = (type: string) => parts.find((p) => p.type === type)?.value ?? "";
-  return `${get("year")}-${get("month")}-${get("day")}`;
-}
-
 /** Vapi calls carry both `startedAt` (set once the call connects) and
  *  `createdAt` (set the instant the call was queued); this is the one place
  *  that picks between them so every caller buckets a given call the same way. */
@@ -288,68 +238,8 @@ export function callTimestampMs(call: VapiCall): number | null {
   return stamp ? new Date(stamp).getTime() : null;
 }
 
-/** Aggregates a call list into everything the dashboard renders. Cost is
- *  deliberately excluded — `call.cost` is SkipDial's vendor spend, not the
- *  client's price, and must not be exposed in the client portal. */
-export function summarizeCalls(calls: VapiCall[], days: number): DashboardStats {
-  let connected = 0;
-  let voicemail = 0;
-  let missed = 0;
-  let totalSeconds = 0;
-
-  const byDirection: Record<CallDirection, number> = { inbound: 0, outbound: 0, web: 0 };
-
-  // Pre-seed one bucket per day so quiet days render as gaps in the chart
-  // rather than disappearing and compressing the time axis.
-  const buckets = new Map<string, { connected: number; missed: number; total: number }>();
-  const today = new Date();
-  for (let i = days - 1; i >= 0; i--) {
-    buckets.set(dayKey(new Date(today.getTime() - i * DAY_MS)), {
-      connected: 0,
-      missed: 0,
-      total: 0,
-    });
-  }
-
-  for (const call of calls) {
-    const outcome = classifyCall(call);
-    if (outcome === "connected") connected++;
-    else if (outcome === "voicemail") voicemail++;
-    else missed++;
-
-    totalSeconds += callDurationSeconds(call);
-    byDirection[callDirection(call)]++;
-
-    const ts = callTimestampMs(call);
-    if (ts !== null) {
-      const bucket = buckets.get(dayKey(new Date(ts)));
-      if (bucket) {
-        bucket.total++;
-        if (outcome === "connected") bucket.connected++;
-        else bucket.missed++;
-      }
-    }
-  }
-
-  const totalCalls = calls.length;
-
-  return {
-    totalCalls,
-    connected,
-    voicemail,
-    missed,
-    connectRate: totalCalls ? Math.round((connected / totalCalls) * 100) : 0,
-    totalMinutes: Math.round(totalSeconds / 60),
-    avgDurationSeconds: totalCalls ? Math.round(totalSeconds / totalCalls) : 0,
-    byDirection,
-    daily: Array.from(buckets.entries()).map(([date, v]) => ({
-      date,
-      label: new Date(`${date}T00:00:00Z`).toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-        timeZone: "UTC",
-      }),
-      ...v,
-    })),
-  };
-}
+// DashboardStats/Trend/summarizeCalls used to live here, but they only ever
+// touched fields PortalCall already normalizes (outcome, direction,
+// durationSeconds, startedAt) — now that a second platform exists, they live
+// in portal.ts and operate on PortalCall[], so the aggregation is identical
+// regardless of which platform a client's calls came from. See portal.ts.
