@@ -3,8 +3,13 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  // Neon, connected via the Vercel Storage integration — vars are prefixed
+  // "database_" because that's the custom prefix the integration was given.
+  // Pooled URL for normal app queries; the direct/unpooled one is required
+  // for `prisma db push`/migrate, which can't run over a pgbouncer session.
+  url       = env("database_POSTGRES_PRISMA_URL")
+  directUrl = env("database_POSTGRES_URL_NON_POOLING")
 }
 
 model User {
