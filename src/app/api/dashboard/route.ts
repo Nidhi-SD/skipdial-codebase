@@ -16,9 +16,26 @@ export const dynamic = "force-dynamic";
 
 const DAY_MS = 86_400_000;
 
+/* Retell has no plan-level retention limit the way Vapi does — verified
+   live: a month-plus of history came back with no complaint — so its fetch
+   below is intentionally unbounded by date. "All logs" means all logs;
+   `limit` is a safety cap against an unbounded account timing out the
+   function, not a display window.
+
+   The daily-volume chart still needs *some* bounded number of day-columns
+   to stay readable — an all-time chart spanning months would just be an
+   unreadable wall of bars — so CHART_WINDOW_DAYS caps the chart and the
+   trend comparison specifically, without touching the totals below them,
+   which reflect everything fetched.
+
+   Vapi doesn't get this treatment: RETENTION_DAYS already *is* its full
+   history (the platform itself won't return anything older), so requesting
+   that window already fetches "all logs" for that platform — nothing to
+   separate there. */
+const CHART_WINDOW_DAYS = 30;
+
 /** GET /api/dashboard — overview for the signed-in client's own agent, on
- *  whichever platform (Vapi or Retell) that agent lives on. Always the full
- *  window RETENTION_DAYS covers (no client-selectable range). The agent id
+ *  whichever platform (Vapi or Retell) that agent lives on. The agent id
  *  comes from the user's DB row; nothing here is caller-influenced. */
 export async function GET() {
   const account = await getClientAccount();
@@ -33,19 +50,7 @@ export async function GET() {
     return NextResponse.json({ configured: false });
   }
 
-  const days = RETENTION_DAYS;
   const now = Date.now();
-  const boundary = now - days * DAY_MS;
-
-  // A trend needs a comparable prior period, but the display window already
-  // spends the plan's entire retention — there's nothing further back to
-  // fetch. So the trend compares the two halves of the *same* fetched
-  // window (most recent half vs. the half before it) instead of asking for
-  // more history than there is.
-  const trendWindow = Math.floor(days / 2);
-  const canCompareTrend = trendWindow >= 1;
-  const recentBoundary = now - trendWindow * DAY_MS;
-  const earlierBoundary = now - trendWindow * 2 * DAY_MS;
 
   try {
     let agentName: string;
@@ -53,18 +58,29 @@ export async function GET() {
     let voice: string | null;
     let language: string | null;
     let calls: PortalCall[];
+    /** Only governs the chart/trend window below — never the fetch or the
+     *  totals, both of which always reflect everything available. */
+    let chartWindowDays: number;
 
     if (account.provider === "retell") {
       const [agent, fetchedCalls] = await Promise.all([
         getAgent(id),
-        listRetellCalls(id, { since: new Date(boundary), limit: 1000 }),
+        // 3000 comfortably covers this account's real total (2,143, verified
+        // live) with room to grow. Each extra page costs ~2s against
+        // Retell's API — on Vercel's Hobby plan (10s function timeout) that
+        // ceiling is real: if an account's history keeps climbing, this cap
+        // (or the plan itself) will need revisiting rather than just
+        // raised again.
+        listRetellCalls(id, { limit: 3000 }),
       ]);
       agentName = agent?.agent_name ?? "Your agent";
       agentExists = agent !== null;
       voice = agent?.voice_id ?? null;
       language = agent?.language ?? null;
       calls = fetchedCalls.map(toPortalCallFromRetell);
+      chartWindowDays = CHART_WINDOW_DAYS;
     } else {
+      const boundary = now - RETENTION_DAYS * DAY_MS;
       const [assistant, fetchedCalls] = await Promise.all([
         getAssistant(id),
         listVapiCalls(id, { since: new Date(boundary), limit: 1000 }),
@@ -74,9 +90,19 @@ export async function GET() {
       voice = assistant?.voice?.voiceId ?? null;
       language = assistant?.transcriber?.language ?? null;
       calls = fetchedCalls.map(toPortalCall);
+      chartWindowDays = RETENTION_DAYS;
     }
 
-    const stats = summarizeCalls(calls, days);
+    const stats = summarizeCalls(calls, chartWindowDays);
+
+    // Trend needs a comparable prior period — split the chart window in
+    // half (most recent half vs. the half before it) rather than the whole
+    // fetched history, so the percentage stays meaningful regardless of how
+    // far back the underlying data actually goes.
+    const trendWindow = Math.floor(chartWindowDays / 2);
+    const canCompareTrend = trendWindow >= 1;
+    const recentBoundary = now - trendWindow * DAY_MS;
+    const earlierBoundary = now - trendWindow * 2 * DAY_MS;
 
     const trend = canCompareTrend
       ? (() => {
@@ -102,8 +128,6 @@ export async function GET() {
 
     return NextResponse.json({
       configured: true,
-      days,
-      retentionDays: RETENTION_DAYS,
       agent: {
         // The platform-internal id is intentionally withheld; the client has
         // no use for it and it is an org-internal handle either way.

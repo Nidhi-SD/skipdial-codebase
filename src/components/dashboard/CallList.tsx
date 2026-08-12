@@ -267,7 +267,7 @@ const FILTERS: { id: Filter; label: string }[] = [
   { id: "missed", label: "Not connected" },
 ];
 
-const PAGE_SIZE = 25;
+const PAGE_SIZE = 5;
 
 export function CallList({ calls }: { calls: PortalCall[] }) {
   const [filter, setFilter] = useState<Filter>("all");

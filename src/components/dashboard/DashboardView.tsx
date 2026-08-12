@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import {
   Activity,
@@ -15,41 +15,38 @@ import {
 } from "@/components/icons/SystemIcons";
 import type { IconComponent } from "@/components/icons/SystemIcons";
 import { Container, Eyebrow } from "@/components/ui/primitives";
-import { CallVolumeChart, type DailyBucket } from "@/components/dashboard/CallVolumeChart";
+import { CallVolumeChart } from "@/components/dashboard/CallVolumeChart";
 import { PeakHoursChart } from "@/components/dashboard/PeakHoursChart";
 import { CallComposition } from "@/components/dashboard/CallComposition";
 import { MissedCallsPanel } from "@/components/dashboard/MissedCallsPanel";
 import { CallList } from "@/components/dashboard/CallList";
+import {
+  DateRangeFilter,
+  DEFAULT_DATE_FILTER,
+  resolveDateRange,
+  type DateFilterValue,
+} from "@/components/dashboard/DateRangeFilter";
 import { fadeUp, staggerContainer, EASE } from "@/lib/motion";
 import { cn } from "@/lib/cn";
-import type { PortalCall } from "@/lib/portal";
-
-type Trend = { current: number; previous: number; changePct: number | null };
+// Imported directly from dashboard-stats.ts, not portal.ts — portal.ts pulls
+// in Prisma/auth at module scope, which cannot be bundled into a client
+// component. dashboard-stats.ts has no such imports, which is exactly what
+// lets the browser re-run the same aggregation the server uses, over a
+// filtered subset of the already-fetched calls, with no extra request.
+import { summarizeCalls, type DashboardStats, type PortalCall, type Trend } from "@/lib/dashboard-stats";
 
 type DashboardPayload = {
   configured: true;
-  /** Always the plan's full retained window — there's no shorter view to opt into. */
-  days: number;
-  retentionDays: number;
   agent: {
     name: string;
     exists: boolean;
     voice: string | null;
     language: string | null;
   };
-  stats: {
-    totalCalls: number;
-    connected: number;
-    voicemail: number;
-    missed: number;
-    connectRate: number;
-    totalMinutes: number;
-    avgDurationSeconds: number;
-    byDirection: { inbound: number; outbound: number; web: number };
-    daily: DailyBucket[];
-  };
+  stats: DashboardStats;
   /** null when the retained window is too short to hold a comparable prior
-   *  half (see the trend-splitting logic in api/dashboard/route.ts). */
+   *  half (see the trend-splitting logic in api/dashboard/route.ts). Only
+   *  ever shown for the default "all time" view — see derivedTrend below. */
   trend: {
     totalCalls: Trend;
     connected: Trend;
@@ -60,6 +57,8 @@ type DashboardPayload = {
 
 type ApiResponse = DashboardPayload | { configured: false };
 
+const DAY_MS = 86_400_000;
+
 function formatAvg(seconds: number): string {
   if (seconds <= 0) return "—";
   const m = Math.floor(seconds / 60);
@@ -67,12 +66,26 @@ function formatAvg(seconds: number): string {
   return m > 0 ? `${m}m ${s}s` : `${s}s`;
 }
 
+/** How many day-columns the volume chart should pre-seed for a given
+ *  filter. Derived from the filter's *own* resolved range — today/week/
+ *  month are calendar-aligned (see resolveDateRange), so e.g. "This month"
+ *  on the 12th spans 12 days, not a flat 30; seeding 30 anyway would pad
+ *  the chart with empty bars back into the *previous* month, which are
+ *  outside the filter and would always read as zero. Only the unscoped
+ *  "all time" default falls back to a flat 30-day window — an all-time
+ *  chart spanning a client's entire history would be unreadable. */
+function chartWindowDaysFor(filter: DateFilterValue): number {
+  if (filter.preset === "all") return 30;
+  const { start, end } = resolveDateRange(filter);
+  return start === null ? 30 : Math.max(1, Math.ceil((end - start) / DAY_MS));
+}
+
 /* ── Stat card ─────────────────────────────────────────────────────────────── */
 
 /** ↑/↓ vs the prior period of equal length. Silent (renders nothing) whenever
  *  a reading would be noise rather than signal: no trend data, or both
  *  periods flat at zero. */
-function TrendBadge({ trend }: { trend?: Trend }) {
+function TrendBadge({ trend }: { trend?: Trend | null }) {
   if (!trend) return null;
   if (trend.changePct === null) {
     if (trend.current === 0) return null;
@@ -160,7 +173,7 @@ function StatCard({
   label: string;
   value: string;
   hint?: string;
-  trend?: Trend;
+  trend?: Trend | null;
   /** When set, renders the icon inside a filled progress ring instead of a
    *  flat badge — only pass this for a stat that is itself a 0–100 ratio. */
   ringPct?: number;
@@ -229,6 +242,7 @@ export function DashboardView({
   const [data, setData] = useState<ApiResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [refreshing, setRefreshing] = useState(false);
+  const [dateFilter, setDateFilter] = useState<DateFilterValue>(DEFAULT_DATE_FILTER);
 
   const load = useCallback(async (signal?: AbortSignal) => {
     setRefreshing(true);
@@ -256,6 +270,36 @@ export function DashboardView({
 
   const payload = data && data.configured ? data : null;
   const loading = !data && !error;
+  const isFiltered = dateFilter.preset !== "all";
+
+  // Everything the dashboard needs is already in `payload.calls` (the API
+  // fetches the client's full history up front) — a filter just narrows
+  // which of those already-loaded calls get re-aggregated, client-side, with
+  // no extra request. Only when unfiltered does this reuse the server's own
+  // `stats`/`trend` outright, which already encode the right default window
+  // per platform (see api/dashboard/route.ts) — no need to recompute that.
+  const filteredCalls = useMemo(() => {
+    if (!payload) return [];
+    if (!isFiltered) return payload.calls;
+    const { start, end } = resolveDateRange(dateFilter);
+    return payload.calls.filter((c) => {
+      if (!c.startedAt) return false;
+      const t = new Date(c.startedAt).getTime();
+      return (start === null || t >= start) && t <= end;
+    });
+  }, [payload, isFiltered, dateFilter]);
+
+  const stats = useMemo(() => {
+    if (!payload) return null;
+    if (!isFiltered) return payload.stats;
+    return summarizeCalls(filteredCalls, chartWindowDaysFor(dateFilter));
+  }, [payload, isFiltered, filteredCalls, dateFilter]);
+
+  // A filtered view (preset or custom) has no single well-defined "prior
+  // period" to diff against without asking the user to also pick one, so
+  // trend badges are simply hidden rather than shown against the wrong
+  // baseline — the numbers themselves stay exactly right either way.
+  const trend = isFiltered ? null : payload?.trend ?? null;
 
   return (
     <section className="relative min-h-dvh bg-wash px-5 pb-24 pt-28 md:px-8 md:pt-32">
@@ -308,11 +352,9 @@ export function DashboardView({
             </motion.p>
           </div>
 
-          <motion.div variants={fadeUp} className="flex items-center gap-3">
+          <motion.div variants={fadeUp} className="flex items-center gap-2">
             {payload ? (
-              <span className="text-[12.5px] font-medium text-ink-faint">
-                Last {payload.days} days
-              </span>
+              <DateRangeFilter value={dateFilter} onChange={setDateFilter} />
             ) : null}
             <button
               type="button"
@@ -362,7 +404,7 @@ export function DashboardView({
               </button>
             </div>
           </Panel>
-        ) : !payload ? (
+        ) : !payload || !stats ? (
           <Panel icon={Phone} title="Your agent is being set up">
             No voice agent is linked to this account yet.
           </Panel>
@@ -389,64 +431,73 @@ export function DashboardView({
               <StatCard
                 icon={Phone}
                 label="Total calls"
-                value={String(payload.stats.totalCalls)}
-                hint={`Last ${payload.days} days`}
-                trend={payload.trend?.totalCalls}
+                value={String(stats.totalCalls)}
+                hint={isFiltered ? filterHint(dateFilter) : "All time"}
+                trend={trend?.totalCalls}
               />
               <StatCard
                 icon={Gauge}
                 label="Connect rate"
-                value={`${payload.stats.connectRate}%`}
-                hint={`${payload.stats.connected} connected`}
-                trend={payload.trend?.connected}
-                ringPct={payload.stats.connectRate}
+                value={`${stats.connectRate}%`}
+                hint={`${stats.connected} connected`}
+                trend={trend?.connected}
+                ringPct={stats.connectRate}
               />
               <StatCard
                 icon={Clock}
                 label="Talk time"
-                value={`${payload.stats.totalMinutes}m`}
-                hint="Total across all calls"
-                trend={payload.trend?.totalMinutes}
+                value={`${stats.totalMinutes}m`}
+                hint={isFiltered ? filterHint(dateFilter) : "Total across all calls"}
+                trend={trend?.totalMinutes}
               />
               <StatCard
                 icon={Activity}
                 label="Avg call length"
-                value={formatAvg(payload.stats.avgDurationSeconds)}
-                hint="Across all calls"
+                value={formatAvg(stats.avgDurationSeconds)}
+                hint={isFiltered ? filterHint(dateFilter) : "Across all calls"}
               />
             </div>
 
             <motion.div variants={fadeUp}>
               <CallComposition
                 outcomes={{
-                  connected: payload.stats.connected,
-                  voicemail: payload.stats.voicemail,
-                  missed: payload.stats.missed,
+                  connected: stats.connected,
+                  voicemail: stats.voicemail,
+                  missed: stats.missed,
                 }}
-                direction={payload.stats.byDirection}
+                direction={stats.byDirection}
               />
             </motion.div>
 
             <motion.div variants={fadeUp}>
-              <MissedCallsPanel calls={payload.calls} />
+              <MissedCallsPanel calls={filteredCalls} />
             </motion.div>
 
             {/* The actual call-by-call ground truth ranks above the charts —
                 a client checking in wants "what happened" before "the trend." */}
             <motion.div variants={fadeUp}>
-              <CallList calls={payload.calls} />
+              <CallList calls={filteredCalls} />
             </motion.div>
 
             <motion.div variants={fadeUp}>
-              <CallVolumeChart daily={payload.stats.daily} />
+              <CallVolumeChart daily={stats.daily} />
             </motion.div>
 
             <motion.div variants={fadeUp}>
-              <PeakHoursChart calls={payload.calls} />
+              <PeakHoursChart calls={filteredCalls} />
             </motion.div>
           </motion.div>
         )}
       </Container>
     </section>
   );
+}
+
+/** Short hint text for the stat cards while a filter is active — mirrors
+ *  the filter's own label so the card and the control never disagree. */
+function filterHint(filter: DateFilterValue): string {
+  if (filter.preset === "today") return "Today";
+  if (filter.preset === "week") return "This week";
+  if (filter.preset === "month") return "This month";
+  return "Selected range";
 }
